@@ -1,0 +1,23 @@
+Package: rdbhapi
+Type: Package
+Title: Tools for downloading dbh api data
+Version: 0.0.0.9000
+Author: Marija Ninic <marija.ninic@nsd.no>
+Maintainer: Marija Ninic <marija.ninic@nsd.no>
+Description: Tools for downloading data into R format from dbh api <https://dbh.nsd.uib.no/tjenester.action>. It is possible to download data from bulk data and using a query.
+License: GPL-2
+Encoding: UTF-8
+LazyData: true
+RoxygenNote: 6.1.1
+Suggests: 
+    knitr,
+    rmarkdown
+VignetteBuilder: knitr
+Imports: 
+    dplyr,
+    httr,
+    rjson,
+    purrr,
+    readr,
+    stringr,
+    qpdf
