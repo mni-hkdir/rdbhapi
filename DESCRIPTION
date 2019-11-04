@@ -20,3 +20,5 @@ Imports:
     purrr,
     readr,
     stringr
+URL: https://github.com/makinin/rdbhapi
+BugReports: https://github.com/makinin/rdbhapi/issues
