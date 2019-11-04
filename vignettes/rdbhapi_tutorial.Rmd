@@ -1,8 +1,8 @@
 ---
-title: "rdbhapi"
+title: "rdbhapi_tutorial"
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{rdbhapi}
+  %\VignetteIndexEntry{rdbhapi_tutorial}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
