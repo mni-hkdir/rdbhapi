@@ -3,6 +3,7 @@
 \name{dbh_metadata}
 \alias{dbh_metadata}
 \title{Get api metadata for each table
+ @description
 A function to read into R metadata which are stored in api table 2}
 \usage{
 dbh_metadata(tabell_id)
@@ -15,6 +16,7 @@ metadata as a table in csv format
 }
 \description{
 Get api metadata for each table
+ @description
 A function to read into R metadata which are stored in api table 2
 }
 \examples{

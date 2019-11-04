@@ -3,6 +3,7 @@
 \name{dbh_json_query}
 \alias{dbh_json_query}
 \title{Send query to dbh api
+ @description
 Help function which send query form r to api, it is designes in the way that it looks like api query and allows
 the same functionality as in api}
 \usage{
@@ -25,6 +26,7 @@ query
 }
 \description{
 Send query to dbh api
+ @description
 Help function which send query form r to api, it is designes in the way that it looks like api query and allows
 the same functionality as in api
 }

@@ -2,7 +2,9 @@
 % Please edit documentation in R/DBH_token.R
 \name{dbh_api_token}
 \alias{dbh_api_token}
-\title{Returns current token using golobal variable variable, or retrieves new token if expired}
+\title{Returns token
+  @description
+Returns current token using golobal variable variable, or retrieves new token if expired}
 \usage{
 dbh_api_token(brukernavn = "", passord = "")
 }
@@ -15,5 +17,7 @@ dbh_api_token(brukernavn = "", passord = "")
 dbh api token
 }
 \description{
+Returns token
+  @description
 Returns current token using golobal variable variable, or retrieves new token if expired
 }
