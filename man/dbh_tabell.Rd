@@ -41,6 +41,5 @@ Get data from dbh api as R dataframe
  For token users it is possible to get token using function get_dbh_token and us it further
 }
 \examples{
-dbh_tabell(142, filters = list("Institusjonskode"="1120", Årstall="2018"),
- group_by=c("Institusjonskode","Årstall"))
+ kandidatar<-dbh_tabell(907)
 }

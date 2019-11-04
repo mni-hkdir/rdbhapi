@@ -84,8 +84,8 @@ dbh_json_query <- function(tabell_id,
 #'
 
 #' @examples
-#' dbh_tabell(142, filters = list("Institusjonskode"="1120", Årstall="2018"),
-#'  group_by=c("Institusjonskode","Årstall"))
+
+#'  kandidatar<-dbh_tabell(907)
 
 dbh_tabell <- function(tabell_id,
   filters=NULL,
