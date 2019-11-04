@@ -39,4 +39,8 @@ R dataframe
 }
 \examples{
  kandidatar<-dbh_tabell(907)
+
+ erasmusplus<-dbh_tabell(142, filters = list(Årstall=c("top","5"),
+ Utvekslingsavtale="ERASMUS+", Type="NORSK", Nivåkode="*"),
+ exclude=c(Nivåkode="FU"), group_by="Årstall")
 }
