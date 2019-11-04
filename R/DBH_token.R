@@ -25,6 +25,8 @@ dbh_api_token_get_new <- function(brukernavn, passord) {
 
 
 
+#' Returns token
+#'   @description
 #' Returns current token using golobal variable variable, or retrieves new token if expired
 #' @param brukernavn username
 #' @param passord password
