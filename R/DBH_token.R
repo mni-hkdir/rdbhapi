@@ -8,8 +8,6 @@ dbh_api_token_contents <- ""
 #' @param brukernavn username
 #' @param passord password
 
-#' @imortFrom jsonlite fromJSON
-
 #' @return returnnew dbh api token
 #' @export
 

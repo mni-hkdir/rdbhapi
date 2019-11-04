@@ -1,6 +1,7 @@
 
 #' Send query to dbh api
-#' Help function which send query form r to api, it is designes in the way that it looks like api query and allows the same functionality as in api
+#' Help function which send query form r to api, it is designes in the way that it looks like api query and allows
+#' the same functionality as in api
 #'
 #' @param tabell_id a code name for dataset
 #' @param filters is the same as filters in dbh api: item, all, top, between, lessthan
@@ -82,7 +83,10 @@ dbh_json_query <- function(tabell_id,
 #' @export
 #'
 
-#' @examples dbh_tabell(142, filters = list(Årstall=c("top","5")),group_by="Årstall" )
+#' @examples
+#' dbh_tabell(142, filters = list("Institusjonskode"="1120", Årstall="2018"),
+#'  group_by=c("Institusjonskode","Årstall"))
+
 dbh_tabell <- function(tabell_id,
   filters=NULL,
   group_by = NULL,

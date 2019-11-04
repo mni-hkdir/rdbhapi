@@ -3,7 +3,8 @@
 \name{dbh_json_query}
 \alias{dbh_json_query}
 \title{Send query to dbh api
-Help function which send query form r to api, it is designes in the way that it looks like api query and allows the same functionality as in api}
+Help function which send query form r to api, it is designes in the way that it looks like api query and allows
+the same functionality as in api}
 \usage{
 dbh_json_query(tabell_id, filters = list(), group_by = list(),
   sort_by = list(), exclude = NULL)
@@ -24,5 +25,6 @@ query
 }
 \description{
 Send query to dbh api
-Help function which send query form r to api, it is designes in the way that it looks like api query and allows the same functionality as in api
+Help function which send query form r to api, it is designes in the way that it looks like api query and allows
+the same functionality as in api
 }
