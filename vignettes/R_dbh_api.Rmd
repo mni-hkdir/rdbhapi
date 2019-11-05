@@ -64,5 +64,5 @@ Type = "NORSK", "Nivåkode" = "*"),exclude = c("Nivåkode" = "FU"), group_by = "
 kable(head(erasmus_plus))
 ```
 
-Token users have to first obtain token in R using function `dbh_api_toke()` after that they can use R with all token benefits.
+Token users have to first obtain token in R using function `dbh_api_token()` after that they can use R with all token benefits.
 
