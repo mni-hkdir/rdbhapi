@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 ## R interface for NSD-Database for høgre utdanning(DBH) open data
 
-This R package [rdbh](https://github.com/makinin/rdbhapi) provides tools to access [DBH-API](https://dbh.nsd.uib.no/tjenester.action).
+This R package [rdbhapi](https://github.com/makinin/rdbhapi) provides tools to access [DBH-API](https://dbh.nsd.uib.no/tjenester.action).
 
 ## Installation
 

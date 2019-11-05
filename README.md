@@ -11,8 +11,8 @@ status](https://travis-ci.org/makinin/rdbhapi.svg?branch=master)](https://travis
 status](https://ci.appveyor.com/api/projects/status/github/makinin/rdbhapi?branch=master&svg=true)](https://ci.appveyor.com/project/makinin/rdbhapi)
 <!-- badges: end -->
 
-The goal of rdbhapi is to allow as acces
-[DBH-API](https://dbh.nsd.uib.no/tjenester.action) into R.
+The goal of [rdbhapi](https://github.com/makinin/rdbhapi) is to allow
+access to [DBH-API](https://dbh.nsd.uib.no/tjenester.action).
 
 ## Installation
 
