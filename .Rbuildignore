@@ -4,3 +4,4 @@
 ^doc$
 ^Meta$
 ^\.travis\.yml$
+^appveyor\.yml$
