@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/makinin/rdbhapi?branch=master&svg=true)](https://ci.appveyor.com/project/makinin/rdbhapi)
 <!-- badges: end -->
 
-The goal of rdbhapi is to ...
+The goal of rdbhapi is to allow as acces [DBH-API](https://dbh.nsd.uib.no/tjenester.action) into R.
 
 ## Installation
 
@@ -38,25 +38,20 @@ devtools::install_github("makinin/rdbhapi")
 ```
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Get the whole table in R format:
 
 ```{r example}
 library(rdbhapi)
-## basic example code
+dbh_tabell(211)
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
 
-```{r cars}
-summary(cars)
+Get the whole table in R format using query:
+
+```{r }
+library(rdbhapi)
+dbh_tabell(142, filters = list("Årstall" = c("top","5"),Utvekslingsavtale = "ERASMUS+", 
+Type = "NORSK", "Nivåkode" = "*"),exclude = c("Nivåkode" = "FU"), group_by = "Årstall")
 ```
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date.
 
-You can also embed plots, for example:
-
-```{r pressure, echo = FALSE}
-plot(pressure)
-```
-
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub!

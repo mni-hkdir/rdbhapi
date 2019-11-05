@@ -11,7 +11,8 @@ status](https://travis-ci.org/makinin/rdbhapi.svg?branch=master)](https://travis
 status](https://ci.appveyor.com/api/projects/status/github/makinin/rdbhapi?branch=master&svg=true)](https://ci.appveyor.com/project/makinin/rdbhapi)
 <!-- badges: end -->
 
-The goal of rdbhapi is to …
+The goal of rdbhapi is to allow as acces
+[DBH-API](https://dbh.nsd.uib.no/tjenester.action) into R.
 
 ## Installation
 
@@ -31,33 +32,42 @@ devtools::install_github("makinin/rdbhapi")
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+Get the whole table in R format:
 
 ``` r
 library(rdbhapi)
-## basic example code
+dbh_tabell(211)
+#> # A tibble: 274 x 15
+#>    Institusjonskode Institusjonsnavn Adresse Postnummer `Gyldig fra`
+#>    <chr>            <chr>            <chr>   <chr>      <chr>       
+#>  1 0211             Høgskolen i Bodø Høgsko~ 8049       19943       
+#>  2 0212             Høgskolen i Fin~ Follum~ 9509       19943       
+#>  3 0213             Høgskolen i Har~ Høgsko~ 9480       19943       
+#>  4 0214             Høgskolen i Nar~ Postbo~ 8505       19943       
+#>  5 0215             Høgskolen i Nes~ Høgsko~ 8700       19943       
+#>  6 0216             Høgskolen i Tro~ Høgsko~ 9293       19943       
+#>  7 0217             Samisk høgskole  Hánnol~ 9520       19943       
+#>  8 0221             Høgskolen i Nor~ Servic~ 7729       19943       
+#>  9 0222             Høgskolen i Sør~ Høgsko~ 7004       19943       
+#> 10 0231             Høgskolen i Ber~ Postbo~ 5020       19943       
+#> # ... with 264 more rows, and 10 more variables: `Gyldig til` <chr>,
+#> #   Telefon <chr>, Telefax <chr>, Institusjonstypekode <chr>,
+#> #   Typenavn <chr>, Kortnavn <chr>, Departementid <dbl>, Dep_navn <chr>,
+#> #   `Institusjonskode (sammenslått)` <chr>, `Sammenslått navn` <chr>
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`?
-You can include R chunks like so:
+Get the whole table in R format using query:
 
 ``` r
-summary(cars)
-#>      speed           dist       
-#>  Min.   : 4.0   Min.   :  2.00  
-#>  1st Qu.:12.0   1st Qu.: 26.00  
-#>  Median :15.0   Median : 36.00  
-#>  Mean   :15.4   Mean   : 42.98  
-#>  3rd Qu.:19.0   3rd Qu.: 56.00  
-#>  Max.   :25.0   Max.   :120.00
+library(rdbhapi)
+dbh_tabell(142, filters = list("Årstall" = c("top","5"),Utvekslingsavtale = "ERASMUS+", 
+Type = "NORSK", "Nivåkode" = "*"),exclude = c("Nivåkode" = "FU"), group_by = "Årstall")
+#> # A tibble: 5 x 4
+#>   Årstall `Antall totalt` `Antall kvinner` `Antall menn`
+#>     <dbl>           <dbl>            <dbl>         <dbl>
+#> 1    2019            1547              895           652
+#> 2    2018            2707             1640          1067
+#> 3    2017            2368             1464           904
+#> 4    2016            2206             1352           854
+#> 5    2015            1692             1048           644
 ```
-
-You’ll still need to render `README.Rmd` regularly, to keep `README.md`
-up-to-date.
-
-You can also embed plots, for example:
-
-<img src="man/figures/README-pressure-1.png" width="100%" />
-
-In that case, don’t forget to commit and push the resulting figure
-files, so they display on GitHub\!
