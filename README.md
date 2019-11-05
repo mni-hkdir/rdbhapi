@@ -6,7 +6,7 @@
 <!-- badges: start -->
 
 [![Travis build
-status](https://travis-ci.com/makinin/rdbhapi.svg?branch=master)](https://travis-ci.org/makinin/rdbhapi)
+status](https://travis-ci.org/makinin/rdbhapi.svg?branch=master)](https://travis-ci.org/makinin/rdbhapi)
 <!-- badges: end -->
 
 The goal of rdbhapi is to …
