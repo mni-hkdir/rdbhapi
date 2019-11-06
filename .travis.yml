@@ -2,4 +2,16 @@
 
 language: R
 cache: packages
-
+sudo: required
+r_package:
+  - dplyr,
+  - httr,
+    - rjson,
+     - purrr,
+    - readr,
+    - stringr
+    - devtools
+r:
+  - oldrel
+  - release
+  - devel
