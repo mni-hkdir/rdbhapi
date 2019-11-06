@@ -12,17 +12,17 @@ dbh_tabell(tabell_id, filters = NULL, group_by = NULL,
 \arguments{
 \item{tabell_id}{a code name for dataset}
 
-\item{filters}{is the same as filters in dbh api: item, all, top, between, lessthan}
+\item{filters}{is the same as filters in dbh api: item, all, top, between, greaterthan}
 
 \item{group_by}{group by variables in the same way as in dbh api}
 
 \item{sort_by}{sort variables}
 
-\item{exclude}{varible values that we did not want to inculde in filtering}
+\item{exclude}{variable values we do not want to include in filtering}
 
-\item{api_versjon}{defined api constat value 1}
+\item{api_versjon}{defined api constant value 1}
 
-\item{statuslinje}{defined api constatn value N}
+\item{statuslinje}{defined api constant value N}
 
 \item{decimal_separator}{defined api value}
 
@@ -34,7 +34,7 @@ R dataframe
 \description{
 @description
  A function send request from R to api and get data from api into R.
- Data are converted in right format using helepfunction dbh_metadata
+ Data are converted in right format using help function dbh_metadata
  For token users it is possible to get token using function get_dbh_token and use it further
 }
 \examples{

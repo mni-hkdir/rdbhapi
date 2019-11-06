@@ -16,7 +16,7 @@ dbh_json_query(tabell_id, filters = list(), group_by = list(),
 
 \item{sort_by}{sort variables}
 
-\item{exclude}{variable values that we do not want}
+\item{exclude}{variable values we do not want}
 }
 \value{
 query

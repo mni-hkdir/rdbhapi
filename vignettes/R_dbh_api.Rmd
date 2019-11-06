@@ -62,7 +62,7 @@ You can get data using a query syntax which is similar to those in DBH-API:
 Important fields for queries are: 
 
 * `tabell_id`: numerical value for table we want
-* `filters`: top, all, item, between, greatherthan
+* `filters`: top, all, item, between, greaterthan
 * `group_by`: necessary for tables with aggregated data
 * `sort_by`: optional following the same syntax as in SQL
 
@@ -78,7 +78,7 @@ Filter
 * all: get all values that are greater than null in a database `filters=list("Institusjonskode"="*")`
 * item: get all values that are equal to listed values  `filters=list("avdkode"=c("220760","260250","000000", "460000"))`
 * between: get all values between two values in list `filters=list("Årstall"=c("between", c("2016","2019")))`
-* greatherthan: get values greater than listed value `filters=list("Årstall"=c("greatherthan", "2014"))`
+* greaterthan: get values greater than listed value `filters=list("Årstall"=c("greaterthan", "2014"))`
 
 Example for multiple choice query 
 
