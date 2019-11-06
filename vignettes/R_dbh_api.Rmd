@@ -68,18 +68,6 @@ Important fields for queries are:
 
 #### Making query examples
 
-Grouping of variables following the same syntax as in SQL, one example is under:
-
-`group_by=c("Institusjonskode", "Avdelingskode", "Årstall")`
-
-Filter 
-
-* top:  get the three highest values in example three years `filters=list("Årstall"=c("top","3"))`
-* all: get all values that are greater than null in a database `filters=list("Institusjonskode"="*")`
-* item: get all values that are equal to listed values  `filters=list("avdkode"=c("220760","260250","000000", "460000"))`
-* between: get all values between two values in list `filters=list("Årstall"=c("between", c("2016","2019")))`
-* greaterthan: get values greater than listed value `filters=list("Årstall"=c("greaterthan", "2014"))`
-
 Example for multiple choice query 
 
 ```{r erasmus_plus, warning=FALSE, message=FALSE, results='asis',echo=TRUE, eval=TRUE}

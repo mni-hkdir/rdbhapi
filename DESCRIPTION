@@ -1,6 +1,6 @@
 Package: rdbhapi
 Type: Package
-Title: Tools for downloading dbh api data
+Title: Tools for Downloading Dbh Api Data
 Version: 0.0.0.9000
 Author: Marija Ninic <marija.ninic@nsd.no>
 Maintainer: Marija Ninic <marija.ninic@nsd.no>
