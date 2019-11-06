@@ -35,7 +35,7 @@ R dataframe
 @description
  A function send request from R to api and get data from api into R.
  Data are converted in right format using helepfunction dbh_metadata
- For token users it is possible to get token using function get_dbh_token and us it further
+ For token users it is possible to get token using function get_dbh_token and use it further
 }
 \examples{
  kandidatar<-dbh_tabell(907)

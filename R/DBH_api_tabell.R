@@ -2,14 +2,14 @@
 #' Send query to dbh api
 #'
 #'  @description
-#' Help function which send query form r to api, it is designes in the way that it looks like api query and allows
+#' Help function which send query form r to api, it is designs in the way that it looks like api query and allows
 #' the same functionality as in api
 #'
 #' @param tabell_id a code name for dataset
-#' @param filters is the same as filters in dbh api: item, all, top, between, lessthan
+#' @param filters is the same as filters in dbh api: item, all, top, between, greaterthan
 #' @param group_by group by variables in the same way as in dbh api
 #' @param sort_by sort variables
-#' @param exclude varible values that we did not want to inculde in filtering
+#' @param exclude variable values that we do not want
 
 #' @return query
 #' @export
@@ -69,7 +69,7 @@ dbh_json_query <- function(tabell_id,
 #'  @description
 #'  A function send request from R to api and get data from api into R.
 #'  Data are converted in right format using helepfunction dbh_metadata
-#'  For token users it is possible to get token using function get_dbh_token and us it further
+#'  For token users it is possible to get token using function get_dbh_token and use it further
 #'
 #' @param tabell_id a code name for dataset
 #' @param filters is the same as filters in dbh api: item, all, top, between, lessthan

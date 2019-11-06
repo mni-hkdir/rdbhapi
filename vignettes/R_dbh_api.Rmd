@@ -45,7 +45,7 @@ cat(paste0(library(help = "rdbhapi")$info[[2]], collapse = "\n"))
 ## Downloading data
 
 The package supports two methods for downloading data from DBH-API: downloading of bulk data and sending query to DBH-API.
-Both methods are available in package main function `dbh_tabell()`. If function has only tabele id, than the whole table is 
+Both methods are available in package main function `dbh_tabell()`. If function has only `tabell_id`, than the whole table is 
 downloaded from the bulk download data. If we use `filters`, `group_by`, `sort_by` than query will be sent in JSON format to DBH-API.
 
 Get the whole table in R format:
@@ -59,28 +59,28 @@ You can get data using a query syntax which is similar to those in DBH-API:
 
 ## Making query in rdbhapi
 
-Imortant fields for queries are: 
+Important fields for queries are: 
 
 * `tabell_id`: numerical value for table we want
 * `filters`: top, all, item, between, greatherthan
-* `group_by`: necessary for tables with agregated data
+* `group_by`: necessary for tables with aggregated data
 * `sort_by`: optional following the same syntax as in SQL
 
 #### Making query examples
 
-Grouping of variables following the same syntax as in SQL, one exampel is under:
+Grouping of variables following the same syntax as in SQL, one example is under:
 
 `group_by=c("Institusjonskode", "Avdelingskode", "Årstall")`
 
-Filter
+Filter 
 
 * top:  get the three highest values in example three years `filters=list("Årstall"=c("top","3"))`
-* all: get all values that are geather than null in a database `filters=list("Institusjonskode"="*")`
+* all: get all values that are greater than null in a database `filters=list("Institusjonskode"="*")`
 * item: get all values that are equal to listed values  `filters=list("avdkode"=c("220760","260250","000000", "460000"))`
 * between: get all values between two values in list `filters=list("Årstall"=c("between", c("2016","2019")))`
-* greatherthan: tipicaly from yerar in list til actual year `filters=list("Årstall"=c("greatherthan", "2014"))`
+* greatherthan: get values greater than listed value `filters=list("Årstall"=c("greatherthan", "2014"))`
 
-Example for mulitple chooice query 
+Example for multiple choice query 
 
 ```{r erasmus_plus, warning=FALSE, message=FALSE, results='asis',echo=TRUE, eval=TRUE}
 library(knitr)

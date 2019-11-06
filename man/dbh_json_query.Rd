@@ -10,19 +10,19 @@ dbh_json_query(tabell_id, filters = list(), group_by = list(),
 \arguments{
 \item{tabell_id}{a code name for dataset}
 
-\item{filters}{is the same as filters in dbh api: item, all, top, between, lessthan}
+\item{filters}{is the same as filters in dbh api: item, all, top, between, greaterthan}
 
 \item{group_by}{group by variables in the same way as in dbh api}
 
 \item{sort_by}{sort variables}
 
-\item{exclude}{varible values that we did not want to inculde in filtering}
+\item{exclude}{variable values that we do not want}
 }
 \value{
 query
 }
 \description{
 @description
-Help function which send query form r to api, it is designes in the way that it looks like api query and allows
+Help function which send query form r to api, it is designs in the way that it looks like api query and allows
 the same functionality as in api
 }

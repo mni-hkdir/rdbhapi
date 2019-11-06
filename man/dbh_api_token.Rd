@@ -15,5 +15,5 @@ dbh_api_token(brukernavn = "", passord = "")
 dbh api token
 }
 \description{
-Returns current token using golobal variable variable, or retrieves new token if expired
+Returns current token using global variable , or retrieves new token if expired
 }

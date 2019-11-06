@@ -12,7 +12,7 @@ dbh_api_token_get_new(brukernavn, passord)
 \item{passord}{password}
 }
 \value{
-returnnew dbh api token
+return new dbh api token
 }
 \description{
 Retrieving new token

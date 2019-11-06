@@ -9,7 +9,7 @@ dbh_api_token_contents <- ""
 #' @param brukernavn username
 #' @param passord password
 
-#' @return returnnew dbh api token
+#' @return return new dbh api token
 #' @export
 
 dbh_api_token_get_new <- function(brukernavn, passord) {
@@ -29,7 +29,7 @@ dbh_api_token_get_new <- function(brukernavn, passord) {
 #' Returns token
 #'
 #' @description
-#' Returns current token using golobal variable variable, or retrieves new token if expired
+#' Returns current token using global variable , or retrieves new token if expired
 #'
 #' @param brukernavn username
 #' @param passord password
