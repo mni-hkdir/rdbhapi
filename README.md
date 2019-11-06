@@ -9,9 +9,11 @@
 status](https://travis-ci.org/makinin/rdbhapi.svg?branch=master)](https://travis-ci.org/makinin/rdbhapi)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/makinin/rdbhapi?branch=master&svg=true)](https://ci.appveyor.com/project/makinin/rdbhapi)
+[![Codecov test
+coverage](https://codecov.io/gh/makinin/rdbhapi/branch/master/graph/badge.svg)](https://codecov.io/gh/makinin/rdbhapi?branch=master)
 <!-- badges: end -->
 
-R interface for NSD-Database for høgre utdanning(DBH) open data access.
+R interface for NSD-Database for hÃ¸gre utdanning(DBH) open data access.
 
 ## Installation
 
@@ -62,7 +64,6 @@ dbh_tabell(211)
 Multiple choice query:
 
 ``` r
-library(rdbhapi)
 dbh_tabell(142, filters = list("Årstall" = c("top","5"),Utvekslingsavtale = "ERASMUS+", 
 Type = "NORSK", "Nivåkode" = "*"),exclude = c("Nivåkode" = "FU"), group_by = "Årstall")
 #> # A tibble: 5 x 4
