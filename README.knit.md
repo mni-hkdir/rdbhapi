@@ -1,22 +1,23 @@
+---
+output: github_document
+---
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
+
+
 
 # rdbhapi
 
 <!-- badges: start -->
-
-[![Travis build
-status](https://travis-ci.org/makinin/rdbhapi.svg?branch=master)](https://travis-ci.org/makinin/rdbhapi)
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/makinin/rdbhapi?branch=master&svg=true)](https://ci.appveyor.com/project/makinin/rdbhapi)
+[![Travis build status](https://travis-ci.org/makinin/rdbhapi.svg?branch=master)](https://travis-ci.org/makinin/rdbhapi)
+[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/makinin/rdbhapi?branch=master&svg=true)](https://ci.appveyor.com/project/makinin/rdbhapi)
 <!-- badges: end -->
 
 R interface for NSD-Database for høgre utdanning(DBH) open data access.
 
 ## Installation
 
-You can install the released version of rdbhapi from
-[CRAN](https://CRAN.R-project.org) with:
+You can install the released version of rdbhapi from [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
 install.packages("rdbhapi")
@@ -27,17 +28,16 @@ And the development version from [GitHub](https://github.com/) with:
 ``` r
 # install.packages("devtools")
 devtools::install_github("makinin/rdbhapi")
-```
 
-Token users have to first obtain token in R using function
-`dbh_api_token(brukernavn, passord)` after that they can use R with all
-token benefits.
+```
+Token users have to first obtain token in R using function `dbh_api_token(brukernavn, passord)` after that they can use R with all token benefits.
 
 ## Example
 
 Get the whole table in R format:
 
-``` r
+
+```r
 library(rdbhapi)
 dbh_tabell(211)
 #> # A tibble: 274 x 15
@@ -59,9 +59,11 @@ dbh_tabell(211)
 #> #   `Institusjonskode (sammenslått)` <chr>, `Sammenslått navn` <chr>
 ```
 
+
 Example for multiple choice query:
 
-``` r
+
+```r
 library(rdbhapi)
 dbh_tabell(142, filters = list("Årstall" = c("top","5"),Utvekslingsavtale = "ERASMUS+", 
 Type = "NORSK", "Nivåkode" = "*"),exclude = c("Nivåkode" = "FU"), group_by = "Årstall")
@@ -74,3 +76,5 @@ Type = "NORSK", "Nivåkode" = "*"),exclude = c("Nivåkode" = "FU"), group_by = "
 #> 4    2016            2206             1352           854
 #> 5    2015            1692             1048           644
 ```
+
+

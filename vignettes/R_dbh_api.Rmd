@@ -57,12 +57,24 @@ institusjoner <- dbh_tabell(211)
 
 You can get data using a query syntax which is similar to those in DBH-API:
 
-```{r , warning=FALSE, message=FALSE, results='asis',echo=TRUE, eval=TRUE}
+```{r erasmus_plus, warning=FALSE, message=FALSE, results='asis',echo=TRUE, eval=TRUE}
 library(knitr)
 erasmus_plus <- dbh_tabell(142, filters = list("Årstall" = c("top","5"),Utvekslingsavtale = "ERASMUS+", 
 Type = "NORSK", "Nivåkode" = "*"),exclude = c("Nivåkode" = "FU"), group_by = "Årstall")
 kable(head(erasmus_plus))
 ```
 
+## Visualization
+
+Visualizing erasmus plus students data with `ggplot2`:
+
+```{r erasmus_plus_bar,ggplot2, fig.width=6, fig.height=3}
+library(ggplot2)
+p <- ggplot(erasmus_plus, aes(x = `Årstall`, y = `Antall totalt`)) 
+p <- p + geom_col()
+print(p)
+```
+
+## Token facility 
 Token users have to first obtain token in R using function `dbh_api_token()` after that they can use R with all token benefits.
 
