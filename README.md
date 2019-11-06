@@ -59,7 +59,7 @@ dbh_tabell(211)
 #> #   `Institusjonskode (sammenslått)` <chr>, `Sammenslått navn` <chr>
 ```
 
-Example for multiple choice query:
+Multiple choice query:
 
 ``` r
 library(rdbhapi)

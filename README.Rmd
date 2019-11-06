@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 [![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/makinin/rdbhapi?branch=master&svg=true)](https://ci.appveyor.com/project/makinin/rdbhapi)
 <!-- badges: end -->
 
-The goal of [rdbhapi](https://github.com/makinin/rdbhapi) is to allow access to [DBH-API](https://dbh.nsd.uib.no/tjenester.action).
+R interface for NSD-Database for høgre utdanning(DBH) open data access.
 
 ## Installation
 
@@ -35,7 +35,11 @@ And the development version from [GitHub](https://github.com/) with:
 ``` r
 # install.packages("devtools")
 devtools::install_github("makinin/rdbhapi")
+
 ```
+Token users have to first obtain token in R using function `dbh_api_token(brukernavn, passord)` 
+after that they can use R with all token benefits.
+
 ## Example
 
 Get the whole table in R format:
@@ -46,7 +50,7 @@ dbh_tabell(211)
 ```
 
 
-Get the whole table in R format using query:
+Example for multiple choice query:
 
 ```{r }
 library(rdbhapi)
