@@ -13,7 +13,8 @@ status](https://ci.appveyor.com/api/projects/status/github/makinin/rdbhapi?branc
 coverage](https://codecov.io/gh/makinin/rdbhapi/branch/master/graph/badge.svg)](https://codecov.io/gh/makinin/rdbhapi?branch=master)
 <!-- badges: end -->
 
-R interface for NSD-Database for hÃ¸gre utdanning(DBH) open data access.
+R interface for NSD-Database for høgre utdanning
+[DBH-API](https://dbh.nsd.uib.no/tjenester.action) open data access.
 
 ## Installation
 
@@ -31,9 +32,9 @@ And the development version from [GitHub](https://github.com/) with:
 devtools::install_github("makinin/rdbhapi")
 ```
 
-Token users have to first obtain token in R using function
-`dbh_api_token(brukernavn, passord)` after that they can use R with all
-token benefits.
+Token users have to obtain token in R using function
+`dbh_api_token(brukernavn, passord)` and after that they can use R with
+all token benefits.
 
 ## Example
 

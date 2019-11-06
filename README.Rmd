@@ -20,7 +20,7 @@ knitr::opts_chunk$set(
 [![Codecov test coverage](https://codecov.io/gh/makinin/rdbhapi/branch/master/graph/badge.svg)](https://codecov.io/gh/makinin/rdbhapi?branch=master)
 <!-- badges: end -->
 
-R interface for NSD-Database for hÃ¸gre utdanning(DBH) open data access.
+R interface for NSD-Database for høgre utdanning(DBH) open data access.
 
 ## Installation
 
