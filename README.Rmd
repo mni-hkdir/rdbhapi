@@ -13,14 +13,12 @@ knitr::opts_chunk$set(
 )
 ```
 
-# rdbhapi
 <!-- badges: start -->
+
 [![Travis build status](https://travis-ci.org/makinin/rdbhapi.svg?branch=master)](https://travis-ci.org/makinin/rdbhapi)
-[![AppVeyor build status](https://ci.appveyor.com/api/projects/status/github/makinin/rdbhapi?branch=master&svg=true)](https://ci.appveyor.com/project/makinin/rdbhapi)
-[![Codecov test coverage](https://codecov.io/gh/makinin/rdbhapi/branch/master/graph/badge.svg)](https://codecov.io/gh/makinin/rdbhapi?branch=master)
 <!-- badges: end -->
 
-R interface for NSD-Database for høgre utdanning(DBH) open data access.
+R interface for [DBH-API](https://dbh.nsd.uib.no/tjenester.action) open data access.
 
 ## Installation
 
@@ -37,7 +35,7 @@ And the development version from [GitHub](https://github.com/) with:
 devtools::install_github("makinin/rdbhapi")
 
 ```
-Token users have to first obtain token in R using function `dbh_api_token(brukernavn, passord)` 
+Token users have to obtain token in R using function `dbh_api_token(brukernavn, passord)` and
 after that they can use R with all token benefits.
 
 ## Example
@@ -53,8 +51,6 @@ dbh_tabell(211)
 Multiple choice query:
 
 ```{r query}
-dbh_tabell(142, filters = list("Årstall" = c("top","5"),Utvekslingsavtale = "ERASMUS+", 
-Type = "NORSK", "Nivåkode" = "*"),exclude = c("Nivåkode" = "FU"), group_by = "Årstall")
+dbh_tabell(142, filters = list("Ã…rstall" = c("top","5"),Utvekslingsavtale = "ERASMUS+", 
+Type = "NORSK", "NivÃ¥kode" = "*"),exclude = c("NivÃ¥kode" = "FU"), group_by = "Ã…rstall")
 ```
-
-
