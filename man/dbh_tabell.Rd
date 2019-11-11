@@ -2,7 +2,7 @@
 % Please edit documentation in R/DBH_api_tabell.R
 \name{dbh_tabell}
 \alias{dbh_tabell}
-\title{Get data from dbh api as R dataframe}
+\title{Get data from API as R dataframe}
 \usage{
 dbh_tabell(tabell_id, filters = NULL, group_by = NULL,
   sort_by = NULL, exclude = NULL, api_versjon = 1,
@@ -12,19 +12,19 @@ dbh_tabell(tabell_id, filters = NULL, group_by = NULL,
 \arguments{
 \item{tabell_id}{a code name for dataset}
 
-\item{filters}{is the same as filters in dbh api: item, all, top, between, greaterthan}
+\item{filters}{is the same as filters in DBH-API: item, all, top, between, greater than}
 
-\item{group_by}{group by variables in the same way as in dbh api}
+\item{group_by}{group by variables in the same way as in DBH-API}
 
-\item{sort_by}{sort variables}
+\item{sort_by}{sort variables in the same way as in DBH-API}
 
 \item{exclude}{variable values we do not want to include in filtering}
 
-\item{api_versjon}{defined api constant value 1}
+\item{api_versjon}{defined DBH-API constant value 1}
 
-\item{statuslinje}{defined api constant value N}
+\item{statuslinje}{defined DBH-API constant value N}
 
-\item{decimal_separator}{defined api value}
+\item{decimal_separator}{defined DBH-API value}
 
 \item{meta}{is set to FALSE and does not return metadata}
 }
@@ -32,15 +32,15 @@ dbh_tabell(tabell_id, filters = NULL, group_by = NULL,
 R dataframe
 }
 \description{
+\code{dbh_tabell} returns R dataframe
+}
+\details{
 @description
- A function send request from R to api and get data from api into R.
+ A function send request from R to DBH-API and get data from DBH-API into R.
  Data are converted in right format using help function dbh_metadata
  For token users it is possible to get token using function get_dbh_token and use it further
 }
 \examples{
- kandidatar<-dbh_tabell(907)
-
- erasmusplus<-dbh_tabell(142, filters = list(Årstall=c("top","5"),
- Utvekslingsavtale="ERASMUS+", Type="NORSK", Nivåkode="*"),
- exclude=c(Nivåkode="FU"), group_by="Årstall")
+dbh_tabell(60, filters=list( "Institusjonskode"="1120","Alder"=c("between",c("30","40")))
+, group_by="Alder")
 }

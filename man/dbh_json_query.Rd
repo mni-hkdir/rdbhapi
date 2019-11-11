@@ -2,7 +2,7 @@
 % Please edit documentation in R/DBH_api_tabell.R
 \name{dbh_json_query}
 \alias{dbh_json_query}
-\title{Send query to dbh api}
+\title{Send query to APIs}
 \usage{
 dbh_json_query(tabell_id, filters = list(), group_by = list(),
   sort_by = list(), exclude = NULL)
@@ -10,9 +10,9 @@ dbh_json_query(tabell_id, filters = list(), group_by = list(),
 \arguments{
 \item{tabell_id}{a code name for dataset}
 
-\item{filters}{is the same as filters in dbh api: item, all, top, between, greaterthan}
+\item{filters}{is the same as filters in DBH-API: item, all, top, between, greater than}
 
-\item{group_by}{group by variables in the same way as in dbh api}
+\item{group_by}{group by variables in the same way as in DBH-API}
 
 \item{sort_by}{sort variables}
 
@@ -22,7 +22,8 @@ dbh_json_query(tabell_id, filters = list(), group_by = list(),
 query
 }
 \description{
-@description
-Help function which send query form r to api, it is designs in the way that it looks like api query and allows
-the same functionality as in api
+\code{dbh_json_query} returns query in JSON format
+ @description
+Help function which send query form r to DBH-API, it is designs in the way that it looks like api query and allows
+the same functionality as in DBH-API
 }

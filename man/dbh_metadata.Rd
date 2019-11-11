@@ -2,7 +2,7 @@
 % Please edit documentation in R/DBH_metadata.R
 \name{dbh_metadata}
 \alias{dbh_metadata}
-\title{Get api metadata for each table}
+\title{Get APIs metadata for each table}
 \usage{
 dbh_metadata(tabell_id)
 }
@@ -13,9 +13,8 @@ dbh_metadata(tabell_id)
 metadata as a table in csv format
 }
 \description{
-A function to read into R metadata which are stored in api table 2
+A function to read into R metadata  stored in APIs table 2
 }
 \examples{
 dbh_metadata(88)
-
 }

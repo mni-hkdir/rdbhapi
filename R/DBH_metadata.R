@@ -1,14 +1,15 @@
-#' Get api metadata for each table
+#' Get APIs metadata for each table
 #'
 #' @description
-#' A function to read into R metadata which are stored in api table 2
+#' A function to read into R metadata  stored in APIs table 2
 #' @param tabell_id a code name for dataset
 
 #' @return metadata as a table in csv format
 #' @export
-#'
-#' @examples dbh_metadata(88)
-#'
+#' @examples
+#' dbh_metadata(88)
+
+
 
 
 dbh_metadata <- function(tabell_id){

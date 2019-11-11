@@ -9,7 +9,7 @@ dbh_api_token_contents <- ""
 #' @param brukernavn username
 #' @param passord password
 
-#' @return return new dbh api token
+#' @return return new DBH-APIs token
 #' @export
 
 dbh_api_token_get_new <- function(brukernavn, passord) {
@@ -34,7 +34,7 @@ dbh_api_token_get_new <- function(brukernavn, passord) {
 #' @param brukernavn username
 #' @param passord password
 #'
-#' @return dbh api token
+#' @return DBH-API token
 #' @export
 
  dbh_api_token <- function(brukernavn="", passord="" ){

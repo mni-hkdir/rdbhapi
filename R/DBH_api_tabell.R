@@ -1,97 +1,104 @@
 
-#' Send query to dbh api
+#' Send query to APIs
 #'
+#' \code{dbh_json_query} returns query in JSON format
 #'  @description
-#' Help function which send query form r to api, it is designs in the way that it looks like api query and allows
-#' the same functionality as in api
+#' Help function which send query form r to DBH-API, it is designs in the way that it looks like api query and allows
+#' the same functionality as in DBH-API
 #'
 #' @param tabell_id a code name for dataset
-#' @param filters is the same as filters in dbh api: item, all, top, between, greaterthan
-#' @param group_by group by variables in the same way as in dbh api
+#' @param filters is the same as filters in DBH-API: item, all, top, between, greater than
+#' @param group_by group by variables in the same way as in DBH-API
 #' @param sort_by sort variables
 #' @param exclude variable values we do not want
+
 
 #' @return query
 #' @export
 
-dbh_json_query <- function(tabell_id,
-  filters=list(),
-  group_by =list(),
-  sort_by = list(), exclude=NULL){
+dbh_json_query <-
+  function(tabell_id,
+    filters = list(),
+    group_by = list(),
+    sort_by = list(),
+    exclude = NULL) {
 
-  obj <- list(query = list())
-  for (i in seq_along( filters)) {
+    filter_query <- list()
+    exclude_warning <- character(0)
 
-    obj$query[[i]] <- list(variabel = enc2utf8(names(filters)[i]) ,
-      selection = list(filter = "item", values = purrr::map(filters[[i]] ,enc2utf8 )  ))
-    if (filters[[i]][1] == "*") {
-
-      obj$query[[i]]$selection$filter <- "all"
-      for (j in seq_along(exclude)) {
-        if (enc2utf8(names(filters)[i]) == enc2utf8(names(exclude)[j])) {
-          obj$query[[i]]$selection$exclude = purrr::map(exclude[[j]],enc2utf8 )}
-
+    for (i in seq_along(filters)) {
+      filter_query[[i]] <-
+        list(variabel = enc2utf8(names(filters)[i]),
+          selection = list(filter = "item",
+            values = lapply(filters[[i]],
+              function(s) enc2utf8(as.character(s)))))
+      if (filters[[i]][1] == "*") {
+        filter_query[[i]]$selection$filter <- "all"
+        if (names(filters)[i] %in% names(exclude)) {
+          filter_query[[i]]$selection$exclude = lapply(exclude[[names(filters)[i]]],
+            function(s) enc2utf8(as.character(s)))
+        }
+      } else if (filters[[i]][1] %in% c("top",  "lessthan", "greaterhan")) {
+        filter_query[[i]]$selection$filter <- filters[[i]][1]
+        filter_query[[i]]$selection$values <- lapply(filters[[i]][2],
+          function(s) enc2utf8(as.character(s)))
+        if (names(filters)[i] %in% names(exclude)) {
+          filter_query[[i]]$selection$exclude = lapply(exclude[[names(filters)[i]]],
+            function(s) enc2utf8(as.character(s)))
+        }
+      } else if (filters[[i]][1] == "between") {
+        filter_query[[i]]$selection$filter <- "between"
+        filter_query[[i]]$selection$values <- c(lapply(filters[[i]][2],
+          function(s) enc2utf8(as.character(s))),lapply(filters[[i]][3],
+            function(s) enc2utf8(as.character(s))))
+        if (names(filters)[i] %in% names(exclude)) {
+          filter_query[[i]]$selection$exclude = lapply(exclude[[names(filters)[i]]],
+            function(s) enc2utf8(as.character(s)))
+        }
+      } else if (names(filters)[i] %in% names(exclude)) {
+        exclude_warning <-
+          paste0(ifelse(length(exclude_warning) == 0,
+            "Excluding filters cannot be combined with the item filter for the following variables: ",
+            paste0(exclude_warning, ", ")),
+            names(filters)[i])
       }
     }
-    else if (filters[[i]][1] %in% c("top",  "lessthan", "greathan"))
-    {obj$query[[i]]$selection$filter <- paste0(filters[[i]][1])
-    obj$query[[i]]$selection$values <- purrr::map( filters[[i]][2],enc2utf8 )
-    for (j in seq_along(exclude)) {
-      if (enc2utf8(names(filters)[i]) == enc2utf8(names(exclude)[j])) {
-        obj$query[[i]]$selection$exclude = purrr::map(exclude[[j]],enc2utf8 )}
 
-    }
+    if (length(exclude_warning) != 0) warning(exclude_warning)
 
-    }
-    else if (filters[[i]][1] == "between")
-    {obj$query[[i]]$selection$filter <- "between"
-    obj$query[[i]]$selection$values <- c(purrr::map( filters[[i]][2],enc2utf8 ),purrr::map( filters[[i]][3],enc2utf8 ))
-    for (j in seq_along(exclude)) {
-      if (enc2utf8(names(filters)[i]) == enc2utf8(names(exclude)[j])) {
-        obj$query[[i]]$selection$exclude = purrr::map(exclude[[j]],enc2utf8 )}
-
-    }
-
-    }
+    return(list(tabell_id = tabell_id ,
+      groupBy = lapply(group_by, function(s) enc2utf8(as.character(s))),
+      sortBy = lapply(sort_by, function(s) enc2utf8(as.character(s))),
+      filter = filter_query))
   }
 
-  query <- list(tabell_id = tabell_id ,
-    groupBy = purrr::map(group_by, enc2utf8),
-    sortBy = purrr::map(sort_by, enc2utf8),
-    filter = obj$query)
-  query
-
-}
 
 
-#'  Get data from dbh api as R dataframe
+#'  Get data from API as R dataframe
+#'
+#'  \code{dbh_tabell} returns R dataframe
 #'
 #'  @description
-#'  A function send request from R to api and get data from api into R.
+#'  A function send request from R to DBH-API and get data from DBH-API into R.
 #'  Data are converted in right format using help function dbh_metadata
 #'  For token users it is possible to get token using function get_dbh_token and use it further
 #'
 #' @param tabell_id a code name for dataset
-#' @param filters is the same as filters in dbh api: item, all, top, between, greaterthan
-#' @param group_by group by variables in the same way as in dbh api
-#' @param sort_by sort variables
+#' @param filters is the same as filters in DBH-API: item, all, top, between, greater than
+#' @param group_by group by variables in the same way as in DBH-API
+#' @param sort_by sort variables in the same way as in DBH-API
 #' @param exclude variable values we do not want to include in filtering
-#' @param api_versjon defined api constant value 1
-#' @param statuslinje defined api constant value N
-#' @param decimal_separator defined api value
+#' @param api_versjon defined DBH-API constant value 1
+#' @param statuslinje defined DBH-API constant value N
+#' @param decimal_separator defined DBH-API value
 #' @param meta is set to FALSE and does not return metadata
-#'
 
 #' @return R dataframe
 #' @export
-#'
-
 #' @examples
-#'  kandidatar<-dbh_tabell(907)
-#'
-#'  erasmusplus<-dbh_tabell(142, filters = list(Årstall=c("top","5"),
-#'  Utvekslingsavtale="ERASMUS+", Type="NORSK", Nivåkode="*"),
-#'  exclude=c(Nivåkode="FU"), group_by="Årstall")
+
+#' dbh_tabell(60, filters=list( "Institusjonskode"="1120","Alder"=c("between",c("30","40")))
+#' , group_by="Alder")
 
 dbh_tabell <- function(tabell_id,
   filters=NULL,

@@ -12,7 +12,7 @@ dbh_api_token(brukernavn = "", passord = "")
 \item{passord}{password}
 }
 \value{
-dbh api token
+DBH-API token
 }
 \description{
 Returns current token using global variable , or retrieves new token if expired
