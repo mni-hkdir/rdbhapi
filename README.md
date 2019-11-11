@@ -5,6 +5,11 @@
 
 [![Travis build
 status](https://travis-ci.org/makinin/rdbhapi.svg?branch=master)](https://travis-ci.org/makinin/rdbhapi)
+[![AppVeyor build
+status](https://ci.appveyor.com/api/projects/status/github/makinin/rdbhapi?branch=master&svg=true)](https://ci.appveyor.com/project/makinin/rdbhapi)
+[![Codecov test
+coverage](https://codecov.io/gh/makinin/rdbhapi/branch/master/graph/badge.svg)](https://codecov.io/gh/makinin/rdbhapi?branch=master)
+
 <!-- badges: end -->
 
 R interface for [DBH-API](https://dbh.nsd.uib.no/tjenester.action) open
