@@ -4,7 +4,7 @@ test_that("function dbh_api_token returns token",
   {expect_equal(dbh_api_token(), "") })
 
 test_that("function dbh_tabell returns status when data set does not exist in bulk data",
-  {expect_equal(dbh_tabell(142),406)})
+  {expect_equal(dbh_tabell(142),404)})
 
 
 test_that("dbh_tabell returns data when data set exists in set of bulk data",
