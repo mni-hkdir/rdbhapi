@@ -3,6 +3,8 @@
 
 <!-- badges: start -->
 
+[![Travis build
+status](https://travis-ci.org/makinin/rdbhapi.svg?branch=master)](https://travis-ci.org/makinin/rdbhapi)
 <!-- badges: end -->
 
 R interface for [DBH-API](https://dbh.nsd.uib.no/tjenester.action) open

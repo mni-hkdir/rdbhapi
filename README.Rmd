@@ -51,6 +51,6 @@ dbh_tabell(211)
 Multiple choice query:
 
 ```{r query}
-dbh_tabell(142, filters = list("Ã…rstall" = c("top","5"),Utvekslingsavtale = "ERASMUS+", 
-Type = "NORSK", "NivÃ¥kode" = "*"),exclude = c("NivÃ¥kode" = "FU"), group_by = "Ã…rstall")
+dbh_tabell(142, filters = list("Årstall" = c("top","5"),Utvekslingsavtale = "ERASMUS+", 
+Type = "NORSK", "Nivåkode" = "*"),exclude = c("Nivåkode" = "FU"), group_by = "Årstall")
 ```
