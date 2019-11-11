@@ -7,3 +7,6 @@
 ^appveyor\.yml$
 ^codecov\.yml$
 ^rdbhapi\.Rproj$
+^_pkgdown\.yml$
+^docs$
+^pkgdown$
