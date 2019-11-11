@@ -2,20 +2,3 @@
 
 language: R
 cache: packages
-sudo: true
-before_install:
-  - sudo apt-get install jags
-  - sudo apt-get install r-cran-rjags
-r_package:
-  - devtools
-  - purrr
-    - httr
-    - jsonlite
-    - readr
-    - dplyr
-    - rjson
-    - stringr
-    - testthat
-    - spelling
-    - knitr
-    - rmarkdown
