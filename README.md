@@ -37,6 +37,27 @@ all token benefits.
 
 ## Example
 
+DBH-API contents are in table
+
+``` r
+library(rdbhapi)
+dbh_tabell(1)
+#> # A tibble: 98 x 4
+#>    Emne      `Tabell id` Tabellnavn              Variabelliste             
+#>    <chr>     <chr>       <chr>                   <chr>                     
+#>  1 Ikke til~ 1           API innhold             Emne,Tabell id,Tabellnavn~
+#>  2 Ikke til~ 2           API metadata            Tabell id,Tabellnavn,Vari~
+#>  3 Studentd~ 60          Studenter fordelt på a~ Institusjonskode,Avdeling~
+#>  4 Studentd~ 62          Utvekslingsavtaler      Utvekslingsavtale,beskriv~
+#>  5 Studentd~ 66          Desentralisering og fj~ Årstall,Institusjonskode,~
+#>  6 Studentd~ 88          Etterutdanning          Institusjonskode,Avdeling~
+#>  7 Studentd~ 93          Finansieringskilder (d~ Finansieringskildekode,fi~
+#>  8 Studentd~ 98          Kandidater som har ful~ Institusjonskode,Årstall,~
+#>  9 Doktorgr~ 100         Samarbeid om doktorgra~ Årstall,Institusjonsnavn ~
+#> 10 Doktorgr~ 101         Avlagte doktorgrader (~ Institusjonskode,Avdeling~
+#> # ... with 88 more rows
+```
+
 Get the whole table in R format:
 
 ``` r
@@ -74,4 +95,25 @@ Type = "NORSK", "Nivåkode" = "*"),exclude = c("Nivåkode" = "FU"), group_by = "
 #> 3    2017            2368             1464           904
 #> 4    2016            2206             1352           854
 #> 5    2015            1692             1048           644
+```
+
+For table with medata data
+
+``` r
+dbh_metadata(142)
+#> # A tibble: 21 x 9
+#>    `Tabell id` Tabellnavn `Variabel navn` Datatype Datalengde Sortering
+#>    <chr>       <chr>      <chr>           <chr>    <chr>      <chr>    
+#>  1 142         Utvekslin~ Andel av heltid decimal  3,2        34       
+#>  2 142         Utvekslin~ Andel praksis   float    <NA>       39       
+#>  3 142         Utvekslin~ Antall kvinner  int      <NA>       11       
+#>  4 142         Utvekslin~ Antall menn     int      <NA>       11       
+#>  5 142         Utvekslin~ Antall totalt   int      <NA>       10       
+#>  6 142         Utvekslin~ Avdelingskode   char     6          2        
+#>  7 142         Utvekslin~ Institusjonsko~ char     4          1        
+#>  8 142         Utvekslin~ Landkode        char     2          7        
+#>  9 142         Utvekslin~ Nivåkode        char     10         33       
+#> 10 142         Utvekslin~ NUS-kode        char     10         37       
+#> # ... with 11 more rows, and 3 more variables: Kodefelt <chr>,
+#> #   Kommentar <chr>, Numeric_variable <lgl>
 ```

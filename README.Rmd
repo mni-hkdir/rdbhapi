@@ -43,6 +43,13 @@ after that they can use R with all token benefits.
 
 ## Example
 
+DBH-API contents are in table
+
+```{r content}
+library(rdbhapi)
+dbh_tabell(1)
+```
+
 Get the whole table in R format:
 
 ```{r example}
@@ -57,3 +64,9 @@ Multiple choice query:
 dbh_tabell(142, filters = list("Årstall" = c("top","5"),Utvekslingsavtale = "ERASMUS+", 
 Type = "NORSK", "Nivåkode" = "*"),exclude = c("Nivåkode" = "FU"), group_by = "Årstall")
 ```
+For table with medata data 
+
+```{r metadata}
+dbh_metadata(142)
+```
+
