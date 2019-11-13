@@ -115,7 +115,7 @@ dbh_tabell <- function(tabell_id,
   decimal_separator = readr::locale()$decimal_mark,
   meta=FALSE) {
   if (is.null(filters)) {
-    url <- paste("https://api-stage.nsd.no/dbhapitjener/Tabeller/bulk-csv?rptNr=", tabell_id, sep = "")
+    url <- paste("https://api.nsd.no/dbhapitjener/Tabeller/bulk-csv?rptNr=", tabell_id, sep = "")
 
     res <- httr::GET(url, httr::add_headers(Authorization = paste("Bearer", dbh_api_token(), sep = " ")))
     status <- res$status_code

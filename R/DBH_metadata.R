@@ -14,7 +14,7 @@
 
 dbh_metadata <- function(tabell_id){
 
-  url_meta = "https://api-stage.nsd.no/dbhapitjener/Tabeller/bulk-csv?rptNr=002"
+  url_meta = "https://api.nsd.no/dbhapitjener/Tabeller/bulk-csv?rptNr=002"
   res <- httr::GET(url_meta)
   res <- httr::content(res, as = "text")
   metadata = readr::read_delim(res,
