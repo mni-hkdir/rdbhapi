@@ -12,7 +12,7 @@ dbh_tabell(tabell_id, filters = NULL, group_by = NULL,
 \arguments{
 \item{tabell_id}{a code name for dataset}
 
-\item{filters}{is the same as filters in DBH-API: item, all, top, between, greater than}
+\item{filters}{is the same as filters in DBH-API: item, all, top, between, greaterthan, lessthan}
 
 \item{group_by}{group by variables in the same way as in DBH-API}
 
@@ -26,19 +26,15 @@ dbh_tabell(tabell_id, filters = NULL, group_by = NULL,
 
 \item{decimal_separator}{defined DBH-API value}
 
-\item{meta}{is set to FALSE and does not return metadata}
+\item{meta}{is set to FALSE and does not return metadata, set meta=TRUE and you will get metadata}
 }
 \value{
 R dataframe
 }
 \description{
-\code{dbh_tabell} returns R dataframe
-}
-\details{
-@description
- A function send request from R to DBH-API and get data from DBH-API into R.
- Data are converted in right format using help function dbh_metadata
- For token users it is possible to get token using function get_dbh_token and use it further
+Send request from R to DBH-API and get data from DBH-API into R.
+ Data are converted in right format using help function dbh_metadata \code{\link{dbh_metadata}}
+ For token users it is possible to get token using function \code{\link{dbh_api_token}} and use it further
 }
 \examples{
 dbh_tabell(60, filters=list( "Institusjonskode"="1120","Alder"=c("between",c("30","40")))

@@ -52,8 +52,8 @@ dbh_tabell(1)
 #>  5 Studentd~ 66          Desentralisering og fj~ Årstall,Institusjonskode,~
 #>  6 Studentd~ 88          Etterutdanning          Institusjonskode,Avdeling~
 #>  7 Studentd~ 93          Finansieringskilder (d~ Finansieringskildekode,fi~
-#>  8 Studentd~ 98          Kandidater som har ful~ Institusjonskode,Årstall,~
-#>  9 Doktorgr~ 100         Samarbeid om doktorgra~ Årstall,Institusjonsnavn ~
+#>  8 Studentd~ 98          Kandidater med fullfør~ Institusjonskode,Årstall,~
+#>  9 Doktorgr~ 100         Samarbeid om doktorgra~ Årstall,Institusjonskode ~
 #> 10 Doktorgr~ 101         Avlagte doktorgrader (~ Institusjonskode,Avdeling~
 #> # ... with 88 more rows
 ```
@@ -63,7 +63,7 @@ Get the whole table in R format:
 ``` r
 library(rdbhapi)
 dbh_tabell(211)
-#> # A tibble: 274 x 15
+#> # A tibble: 275 x 15
 #>    Institusjonskode Institusjonsnavn Adresse Postnummer `Gyldig fra`
 #>    <chr>            <chr>            <chr>   <chr>      <chr>       
 #>  1 0211             Høgskolen i Bodø Høgsko~ 8049       19943       
@@ -76,7 +76,7 @@ dbh_tabell(211)
 #>  8 0221             Høgskolen i Nor~ Servic~ 7729       19943       
 #>  9 0222             Høgskolen i Sør~ Høgsko~ 7004       19943       
 #> 10 0231             Høgskolen i Ber~ Postbo~ 5020       19943       
-#> # ... with 264 more rows, and 10 more variables: `Gyldig til` <chr>,
+#> # ... with 265 more rows, and 10 more variables: `Gyldig til` <chr>,
 #> #   Telefon <chr>, Telefax <chr>, Institusjonstypekode <chr>,
 #> #   Typenavn <chr>, Kortnavn <chr>, Departementid <dbl>, Dep_navn <chr>,
 #> #   `Institusjonskode (sammenslått)` <chr>, `Sammenslått navn` <chr>
@@ -97,7 +97,7 @@ Type = "NORSK", "Nivåkode" = "*"),exclude = c("Nivåkode" = "FU"), group_by = "
 #> 5    2015            1692             1048           644
 ```
 
-For table with medata data
+Meta data for data table
 
 ``` r
 dbh_metadata(142)

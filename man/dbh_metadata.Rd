@@ -10,7 +10,7 @@ dbh_metadata(tabell_id)
 \item{tabell_id}{a code name for dataset}
 }
 \value{
-metadata as a table in csv format
+metadata for selected dataset as R dataframe
 }
 \description{
 A function to read into R metadata  stored in APIs table 2

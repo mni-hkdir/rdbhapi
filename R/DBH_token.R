@@ -8,6 +8,10 @@ dbh_api_token_contents <- ""
 #'
 #' @param brukernavn username
 #' @param passord password
+#' @importFrom httr authenticate
+#' @importFrom rjson fromJSON
+#' @importFrom httr POST
+#' @importFrom httr content
 
 #' @return return new DBH-APIs token
 #' @export
@@ -28,13 +32,16 @@ dbh_api_token_get_new <- function(brukernavn, passord) {
 
 #' Returns token
 #'
-#' @description
-#' Returns current token using global variable , or retrieves new token if expired
+#' @description  Returns current token using global variable , or retrieves new token if expired
 #'
 #' @param brukernavn username
 #' @param passord password
+#' @importFrom purrr walk2
+#' @importFrom stringr str_c
 #'
-#' @return DBH-API token
+#' @return empty string for not token users or
+#' content of \code{\link{dbh_api_token_get_new}}
+#'
 #' @export
 
  dbh_api_token <- function(brukernavn="", passord="" ){

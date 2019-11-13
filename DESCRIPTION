@@ -11,15 +11,14 @@ RoxygenNote: 6.1.1
 Imports: 
     purrr,
     httr,
-    jsonlite,
     readr,
     dplyr,
     rjson,
-    stringr,
-    testthat
+    stringr
 Suggests:
     spelling, 
     knitr,
-    rmarkdown
+    rmarkdown,
+    testthat
 VignetteBuilder: knitr
 Language: en-US

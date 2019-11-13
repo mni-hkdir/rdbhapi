@@ -1,9 +1,7 @@
 
-#' Send query to APIs
-#'
-#' \code{dbh_json_query} returns query in JSON format
-#'  @description
-#' Help function which send query form r to DBH-API, it is designs in the way that it looks like api query and allows
+#' Send query to DBH-API in JSON format
+
+#' @description Help function which send query form r to DBH-API, it is designs in the way that it looks like api query and allows
 #' the same functionality as in DBH-API
 #'
 #' @param tabell_id a code name for dataset
@@ -11,6 +9,7 @@
 #' @param group_by group by variables in the same way as in DBH-API
 #' @param sort_by sort variables
 #' @param exclude variable values we do not want
+
 
 
 #' @return query
@@ -76,22 +75,29 @@ dbh_json_query <-
 
 #'  Get data from API as R dataframe
 #'
-#'  \code{dbh_tabell} returns R dataframe
-#'
-#'  @description
-#'  A function send request from R to DBH-API and get data from DBH-API into R.
-#'  Data are converted in right format using help function dbh_metadata
-#'  For token users it is possible to get token using function get_dbh_token and use it further
+#' @description Send request from R to DBH-API and get data from DBH-API into R.
+#'  Data are converted in right format using help function dbh_metadata \code{\link{dbh_metadata}}
+#'  For token users it is possible to get token using function \code{\link{dbh_api_token}} and use it further
 #'
 #' @param tabell_id a code name for dataset
-#' @param filters is the same as filters in DBH-API: item, all, top, between, greater than
+#' @param filters is the same as filters in DBH-API: item, all, top, between, greaterthan, lessthan
 #' @param group_by group by variables in the same way as in DBH-API
 #' @param sort_by sort variables in the same way as in DBH-API
 #' @param exclude variable values we do not want to include in filtering
 #' @param api_versjon defined DBH-API constant value 1
 #' @param statuslinje defined DBH-API constant value N
 #' @param decimal_separator defined DBH-API value
-#' @param meta is set to FALSE and does not return metadata
+#' @param meta is set to FALSE and does not return metadata, set meta=TRUE and you will get metadata
+#'
+#' @importFrom httr GET
+#' @importFrom httr add_headers
+#' @importFrom httr content
+#' @importFrom httr POST
+#' @importFrom readr locale
+#' @importFrom readr read_delim
+#' @importFrom readr cols
+#' @importFrom readr col_character
+#' @importFrom readr show_progress
 
 #' @return R dataframe
 #' @export

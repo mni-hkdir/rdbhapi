@@ -4,7 +4,7 @@
 #' A function to read into R metadata  stored in APIs table 2
 #' @param tabell_id a code name for dataset
 
-#' @return metadata as a table in csv format
+#' @return metadata for selected dataset as R dataframe
 #' @export
 #' @examples
 #' dbh_metadata(88)
