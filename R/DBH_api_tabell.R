@@ -117,7 +117,7 @@ dbh_tabell <- function(tabell_id,
   if (is.null(filters)) {
     url <- paste("https://api.nsd.no/dbhapitjener/Tabeller/bulk-csv?rptNr=", tabell_id, sep = "")
 
-    res <- httr::GET(url, httr::add_headers(Authorization = paste("Bearer", dbh_api_token(), sep = " ")))
+    res <- httr::GET(url, httr::add_headers(Authorization = paste("Bearer", .get_token(), sep = " ")))
     status <- res$status_code
     res <- httr::content(res, as = "text")
 
@@ -142,7 +142,7 @@ dbh_tabell <- function(tabell_id,
 
 
     resultat <- httr::POST(url = "https://api.nsd.no/dbhapitjener/Tabeller/hentCSVTabellData",
-      httr::add_headers(`Content-Type` = "application/json", Authorization = paste("Bearer", dbh_api_token(), sep =  " ")),
+      httr::add_headers(`Content-Type` = "application/json", Authorization = paste("Bearer", .get_token(), sep =  " ")),
       body = post_body,
       encode = 'json' )
     status <- resultat$status_code

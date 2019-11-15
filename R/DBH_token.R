@@ -1,60 +1,68 @@
-
-# Global variables for current token and expiration time
-dbh_api_token_expiration <- Sys.time()
-dbh_api_token_contents <- ""
+# Package environment
+.env <- new.env(parent = emptyenv())
 
 
-#' Retrieving new token
+# Variables for current token and expiration time
+.env$token_expiration <- 0
+.env$token <- ""
+
+
+#' Retrieve new JWT token for DBH-API
 #'
-#' @param brukernavn username
-#' @param passord password
+#' @param sso_id Client ID for DBH-API authentication
+#' @param sso_secret Secret ID for DBH-API authentication
 #' @importFrom httr authenticate
 #' @importFrom rjson fromJSON
 #' @importFrom httr POST
 #' @importFrom httr content
+#' @return A new JWT token for DBH-API
+#' @keywords internal
 
-#' @return return new DBH-APIs token
-#' @export
-
-dbh_api_token_get_new <- function(brukernavn, passord) {
+.get_new_token <- function(sso_id, sso_secret) {
   res <-
     httr::POST(url = "https://sso.nsd.no/oauth/token",
-      httr::authenticate(user = brukernavn,
-        password = passord),
-      body = list(grant_type = "client_credentials"),
-      encode = "form")
+               httr::authenticate(user = sso_id,
+                                  password = sso_secret),
+               body = list(grant_type = "client_credentials"),
+               encode = "form")
   res <- httr::content(res, as = "text")
   res <- rjson::fromJSON(res)
-  return(res$access_token)
-}
-
-
-
-#' Returns token
-#'
-#' @description  Returns current token using global variable , or retrieves new token if expired
-#'
-#' @param brukernavn username
-#' @param passord password
-#' @importFrom purrr walk2
-#' @importFrom stringr str_c
-#'
-#' @return empty string for not token users or
-#' content of \code{\link{dbh_api_token_get_new}}
-#'
-#' @export
-
- dbh_api_token <- function(brukernavn="", passord="" ){
-  t <- Sys.time()
-  if (t >= dbh_api_token_expiration) {
-    purrr::walk2(
-      stringr::str_c("dbh_api_token_",
-        c("expiration", "contents")),
-      list(t + 3600,
-        dbh_api_token_get_new(brukernavn, passord)),
-      assign,
-      env = .GlobalEnv
-    )
+  res <- res$access_token
+  if (is.null(res)) {
+    return("")
+  } else {
+    return(res)
   }
-  return(dbh_api_token_contents)
 }
+
+
+
+#' Return JWT token for DBH-API
+#'
+#' Return current token or new token if expired. Retrieves credientials for
+#' fetching tokens from environment variables.
+#'
+#' Place login credentials in the environment variables \code{dbhapi_sso_id} and
+#' \code{dbhapi_sso_secret}. They can be defined in the .Renviron file before
+#' starting R or by using \code{\link{Sys.setenv}}
+#'
+#' @return A character string containing the JWT token, or the empty string if
+#'   fetching the token fails.
+#'
+#' @keywords internal
+.get_token <-
+  function() {
+    sso_id <- Sys.getenv("dbhapi_sso_id")
+    sso_secret <- Sys.getenv("dbhapi_sso_secret")
+    if (identical(sso_id, "") | identical(sso_secret, "")) {
+      return("")
+    } else {
+      t <- Sys.time()
+      if (t >= .env$token_expiration) {
+        .env$token <- .get_new_token(sso_id,
+                                     sso_secret)
+        .env$token_expiration <- t + 3600
+      }
+      return(.env$token)
+    }
+  }
