@@ -1,7 +1,6 @@
 context("token test")
 
-test_that("function dbh_api_token returns token",
-  {expect_equal(dbh_api_token(), "") })
+
 
 test_that("function dbh_tabell returns status when data set does not exist in bulk data",
   {expect_equal(dbh_tabell(142),404)})

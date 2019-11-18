@@ -77,7 +77,7 @@ dbh_json_query <-
 #'
 #' @description Send request from R to DBH-API and get data from DBH-API into R.
 #'  Data are converted in right format using help function dbh_metadata \code{\link{dbh_metadata}}
-#'  For token users it is possible to get token using function \code{\link{dbh_api_token}} and use it further
+#'  For token users it is possible to get token using function \code{\link{.get_token}} and use it further
 #'
 #' @param tabell_id a code name for dataset
 #' @param filters is the same as filters in DBH-API: item, all, top, between, greaterthan, lessthan
@@ -117,7 +117,7 @@ dbh_tabell <- function(tabell_id,
   if (is.null(filters)) {
     url <- paste("https://api.nsd.no/dbhapitjener/Tabeller/bulk-csv?rptNr=", tabell_id, sep = "")
 
-    res <- httr::GET(url, httr::add_headers(Authorization = paste("Bearer", dbh_api_token(), sep = " ")))
+    res <- httr::GET(url, httr::add_headers(Authorization = paste("Bearer", .get_token(), sep = " ")))
     status <- res$status_code
     res <- httr::content(res, as = "text")
 
@@ -142,7 +142,7 @@ dbh_tabell <- function(tabell_id,
 
 
     resultat <- httr::POST(url = "https://api.nsd.no/dbhapitjener/Tabeller/hentCSVTabellData",
-      httr::add_headers(`Content-Type` = "application/json", Authorization = paste("Bearer", dbh_api_token(), sep =  " ")),
+      httr::add_headers(`Content-Type` = "application/json", Authorization = paste("Bearer", .get_token(), sep =  " ")),
       body = post_body,
       encode = 'json' )
     status <- resultat$status_code

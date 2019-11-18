@@ -1,0 +1,85 @@
+---
+title: "Tools for downloading DBH-API data "
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{vignettes}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+
+This R package [rdbhapi](https://github.com/makinin/rdbhapi) provides tools to access [DBH-API](https://dbh.nsd.uib.no/tjenester.action).
+
+
+## Installation
+
+You can install the released version of rdbhapi from [CRAN](https://CRAN.R-project.org) with:
+
+``` r
+install.packages("rdbhapi")
+```
+
+And the development version from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("devtools")
+devtools::install_github("makinin/rdbhapi")
+```
+```{r setup}
+library(rdbhapi)
+```
+Package consists of the following functions
+
+```{r, echo=FALSE,comment=NA}
+cat(paste0(library(help = "rdbhapi")$info[[2]], collapse = "\n"))
+```
+
+## Downloading data
+
+The package supports two methods for downloading data from DBH-API: 
+downloading of bulk data and sending query to DBH-API.
+Both methods are available in package main function `dbh_tabell()`. 
+If function has only `tabell_id`, than the whole table is 
+downloaded from the bulk download data. If we use `filters`, `group_by`, `sort_by` 
+than query will be sent in JSON format to DBH-API.
+
+Get the whole table in R format:
+
+```{r rdbhapi, warning=FALSE, message=FALSE, results='asis'}
+institusjoner <- dbh_tabell(211)
+```
+
+
+#### Example for multiple choice query 
+
+Or you can get dataset using query by defining `filters`, `group_by`, `sort_by`, `exclude`  argument. Filter
+should be named list, where names corresponds to variable names in DBH-API and
+values are vectors corresponding to filter type and filter values. Filter type are the same as in DBH-API: item, all, between, lessthan, greaterthan. For aggregate datasets we need to define `group_by` variables. 
+
+
+```{r erasmus_plus, warning=FALSE, message=FALSE, results='asis',echo=TRUE, eval=TRUE}
+library(knitr)
+erasmus_plus <- dbh_tabell(142, filters = list("Årstall" = c("top","5"),Utvekslingsavtale = "ERASMUS+", 
+Type = "NORSK", "Nivåkode" = "*"),exclude = c("Nivåkode" = "FU"), group_by = "Årstall")
+kable(head(erasmus_plus))
+```
+
+
+## Token facility 
+Token can be defined by placing login credentials in the environment variables `dbhapi_sso_id` and `dbhapi_sso_secret`
+in the `.Renviron` file before starting R or by using `Sys.setenv` .
+
+## Session info
+This vignette was created with
+
+```{r sessioninfo, message=FALSE, warning=FALSE}
+sessionInfo()
+```

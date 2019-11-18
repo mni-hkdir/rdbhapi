@@ -4,8 +4,13 @@
 \alias{dbh_json_query}
 \title{Send query to DBH-API in JSON format}
 \usage{
-dbh_json_query(tabell_id, filters = list(), group_by = list(),
-  sort_by = list(), exclude = NULL)
+dbh_json_query(
+  tabell_id,
+  filters = list(),
+  group_by = list(),
+  sort_by = list(),
+  exclude = NULL
+)
 }
 \arguments{
 \item{tabell_id}{a code name for dataset}
