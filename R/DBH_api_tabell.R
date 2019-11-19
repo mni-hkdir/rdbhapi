@@ -1,23 +1,27 @@
 
-#' Send query to DBH-API in JSON format
-
-#' @description Help function which send query form r to DBH-API, it is designs in the way that it looks like api query and allows
-#' the same functionality as in DBH-API
+#' Create query for DBH-API
 #'
-#' @param tabell_id a code name for dataset
-#' @param filters is the same as filters in DBH-API: item, all, top, between, greater than
-#' @param group_by group by variables in the same way as in DBH-API
-#' @param sort_by sort variables
-#' @param exclude variable values we do not want
+#' Helper function to create queries to be converted to the DBH-API JSON format
+#' for queries.
+#'
+#' @param table_id The code name for the dataset
+#' @param filters A named list, where the names are the names of the variables
+#'   in the dataset to be filtered, and the values contain the matching
+#'   conditions.
+#' @param group_by A list of variables to include in the aggregation for
+#'   aggregating tables.
+#' @param sort_by A list of variables that define the sorting order.
+#' @param exclude A named list, where the names must also occur in
+#'   \code{filters}, and the values specify values to be excluded from the
+#'   filter.
+#' @return A list of length containting the DBH-API query that can be converted
+#'   to the proper JSON format by \code{\link{rjson:toJSON}}
+#' @keywords internal
 
-
-
-#' @return query
-#' @export
-
-dbh_json_query <-
-  function(tabell_id,
-    filters = list(),
+.make_query <-
+  function(
+    table_id,
+    filters,
     group_by = list(),
     sort_by = list(),
     exclude = NULL) {
@@ -65,7 +69,8 @@ dbh_json_query <-
 
     if (length(exclude_warning) != 0) warning(exclude_warning)
 
-    return(list(tabell_id = tabell_id ,
+    return(list(
+      tabell_id = table_id ,
       groupBy = lapply(group_by, function(s) enc2utf8(as.character(s))),
       sortBy = lapply(sort_by, function(s) enc2utf8(as.character(s))),
       filter = filter_query))
@@ -79,26 +84,18 @@ dbh_json_query <-
 #'  Data are converted in right format using help function dbh_metadata \code{\link{dbh_metadata}}
 #'  For token users it is possible to get token using function \code{\link{dbh_api_token}} and use it further
 #'
-#' @param tabell_id a code name for dataset
-#' @param filters is the same as filters in DBH-API: item, all, top, between, greaterthan, lessthan
-#' @param group_by group by variables in the same way as in DBH-API
-#' @param sort_by sort variables in the same way as in DBH-API
-#' @param exclude variable values we do not want to include in filtering
-#' @param api_versjon defined DBH-API constant value 1
-#' @param statuslinje defined DBH-API constant value N
-#' @param decimal_separator defined DBH-API value
-#' @param meta is set to FALSE and does not return metadata, set meta=TRUE and you will get metadata
+#' @param table_id The code name for the dataset
+#' @param filters A named list, where the names are the names of the variables
+#'   in the dataset to be filtered, and the values contain the matching
+#'   conditions.
+#' @param group_by A list of variables to include in the aggregation for
+#'   aggregating tables.
+#' @param sort_by A list of variables that define the sorting order.
+#' @param exclude A named list, where the names must also occur in
+#'   \code{filters}, and the values specify values to be excluded from the
+#'   filter.
+#' @param api_version DBH-API version
 #'
-#' @importFrom httr GET
-#' @importFrom httr add_headers
-#' @importFrom httr content
-#' @importFrom httr POST
-#' @importFrom readr locale
-#' @importFrom readr read_delim
-#' @importFrom readr cols
-#' @importFrom readr col_character
-#' @importFrom readr show_progress
-
 #' @return R dataframe
 #' @export
 #' @examples
@@ -106,75 +103,70 @@ dbh_json_query <-
 #' dbh_tabell(60, filters=list( "Institusjonskode"="1120","Alder"=c("between",c("30","40")))
 #' , group_by="Alder")
 
-dbh_tabell <- function(tabell_id,
-  filters=NULL,
+dbh_data <- function(
+  table_id,
+  filters = NULL,
   group_by = NULL,
-  sort_by = NULL, exclude =NULL,
-  api_versjon=1,
-  statuslinje="N",
-  decimal_separator = readr::locale()$decimal_mark,
-  meta=FALSE) {
+  sort_by = NULL,
+  exclude = NULL,
+  api_version = 1) {
   if (is.null(filters)) {
-    url <- paste("https://api.nsd.no/dbhapitjener/Tabeller/bulk-csv?rptNr=", tabell_id, sep = "")
-
-    res <- httr::GET(url, httr::add_headers(Authorization = paste("Bearer", .get_token(), sep = " ")))
-    status <- res$status_code
-    res <- httr::content(res, as = "text")
-
-    if (status == 200) {
-      data = readr::read_delim(res,
-        delim = ",",
-        col_types = readr::cols(.default = readr::col_character()),
-        locale = readr::locale(decimal_mark = "."),
-        na = "",
-        trim_ws = TRUE, progress = readr::show_progress()
-      )
-    }
-    else {return(status)}
+    url <- paste0("https://api.nsd.no/dbhapitjener/Tabeller/bulk-csv?rptNr=", table_id)
+    res <- httr::GET(url,
+                     httr::add_headers(Authorization =
+                                         paste("Bearer", .get_token(), sep = " ")))
+    delim_csv <- ","
+  } else {
+    query <- .make_query(table_id = table_id, filters = filters, group_by = group_by, sort_by = sort_by, exclude = exclude)
+    post_body =
+      rjson::toJSON(c(list(
+        api_versjon = api_version,
+        statuslinje = "N",
+        decimal_separator = "."),
+        query))
+    res <-
+      httr::POST(url = "https://api.nsd.no/dbhapitjener/Tabeller/hentCSVTabellData",
+                 httr::add_headers(`Content-Type` = "application/json",
+                                   Authorization = paste("Bearer", .get_token(), sep =  " ")),
+                 body = post_body,
+                 encode = 'json')
+    delim_csv <- ";"
   }
-  else {
-    query <- dbh_json_query(tabell_id = tabell_id, filters = filters, group_by = group_by, sort_by = sort_by, exclude = exclude)
-    post_body = rjson::toJSON(c(list(
-      api_versjon = api_versjon,
-      statuslinje = statuslinje,
-      decimal_separator = decimal_separator),
-      query))
-
-
-    resultat <- httr::POST(url = "https://api.nsd.no/dbhapitjener/Tabeller/hentCSVTabellData",
-      httr::add_headers(`Content-Type` = "application/json", Authorization = paste("Bearer", .get_token(), sep =  " ")),
-      body = post_body,
-      encode = 'json' )
-    status <- resultat$status_code
-    resultat <- httr::content(resultat, as = "text")
-    if (status == 200) {
-      data = readr::read_delim(resultat,
-        delim = ";",
-        col_types = readr::cols(.default = readr::col_character()),
-        locale = readr::locale(decimal_mark = decimal_separator),
-        na = "",
-        trim_ws = TRUE, progress = readr::show_progress()
-      )
-    }
-    else{
-      return(status)
-    }
-
+  res_text_content <- httr::content(res, "text")
+  if (httr::http_error(res)) {
+    res_parsed <-
+      jsonlite::fromJSON(res_text_content,
+                         simplifyVector = FALSE)
+    stop(sprintf("DBH-API request failed\n%s\n%s: %s",
+                 res$url,
+                 httr::http_status(res)$message,
+                 res_parsed$message),
+         call. = FALSE)
   }
-  metadata <- dbh_metadata(tabell_id = tabell_id)
-  for (i in seq_along(names(data))) {
-    if (isTRUE(metadata[["Numeric_variable"]][match(names(data)[i], metadata[["Variabel navn"]])]))
-    {
-
-      data[[i]] <- as.numeric(data[[i]])
+  res_type <- httr::http_type(res)
+  if (!identical(res_type, "text/csv")) {
+    stop(sprintf("DBH-API request returned type '%s' and not 'text/csv' as expected",
+                 res_type),
+         call. = FALSE)
+  }
+  data <-
+    readr::read_delim(
+      res_text_content,
+      delim = delim_csv,
+      col_types = readr::cols(.default = readr::col_character()),
+      locale = readr::locale(decimal_mark = "."),
+      na = "",
+      trim_ws = TRUE,
+      progress = readr::show_progress()
+  )
+  metadata <- dbh_metadata(table_id)
+  for (n in names(data)) {
+    if (isTRUE(metadata[["Numeric_variable"]][match(n, metadata[["Variabel navn"]])])) {
+      data[[n]] <- as.numeric(data[[n]])
     }
   }
-  if (meta == TRUE) {
-    return(list(data, metadata))}
-  else {
-    return(data)
-  }
-
+  data
 }
+
 
 
