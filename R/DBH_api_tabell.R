@@ -161,8 +161,14 @@ dbh_data <- function(
   )
   metadata <- dbh_metadata(table_id)
   for (n in names(data)) {
-    if (isTRUE(metadata[["Numeric_variable"]][match(n, metadata[["Variabel navn"]])])) {
-      data[[n]] <- as.numeric(data[[n]])
+    if (isTRUE(match(n, metadata[metadata[["Datatype"]] %in%
+                                 c("int", "bigint", "smallint", "tinyint", "bit"), ][["Variabel navn"]]))) {
+      data[[n]] <- as.integer(data[[n]])
+    } else {
+      if (isTRUE(match(n, metadata[metadata[["Datatype"]] %in%
+                                   c("decimal", "numeric", "float", "real"), ][["Variabel navn"]]))) {
+        data[[n]] <- as.double(data[[n]])
+      }
     }
   }
   data
