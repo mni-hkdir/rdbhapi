@@ -42,6 +42,16 @@ Package consists of the following functions
 cat(paste0(library(help = "rdbhapi")$info[[2]], collapse = "\n"))
 ```
 
+## Find data
+
+DBH-API contents are in table 
+
+```{r content}
+library(rdbhapi)
+dbh_data(1)
+```
+
+
 ## Downloading data
 
 The package supports two methods for downloading data from DBH-API: 
@@ -54,7 +64,7 @@ than query will be sent in JSON format to DBH-API.
 Get the whole table in R format:
 
 ```{r rdbhapi, warning=FALSE, message=FALSE, results='asis'}
-institusjoner <- dbh_tabell(211)
+institusjoner <- dbh_data(211)
 ```
 
 
@@ -67,7 +77,7 @@ values are vectors corresponding to filter type and filter values. Filter type a
 
 ```{r erasmus_plus, warning=FALSE, message=FALSE, results='asis',echo=TRUE, eval=TRUE}
 library(knitr)
-erasmus_plus <- dbh_tabell(142, filters = list("Årstall" = c("top","5"),Utvekslingsavtale = "ERASMUS+", 
+erasmus_plus <- dbh_data(142, filters = list("Årstall" = c("top","5"),Utvekslingsavtale = "ERASMUS+", 
 Type = "NORSK", "Nivåkode" = "*"),exclude = c("Nivåkode" = "FU"), group_by = "Årstall")
 kable(head(erasmus_plus))
 ```
@@ -75,7 +85,7 @@ kable(head(erasmus_plus))
 
 ## Token facility 
 Token can be defined by placing login credentials in the environment variables `dbhapi_sso_id` and `dbhapi_sso_secret`
-in the `.Renviron` file before starting R or by using `Sys.setenv` .
+in the `.Renviron` file before starting R or by using `Sys.setenv`.
 
 ## Session info
 This vignette was created with
