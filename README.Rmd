@@ -38,8 +38,8 @@ And the development version from [GitHub](https://github.com/) with:
 devtools::install_github("makinin/rdbhapi")
 
 ```
-Token users have to obtain token in R using function `dbh_api_token(brukernavn, passord)` and
-after that they can use R with all token benefits.
+Token can be defined by placing login credentials in the environment variables `dbhapi_sso_id` and `dbhapi_sso_secret`
+in the `.Renviron` file before starting R or by using `Sys.setenv`.
 
 ## Example
 
@@ -47,21 +47,21 @@ DBH-API contents are in table
 
 ```{r content}
 library(rdbhapi)
-dbh_tabell(1)
+dbh_data(1)
 ```
 
 Get the whole table in R format:
 
 ```{r example}
 library(rdbhapi)
-dbh_tabell(211)
+dbh_data(211)
 ```
 
 
 Multiple choice query:
 
 ```{r query}
-dbh_tabell(142, filters = list("Årstall" = c("top","5"),Utvekslingsavtale = "ERASMUS+", 
+dbh_data(142, filters = list("Årstall" = c("top","5"),Utvekslingsavtale = "ERASMUS+", 
 Type = "NORSK", "Nivåkode" = "*"),exclude = c("Nivåkode" = "FU"), group_by = "Årstall")
 ```
 Meta data for data table  

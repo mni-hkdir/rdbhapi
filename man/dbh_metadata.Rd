@@ -2,18 +2,18 @@
 % Please edit documentation in R/DBH_metadata.R
 \name{dbh_metadata}
 \alias{dbh_metadata}
-\title{Get APIs metadata for each table}
+\title{Get metadata for DBH datasets}
 \usage{
-dbh_metadata(tabell_id)
+dbh_metadata(table_id)
 }
 \arguments{
-\item{tabell_id}{a code name for dataset}
+\item{table_id}{A vector of code names for the datasets to get variable information for}
 }
 \value{
-metadata for selected dataset as R dataframe
+A tibble
 }
 \description{
-A function to read into R metadata  stored in APIs table 2
+Gets information on variables included in DBH datasets (type of variable, data type).
 }
 \examples{
 dbh_metadata(88)

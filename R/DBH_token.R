@@ -39,7 +39,7 @@
 
 #' Return JWT token for DBH-API
 #'
-#' Return current token or new token if expired. Retrieves credientials for
+#' @description Return current token or new token if expired. Retrieves credientials for
 #' fetching tokens from environment variables.
 #'
 #' Place login credentials in the environment variables \code{dbhapi_sso_id} and
@@ -47,7 +47,7 @@
 #' starting R or by using \code{\link{Sys.setenv}}
 #'
 #' @return A character string containing the JWT token, or the empty string if
-#'   fetching the token fails.
+#'  fetching the token fails.
 #'
 #' @keywords internal
 .get_token <-
@@ -66,3 +66,4 @@
       return(.env$token)
     }
   }
+
