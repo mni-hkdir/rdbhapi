@@ -10,6 +10,7 @@ dbh_data(
   group_by = NULL,
   sort_by = NULL,
   exclude = NULL,
+  variables = NULL,
   api_version = 1
 )
 }
@@ -28,6 +29,8 @@ aggregating tables.}
 \item{exclude}{A named list, where the names must also occur in
 \code{filters}, and the values specify values to be excluded from the
 filter.}
+
+\item{variables}{A list of variables to include in dataset}
 
 \item{api_version}{DBH-API version}
 }

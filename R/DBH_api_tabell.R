@@ -14,7 +14,7 @@
 #' @param exclude A named list, where the names must also occur in
 #'   \code{filters}, and the values specify values to be excluded from the
 #'   filter.
-#'   @importFrom
+#' @param variables A list of variables, do not combine with group_by
 #' @return A list of length containing the DBH-API query that can be converted
 #'   to the proper JSON
 #' @keywords internal
@@ -25,9 +25,11 @@
     filters,
     group_by = list(),
     sort_by = list(),
-    exclude = NULL) {
+    exclude = NULL,
+    variables=list()) {
 
     filter_query <- list()
+
     exclude_warning <- character(0)
 
     for (i in seq_along(filters)) {
@@ -35,43 +37,42 @@
         list(variabel = enc2utf8(names(filters)[i]),
              selection = list(filter = "item",
                               values = lapply(filters[[i]],
-                                              function(s) enc2utf8(as.character(s)))))
+                                      function(s) enc2utf8(as.character(s)))))
       if (filters[[i]][1] == "*") {
         filter_query[[i]]$selection$filter <- "all"
-        if (names(filters)[i] %in% names(exclude)) {
-          filter_query[[i]]$selection$exclude = lapply(exclude[[names(filters)[i]]],
-                                                       function(s) enc2utf8(as.character(s)))
-        }
-      } else if (filters[[i]][1] %in% c("top",  "lessthan", "greaterhan")) {
+
+      }
+      else if (filters[[i]][1] %in% c("top",  "lessthan", "greaterthan")) {
         filter_query[[i]]$selection$filter <- filters[[i]][1]
         filter_query[[i]]$selection$values <- lapply(filters[[i]][2],
-                                                     function(s) enc2utf8(as.character(s)))
-        if (names(filters)[i] %in% names(exclude)) {
-          filter_query[[i]]$selection$exclude = lapply(exclude[[names(filters)[i]]],
-                                                       function(s) enc2utf8(as.character(s)))
-        }
+                                  function(s) enc2utf8(as.character(s)))
+
       } else if (filters[[i]][1] == "between") {
         filter_query[[i]]$selection$filter <- "between"
-        filter_query[[i]]$selection$values <- c(lapply(filters[[i]][2],
-                                                       function(s) enc2utf8(as.character(s))),lapply(filters[[i]][3],
-                                                                                                     function(s) enc2utf8(as.character(s))))
-        if (names(filters)[i] %in% names(exclude)) {
-          filter_query[[i]]$selection$exclude = lapply(exclude[[names(filters)[i]]],
-                                                       function(s) enc2utf8(as.character(s)))
-        }
-      } else if (names(filters)[i] %in% names(exclude)) {
+        filter_query[[i]]$selection$values <- c(lapply(filters[[i]][2], function(s) enc2utf8(as.character(s))),
+                                       lapply(filters[[i]][3], function(s) enc2utf8(as.character(s))))
+
+      }
+      if (names(filters)[i] %in% names(exclude)) {
+        filter_query[[i]]$selection$exclude <-lapply(exclude[[names(filters)[i]]],
+                                         function(s) enc2utf8(as.character(s)))
+      }
+      else if (names(filters)[i] %in% names(exclude)) {
         exclude_warning <-
           paste0(ifelse(length(exclude_warning) == 0,
                         "Excluding filters cannot be combined with the item filter for the following variables: ",
                         paste0(exclude_warning, ", ")),
                  names(filters)[i])
       }
-    }
 
+    }
     if (length(exclude_warning) != 0) warning(exclude_warning)
+
+
 
     return(list(
       tabell_id = table_id ,
+      variabler=lapply(variables, function(s) enc2utf8(as.character(s))),
       groupBy = lapply(group_by, function(s) enc2utf8(as.character(s))),
       sortBy = lapply(sort_by, function(s) enc2utf8(as.character(s))),
       filter = filter_query))
@@ -95,8 +96,14 @@
 #' @param exclude A named list, where the names must also occur in
 #'   \code{filters}, and the values specify values to be excluded from the
 #'   filter.
+#' @param variables A list of variables to include in dataset
 #' @param api_version DBH-API version
-#'
+#' @importFrom httr add_headers
+#' @importFrom httr http_error
+#' @importFrom httr POST
+#' @importFrom httr http_type
+#' @importFrom httr http_status
+#' @importFrom utils download.file
 #' @return R dataframe
 #' @export
 #' @examples
@@ -110,20 +117,29 @@ dbh_data <- function(
   group_by = NULL,
   sort_by = NULL,
   exclude = NULL,
+  variables=NULL,
   api_version = 1) {
-  if (is.null(filters)) {
-    url <- paste0("https://api.nsd.no/dbhapitjener/Tabeller/bulk-csv?rptNr=", table_id)
-    temp_file <- tempfile()
-    on.exit(unlink(temp_file))
-    download.file(url,
-                  destfile = temp_file,
-                  headers = c(Authorization =
-                                paste("Bearer", .get_token(), sep = " ")))
-    res <- temp_file
-    delim_csv <- ","
-  } else {
-    query <- .make_query(table_id = table_id, filters = filters, group_by = group_by, sort_by = sort_by, exclude = exclude)
-    post_body =
+  if (is.null(filters) & is.null(group_by) & is.null(sort_by) & is.null(variables))
+  {
+    content<-.dbh_content(table_id)
+    if(isTRUE(content[["Bulk tabell"]] == "true")){
+      url <- paste0("https://api.nsd.no/dbhapitjener/Tabeller/bulk-csv?rptNr=", table_id)
+      temp_file <- tempfile()
+      on.exit(unlink(temp_file))
+      utils::download.file(url,
+                           destfile = temp_file,
+                           headers = c(Authorization =
+                                         paste("Bearer", .get_token(), sep = " ")))
+      res <- temp_file
+      delim_csv <- ","
+    }
+    else {stop("For selected table id", table_id, " there is no bulk data ")}
+  }
+
+  else {
+    query <- .make_query(table_id = table_id, filters = filters,
+                         group_by = group_by, sort_by = sort_by, exclude = exclude, variables = variables)
+    post_body <-
       rjson::toJSON(c(list(
         api_versjon = api_version,
         statuslinje = "N",

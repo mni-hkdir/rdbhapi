@@ -1,11 +1,4 @@
 context("token test")
-
-
-
-test_that("function dbh_data returns status when data set does not exist in bulk data",
-  {expect_error(dbh_data(142))})
-
-
 test_that("dbh_data returns data when data set exists in set of bulk data",
   {expect_equal(dbh_data(211)[[1]][1], "0211")})
 

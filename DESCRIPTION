@@ -1,8 +1,8 @@
 Package: rdbhapi
 Title: R interface to DBH-API 
 Version: 2.1.0
-Authors@R: person("Marija", "Ninic", email = "marija.ninic@nsd.no", role = c("aut", "cre"))
-Description: R package for downloading APIs data into R. Data can be downloaded using from bulk data and using query. Package extract data and metadata in R data.frame format. 
+Authors@R: c(person("Marija", "Ninic", email = "marija.ninic@nsd.no", role = c("aut", "cre")), person("Sigve","Hofland","Berge", , role = "aut"))
+Description: R package for downloading DBH-API data into R. Data can be downloaded using from bulk data and using query. Package extract data and metadata in R data.frame format. 
 License: GPL-2
 Encoding: UTF-8
 LazyData: true

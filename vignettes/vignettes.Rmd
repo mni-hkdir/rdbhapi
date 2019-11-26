@@ -83,6 +83,7 @@ kable(head(erasmus_plus))
 ```
 
 
+
 ## Token facility 
 Token can be defined by placing login credentials in the environment variables `dbhapi_sso_id` and `dbhapi_sso_secret`
 in the `.Renviron` file before starting R or by using `Sys.setenv`.

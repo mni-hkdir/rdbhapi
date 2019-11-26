@@ -9,7 +9,8 @@
   filters,
   group_by = list(),
   sort_by = list(),
-  exclude = NULL
+  exclude = NULL,
+  variables = list()
 )
 }
 \arguments{
@@ -26,8 +27,9 @@ aggregating tables.}
 
 \item{exclude}{A named list, where the names must also occur in
 \code{filters}, and the values specify values to be excluded from the
-filter.
-@importFrom}
+filter.}
+
+\item{variables}{A list of variables, do not combine with group_by}
 }
 \value{
 A list of length containing the DBH-API query that can be converted
