@@ -11,9 +11,11 @@ status](https://ci.appveyor.com/api/projects/status/github/makinin/rdbhapi?branc
 coverage](https://codecov.io/gh/makinin/rdbhapi/branch/master/graph/badge.svg)](https://codecov.io/gh/makinin/rdbhapi?branch=master)
 
 <!-- badges: end -->
+An R package to simplify API access to data on higher education in Norway, as provided by NSD - Norwegian Centre for Research Data.
 
-R interface for [DBH-API](https://dbh.nsd.uib.no/tjenester.action) open
-data access.
+For more information:
+* DBH - Norwegian Database for Statistics on Higher Education [DBH](https://dbh.nsd.uib.no/)
+* NSD - Norwegian Centre for Research Data [NSD](https://nsd.no/)
 
 ## Installation
 
