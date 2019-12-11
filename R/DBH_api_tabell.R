@@ -137,8 +137,17 @@ dbh_data <- function(
   }
 
   else {
-    query <- .make_query(table_id = table_id, filters = filters,
-                         group_by = group_by, sort_by = sort_by, exclude = exclude, variables = variables)
+
+    if (!is.null(group_by))
+    {
+      query <- .make_query(table_id = table_id, filters = filters,
+                           group_by = group_by , sort_by = sort_by, exclude = exclude, variables = variables)
+    }
+    else
+    {
+      query <- .make_query(table_id = table_id, filters = filters,
+                           group_by = .dbh_groupBy(table_id ) , sort_by = sort_by, exclude = exclude, variables = variables)
+    }
     post_body <-
       rjson::toJSON(c(list(
         api_versjon = api_version,
