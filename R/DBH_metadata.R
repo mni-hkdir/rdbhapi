@@ -66,18 +66,11 @@ dbh_metadata <- function(table_id){
 #' @return list of group by variables
 
 
-.dbh_groupBy <- function(table_id){
+.default_group_by <- function(table_id) {
   metadata <- dbh_metadata(table_id)
-  group_by <- metadata %>% filter(metadata[["Group by (forslag)"]] =="J")
-
-  group_by <- as.list(group_by[["Variabel navn"]])
-  if (length(group_by)!=0)
-  {
-    group_by=group_by
-  }
-  else
-  {
-    group_by=NULL
+  group_by <- metadata[!is.na(metadata[["Group by (forslag)"]]), ][["Variabel navn"]]
+  if (length(group_by) == 0) {
+    group_by <- NULL
   }
   group_by
 }

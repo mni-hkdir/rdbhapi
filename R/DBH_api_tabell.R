@@ -23,10 +23,10 @@
   function(
     table_id,
     filters,
-    group_by = list(),
-    sort_by = list(),
-    exclude = NULL,
-    variables=list()) {
+    group_by,
+    sort_by,
+    exclude,
+    variables) {
 
     filter_query <- list()
 
@@ -66,13 +66,14 @@
       }
 
     }
+
+    group_by <- if (!is.null(group_by)) group_by else .default_group_by(table_id)
+
     if (length(exclude_warning) != 0) warning(exclude_warning)
-
-
 
     return(list(
       tabell_id = table_id ,
-      variabler=lapply(variables, function(s) enc2utf8(as.character(s))),
+      variabler = lapply(variables, function(s) enc2utf8(as.character(s))),
       groupBy = lapply(group_by, function(s) enc2utf8(as.character(s))),
       sortBy = lapply(sort_by, function(s) enc2utf8(as.character(s))),
       filter = filter_query))
@@ -119,10 +120,9 @@ dbh_data <- function(
   exclude = NULL,
   variables=NULL,
   api_version = 1) {
-  if (is.null(filters) & is.null(group_by) & is.null(sort_by) & is.null(variables))
-  {
-    content<-.dbh_content(table_id)
-    if(isTRUE(content[["Bulk tabell"]] == "true")){
+  if (is.null(filters) & is.null(group_by) & is.null(sort_by) & is.null(variables)) {
+    content <- .dbh_content(table_id)
+    if (isTRUE(content[["Bulk tabell"]] == "true")) {
       url <- paste0("https://api.nsd.no/dbhapitjener/Tabeller/bulk-csv?rptNr=", table_id)
       temp_file <- tempfile()
       on.exit(unlink(temp_file))
@@ -132,22 +132,18 @@ dbh_data <- function(
                                          paste("Bearer", .get_token(), sep = " ")))
       res <- temp_file
       delim_csv <- ","
+    } else {
+      stop("Table id ", table_id, " cannot be downloaded in bulk")
     }
-    else {stop("For selected table id", table_id, " there is no bulk data ")}
-  }
-
-  else {
-
-    if (!is.null(group_by))
-    {
-      query <- .make_query(table_id = table_id, filters = filters,
-                           group_by = group_by , sort_by = sort_by, exclude = exclude, variables = variables)
-    }
-    else
-    {
-      query <- .make_query(table_id = table_id, filters = filters,
-                           group_by = .dbh_groupBy(table_id ) , sort_by = sort_by, exclude = exclude, variables = variables)
-    }
+  } else {
+    query <- .make_query(
+      table_id = table_id,
+      filters = filters,
+      group_by = group_by,
+      sort_by = sort_by,
+      exclude = exclude,
+      variables = variables
+    )
     post_body <-
       rjson::toJSON(c(list(
         api_versjon = api_version,
