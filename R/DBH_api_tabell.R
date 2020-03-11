@@ -1,4 +1,5 @@
 
+
 #' Create query for DBH-API
 #'
 #' @description Helper function to create queries to be converted to the DBH-API JSON format
@@ -66,6 +67,13 @@
       }
 
     }
+    if(is.null(group_by))
+    {
+      group_by=.dbh_groupBy(table_id)
+
+    }
+    else {group_by=group_by}
+
     if (length(exclude_warning) != 0) warning(exclude_warning)
 
 
@@ -133,12 +141,12 @@ dbh_data <- function(
       res <- temp_file
       delim_csv <- ","
     }
-    else {stop("For selected table id", table_id, " there is no bulk data ")}
+    else {stop(paste("For selected table id", table_id, " there is no bulk data "))}
   }
 
   else {
     query <- .make_query(table_id = table_id, filters = filters,
-                         group_by = group_by, sort_by = sort_by, exclude = exclude, variables = variables)
+                         group_by = group_by , sort_by = sort_by, exclude = exclude, variables = variables)
     post_body <-
       rjson::toJSON(c(list(
         api_versjon = api_version,
@@ -146,12 +154,12 @@ dbh_data <- function(
         decimal_separator = "."),
         query))
     res <-
-      httr::POST(url = "https://api.nsd.no/dbhapitjener/Tabeller/hentCSVTabellData",
+      httr::POST(url = "https://api.nsd.no/dbhapitjener/Tabeller/streamCsvData",
                  httr::add_headers(`Content-Type` = "application/json",
                                    Authorization = paste("Bearer", .get_token(), sep =  " ")),
                  body = post_body,
                  encode = 'json')
-    delim_csv <- ";"
+    delim_csv <- ","
     res_text_content <- httr::content(res, "text")
     if (httr::http_error(res)) {
       res_parsed <-
