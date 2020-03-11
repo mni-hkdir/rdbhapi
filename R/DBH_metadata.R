@@ -9,7 +9,7 @@
 #' @importFrom readr col_character
 #' @importFrom readr locale
 #' @importFrom readr show_progress
-#' @importFrom tidyverse %>%
+#' @importFrom dplyr %>%
 #' @return A tibble
 #' @export
 #' @examples
