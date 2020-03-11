@@ -10,6 +10,7 @@
 #' @importFrom readr locale
 #' @importFrom readr show_progress
 #' @importFrom dplyr %>%
+#' @importFrom tibble as_tibble
 #' @return A tibble
 #' @export
 #' @examples
@@ -61,16 +62,16 @@ dbh_metadata <- function(table_id){
 
 .dbh_groupBy <- function(table_id){
   metadata <- dbh_metadata(table_id)
-  group_by <- metadata  %>% filter(metadata[["Group by (forslag)"]] =="J")
+  group_by <- as_tibble(metadata  %>% filter(metadata[["Group by (forslag)"]] =="J"))
 
-  group_by <- as.list(group_by[["Variabel navn"]])
-  if (length(group_by)!=0)
+
+  if (is_empty(group_by[["Group by (forslag)"]]))
   {
-    group_by=group_by
+    group_by=NULL
   }
   else
   {
-    group_by=NULL
+    group_by=as.list(group_by[["Variabel navn"]])
   }
   group_by
 }
