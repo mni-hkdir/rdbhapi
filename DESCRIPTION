@@ -12,7 +12,8 @@ Imports:
     readr,
     rjson,
     jsonlite,
-    dplyr
+    dplyr,
+    tibble
 Suggests:
     spelling, 
     knitr,
