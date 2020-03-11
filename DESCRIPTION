@@ -11,7 +11,8 @@ Imports:
     httr,
     readr,
     rjson,
-    jsonlite
+    jsonlite,
+    tidyverse
 Suggests:
     spelling, 
     knitr,
