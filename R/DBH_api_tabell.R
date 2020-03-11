@@ -116,8 +116,7 @@
 #' @export
 #' @examples
 
-#' dbh_data(60, filters=list( "Institusjonskode"="1120","Alder"=c("between",c("30","40")))
-#' , group_by="Alder")
+
 
 dbh_data <- function(
   table_id,
