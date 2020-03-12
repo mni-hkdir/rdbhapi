@@ -25,7 +25,7 @@
                                   password = sso_secret),
                body = list(grant_type = "client_credentials"),
                encode = "form")
-  res <- httr::content(res, as = "text")
+  res <- httr::content(res, as = "text", encoding = "UTF-8")
   res <- rjson::fromJSON(res)
   res <- res$access_token
   if (is.null(res)) {
