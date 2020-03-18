@@ -42,7 +42,3 @@ Send request from R to DBH-API and get data from DBH-API into R.
  Data are converted in right format using help function dbh_metadata \code{\link{dbh_metadata}}
  For token users it is possible to get token and use it further
 }
-\examples{
-dbh_data(60, filters=list( "Institusjonskode"="1120","Alder"=c("between",c("30","40")))
-, group_by="Alder")
-}
