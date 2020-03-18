@@ -60,6 +60,14 @@ dbh_metadata <- function(table_id){
   content[as.integer(content[["Tabell id"]]) %in% as.integer(table_id), ]
 }
 
+#' Title
+#'
+#' @param table_id A vector of code names for the datasets to get variable information for
+#'
+#' @return A list of group by variables
+
+#'
+
 .dbh_groupBy <- function(table_id){
   metadata <- dbh_metadata(table_id)
   group_by <- as_tibble(metadata  %>% filter(metadata[["Group by (forslag)"]] =="J"))
