@@ -158,7 +158,7 @@ dbh_data <- function(
                                    Authorization = paste("Bearer", .get_token(), sep =  " ")),
                  body = post_body,
                  encode = 'json')
-    delim_csv <- ","
+    delim_csv <- ";"
     res_text_content <- httr::content(res, "text")
     if (httr::http_error(res)) {
       res_parsed <-
@@ -170,12 +170,7 @@ dbh_data <- function(
                    res_parsed$message),
            call. = FALSE)
     }
-    res_type <- httr::http_type(res)
-    if (!identical(res_type, "text/csv")) {
-      stop(sprintf("DBH-API request returned type '%s' and not 'text/csv' as expected",
-                   res_type),
-           call. = FALSE)
-    }
+
     res <- res_text_content
   }
   data <-
