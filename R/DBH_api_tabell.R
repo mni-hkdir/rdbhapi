@@ -24,65 +24,64 @@
   function(
     table_id,
     filters,
-    group_by = list(),
-    sort_by = list(),
-    exclude = NULL,
-    variables=list()) {
+    group_by,
+    sort_by,
+    exclude,
+    variables) {
 
     filter_query <- list()
-
     exclude_warning <- character(0)
+    .as_character_utf8 <- function(s) enc2utf8(as.character(s))
 
     for (i in seq_along(filters)) {
       filter_query[[i]] <-
         list(variabel = enc2utf8(names(filters)[i]),
              selection = list(filter = "item",
                               values = lapply(filters[[i]],
-                                      function(s) enc2utf8(as.character(s)))))
+                                              .as_character_utf8)))
       if (filters[[i]][1] == "*") {
         filter_query[[i]]$selection$filter <- "all"
-
-      }
-      else if (filters[[i]][1] %in% c("top",  "lessthan", "greaterthan")) {
+      } else if (filters[[i]][1] %in% c("top",  "lessthan", "greaterthan")) {
         filter_query[[i]]$selection$filter <- filters[[i]][1]
         filter_query[[i]]$selection$values <- lapply(filters[[i]][2],
-                                  function(s) enc2utf8(as.character(s)))
-
+                                                     .as_character_utf8)
       } else if (filters[[i]][1] == "between") {
         filter_query[[i]]$selection$filter <- "between"
-        filter_query[[i]]$selection$values <- c(lapply(filters[[i]][2], function(s) enc2utf8(as.character(s))),
-                                       lapply(filters[[i]][3], function(s) enc2utf8(as.character(s))))
-
+        filter_query[[i]]$selection$values <- lapply(filters[[i]][2:3], .as_character_utf8)
       }
       if (names(filters)[i] %in% names(exclude)) {
-        filter_query[[i]]$selection$exclude <-lapply(exclude[[names(filters)[i]]],
-                                         function(s) enc2utf8(as.character(s)))
+        if (filter_query[[i]]$selection$filter %in% c("all", "top", "lessthan", "greaterthan", "between")) {
+          filter_query[[i]]$selection$exclude <- lapply(exclude[[names(filters)[i]]],
+                                                        .as_character_utf8)
+        } else {
+          exclude_warning <- c(exclude_warning, names(filters)[i])
+        }
       }
-      else if (names(filters)[i] %in% names(exclude)) {
-        exclude_warning <-
-          paste0(ifelse(length(exclude_warning) == 0,
-                        "Excluding filters cannot be combined with the item filter for the following variables: ",
-                        paste0(exclude_warning, ", ")),
-                 names(filters)[i])
-      }
-
     }
-    if(is.null(group_by))
-    {
-      group_by=.dbh_groupBy(table_id)
 
+    if (is.null(filters)) {
+      metadata <- .get_metadata(table_id)
+      char_variabel <- metadata[metadata$Datatype %in% "char", ][["Variabel navn"]][1]
+      filter_query <- list(list(variabel = char_variabel,
+                                selection = list(filter = "all",
+                                                 values = list("*"))))
     }
-    else {group_by=group_by}
 
-    if (length(exclude_warning) != 0) warning(exclude_warning)
+    if (is.null(group_by)) {
+      group_by <- .default_group_by(table_id)
+    }
 
-
+    if (length(exclude_warning) != 0) {
+      warning(paste0("Excluding filters cannot be combined with the item filter.\nThe excluding filter has been disregarded for these variables: ",
+                     paste0(exclude_warning, collapse = ", ")),
+              call. = FALSE)
+    }
 
     return(list(
       tabell_id = table_id ,
-      variabler=lapply(variables, function(s) enc2utf8(as.character(s))),
-      groupBy = lapply(group_by, function(s) enc2utf8(as.character(s))),
-      sortBy = lapply(sort_by, function(s) enc2utf8(as.character(s))),
+      variabler = lapply(variables, .as_character_utf8),
+      groupBy = lapply(group_by, .as_character_utf8),
+      sortBy = lapply(sort_by, .as_character_utf8),
       filter = filter_query))
   }
 
@@ -124,12 +123,15 @@ dbh_data <- function(
   group_by = NULL,
   sort_by = NULL,
   exclude = NULL,
-  variables=NULL,
+  variables = NULL,
   api_version = 1) {
-  if (is.null(filters) & is.null(group_by) & is.null(sort_by) & is.null(variables))
-  {
-    content<-.dbh_content(table_id)
-    if(isTRUE(content[["Bulk tabell"]] == "true")){
+
+  metadata <- .get_metadata(table_id)
+  res <- NULL
+
+  if (is.null(filters) & is.null(group_by) & is.null(sort_by) & is.null(variables)) {
+    toc <- .get_toc(table_id)
+    if (isTRUE(toc[["Bulk tabell"]] == "true")) {
       url <- paste0("https://api.nsd.no/dbhapitjener/Tabeller/bulk-csv?rptNr=", table_id)
       temp_file <- tempfile()
       on.exit(unlink(temp_file))
@@ -139,13 +141,13 @@ dbh_data <- function(
                                          paste("Bearer", .get_token(), sep = " ")))
       res <- temp_file
       delim_csv <- ","
+    } else {
+      char_variabel <- metadata[metadata$Datatype %in% "char", ][["Variabel navn"]][1]
+      filters <- setNames(list("*"), char_variabel)
     }
-    else {stop(paste("For selected table id", table_id, " there is no bulk data "))}
   }
-
-  else {
-    query <- .make_query(table_id = table_id, filters = filters,
-                         group_by = group_by , sort_by = sort_by, exclude = exclude, variables = variables)
+  if (is.null(res)) {
+    query <- .make_query(table_id, filters, group_by, sort_by, exclude, variables)
     post_body <-
       rjson::toJSON(c(list(
         api_versjon = api_version,
@@ -159,20 +161,16 @@ dbh_data <- function(
                  body = post_body,
                  encode = 'json')
     delim_csv <- ";"
-    res_text_content <- httr::content(res, "text")
     if (httr::http_error(res)) {
-      res_parsed <-
-        jsonlite::fromJSON(res_text_content,
-                           simplifyVector = FALSE)
-      stop(sprintf("DBH-API request failed\n%s\n%s: %s",
-                   res$url,
+      stop(sprintf("DBH-API request failed\n%s\nURL: %s\nQuery: %s",
                    httr::http_status(res)$message,
-                   res_parsed$message),
+                   res$url,
+                   post_body),
            call. = FALSE)
     }
-
-    res <- res_text_content
+    res <- httr::content(res, "text", encoding = "UTF-8")
   }
+
   data <-
     readr::read_delim(
       res,
@@ -180,10 +178,8 @@ dbh_data <- function(
       col_types = readr::cols(.default = readr::col_character()),
       locale = readr::locale(decimal_mark = "."),
       na = "",
-      trim_ws = TRUE,
-      progress = readr::show_progress()
+      trim_ws = TRUE
     )
-  metadata <- dbh_metadata(table_id)
   for (n in names(data)) {
     if (isTRUE(n %in% metadata[metadata[["Datatype"]] %in%
                                c("int", "bigint", "smallint", "tinyint", "bit"), ][["Variabel navn"]])) {
