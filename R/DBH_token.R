@@ -1,12 +1,3 @@
-# Package environment
-.env <- new.env(parent = emptyenv())
-
-
-# Variables for current token and expiration time
-.env$token_expiration <- 0
-.env$token <- ""
-
-
 #' Retrieve new JWT token for DBH-API
 #'
 #' @param sso_id Client ID for DBH-API authentication
@@ -36,7 +27,6 @@
 }
 
 
-
 #' Return JWT token for DBH-API
 #'
 #' @description Return current token or new token if expired.
@@ -48,6 +38,7 @@
 #' @return A character string containing the JWT token, or the empty string if
 #'  fetching the token fails.
 #' @keywords internal
+#'
 .get_token <-
   function() {
     sso_id <- Sys.getenv("dbhapi_sso_id")
