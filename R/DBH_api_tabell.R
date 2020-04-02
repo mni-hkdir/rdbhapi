@@ -33,6 +33,12 @@
     exclude_warning <- character(0)
     .as_character_utf8 <- function(s) enc2utf8(as.character(s))
 
+    if (is.null(filters)) {
+      metadata <- .get_metadata(table_id)
+      char_variabel <- metadata[metadata$Datatype %in% "char", ][["Variabel navn"]][1]
+      filters <- setNames(list("*"), char_variabel)
+    }
+
     for (i in seq_along(filters)) {
       filter_query[[i]] <-
         list(variabel = enc2utf8(names(filters)[i]),
@@ -59,13 +65,16 @@
       }
     }
 
-    if (is.null(filters)) {
-      metadata <- .get_metadata(table_id)
-      char_variabel <- metadata[metadata$Datatype %in% "char", ][["Variabel navn"]][1]
-      filter_query <- list(list(variabel = char_variabel,
-                                selection = list(filter = "all",
-                                                 values = list("*"))))
-    }
+    filter_query <-
+      c(filter_query,
+        lapply(setdiff(names(exclude), names(filters)),
+               function(var) {
+                 list(variabel = var,
+                      selection = list(filter = "all",
+                                       values = list("*"),
+                                       exclude = lapply(exclude[[var]],
+                                                        .as_character_utf8)))
+               }))
 
     if (is.null(group_by)) {
       group_by <- .default_group_by(table_id)
@@ -129,7 +138,8 @@ dbh_data <- function(
   metadata <- .get_metadata(table_id)
   res <- NULL
 
-  if (is.null(filters) & is.null(group_by) & is.null(sort_by) & is.null(variables)) {
+  if (all(vapply(list(filters, group_by, sort_by, variables, exclude),
+                 is.null, logical(1)))) {
     toc <- .get_toc(table_id)
     if (isTRUE(toc[["Bulk tabell"]] == "true")) {
       url <- paste0("https://api.nsd.no/dbhapitjener/Tabeller/bulk-csv?rptNr=", table_id)
