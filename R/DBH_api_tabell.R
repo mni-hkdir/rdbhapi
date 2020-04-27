@@ -120,6 +120,7 @@
 #' @importFrom httr http_type
 #' @importFrom httr http_status
 #' @importFrom utils download.file
+#' @importFrom stats setNames
 #' @return R dataframe
 #' @export
 

@@ -1,4 +1,5 @@
 # Package environment
+#' @importFrom rlang env
 .env <- new.env(parent = emptyenv())
 
 # Variables for current token and expiration time

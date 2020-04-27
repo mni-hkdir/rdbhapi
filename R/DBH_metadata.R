@@ -39,6 +39,7 @@ dbh_metadata <- function(table_id = NULL) {
 #' Get table with metadata for variables in the DBH API
 #' @keywords internal
 
+
 .get_metadata <- function(table_id = NULL) {
   t <- Sys.time()
   if (t >= .env$metadata_expiration) {
@@ -108,6 +109,7 @@ dbh_toc <- function(table_id = NULL) {
 #' @param table_id A vector of code names for the datasets to get variable information for
 #' @return A list of group by variables
 #' @keywords internal
+
 
 .default_group_by <- function(table_id){
   metadata <- .get_metadata()

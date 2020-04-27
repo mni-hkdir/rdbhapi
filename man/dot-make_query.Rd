@@ -4,14 +4,7 @@
 \alias{.make_query}
 \title{Create query for DBH-API}
 \usage{
-.make_query(
-  table_id,
-  filters,
-  group_by = list(),
-  sort_by = list(),
-  exclude = NULL,
-  variables = list()
-)
+.make_query(table_id, filters, group_by, sort_by, exclude, variables)
 }
 \arguments{
 \item{table_id}{The code name for the dataset}
