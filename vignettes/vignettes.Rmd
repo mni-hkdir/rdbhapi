@@ -1,5 +1,5 @@
 ---
-title: "Tools for downloading DBH-API data "
+title: R Interface to 'DBH-API'
 output: rmarkdown::html_vignette
 vignette: >
   %\VignetteIndexEntry{vignettes}

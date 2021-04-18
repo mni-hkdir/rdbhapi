@@ -15,7 +15,7 @@ An R package to simplify API access to data on higher education in Norway, as pr
 
 For more information:
 * DBH - Norwegian Database for Statistics on Higher Education [DBH](https://dbh.nsd.uib.no/)
-* NSD - Norwegian Centre for Research Data [NSD](https://nsd.no/)
+* NSD - Norwegian Centre for Research Data [NSD](https://www.nsd.no/)
 
 ## Installation
 

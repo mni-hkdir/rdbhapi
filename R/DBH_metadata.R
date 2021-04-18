@@ -117,6 +117,10 @@ dbh_toc <- function(table_id = NULL) {
                          (metadata$`Group by (forslag)` %in% "J"), ]
   group_by <- metadata[["Variabel navn"]]
   group_by <- if (length(group_by) == 0) NULL else as.list(group_by)
-  group_by
+  if(length(group_by)!=0){
+    message("Default group by :", as.list(group_by))
+    group_by
+  }
+
 }
 

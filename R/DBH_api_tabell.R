@@ -146,7 +146,7 @@ dbh_data <- function(
       url <- paste0("https://api.nsd.no/dbhapitjener/Tabeller/bulk-csv?rptNr=", table_id)
       temp_file <- tempfile()
       on.exit(unlink(temp_file))
-      utils::download.file(url,
+      utils::download.file(url, quiet = TRUE,
                            destfile = temp_file,
                            headers = c(Authorization =
                                          paste("Bearer", .get_token(), sep = " ")))
