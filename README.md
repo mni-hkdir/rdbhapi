@@ -10,20 +10,30 @@ status](https://ci.appveyor.com/api/projects/status/github/makinin/rdbhapi?branc
 [![Codecov test
 coverage](https://codecov.io/gh/makinin/rdbhapi/branch/master/graph/badge.svg)](https://codecov.io/gh/makinin/rdbhapi?branch=master)
 
+[![R-CMD-check](https://github.com/makinin/rdbhapi/workflows/R-CMD-check/badge.svg)](https://github.com/makinin/rdbhapi/actions)
+[![CRAN
+status](https://www.r-pkg.org/badges/version/rdbhapi)](https://CRAN.R-project.org/package=rdbhapi)
+[![Lifecycle:
+stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 <!-- badges: end -->
-An R package to simplify API access to data on higher education in Norway, as provided by NSD - Norwegian Centre for Research Data.
 
-For more information:
-* DBH - Norwegian Database for Statistics on Higher Education [DBH](https://dbh.nsd.uib.no/)
-* NSD - Norwegian Centre for Research Data [NSD](https://www.nsd.no/)
+R interface for [DBH-API](https://dbh.nsd.uib.no/tjenester.action) open
+data access.
 
 ## Installation
 
-Development version from [GitHub](https://github.com/) with:
+You can install the released version of rdbhapi from
+[CRAN](https://CRAN.R-project.org) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("makinin/rdbhapi")
+install.packages("rdbhapi")
+```
+
+And the development version from [GitHub](https://github.com/) with:
+
+``` r
+# install.packages("remotes")
+remotes::install_github("makinin/rdbhapi")
 ```
 
 Token can be defined by placing login credentials in the environment
@@ -37,20 +47,20 @@ DBH-API contents are in table
 ``` r
 library(rdbhapi)
 dbh_data(1)
-#> # A tibble: 98 x 4
-#>    Emne      `Tabell id` Tabellnavn                Variabelliste                
-#>    <chr>     <chr>       <chr>                     <chr>                        
-#>  1 Ikke til~ 1           API innhold               Emne,Tabell id,Tabellnavn,Va~
-#>  2 Ikke til~ 2           API metadata              Tabell id,Tabellnavn,Variabe~
-#>  3 Studentd~ 60          Studenter fordelt på ald~ Institusjonskode,Avdelingsko~
-#>  4 Studentd~ 62          Utvekslingsavtaler        Utvekslingsavtale,beskrivels~
-#>  5 Studentd~ 66          Desentralisering og fjer~ Årstall,Institusjonskode,Avd~
-#>  6 Studentd~ 88          Etterutdanning            Institusjonskode,Avdelingsko~
-#>  7 Studentd~ 93          Finansieringskilder (dok~ Finansieringskildekode,finki~
-#>  8 Studentd~ 98          Kandidater med fullført ~ Institusjonskode,Årstall,Ins~
-#>  9 Doktorgr~ 100         Samarbeid om doktorgrads~ Årstall,Institusjonskode (ar~
-#> 10 Doktorgr~ 101         Avlagte doktorgrader (ag~ Institusjonskode,Avdelingsko~
-#> # ... with 88 more rows
+#> # A tibble: 109 x 6
+#>    Emne    `Tabell id` Tabellnavn        Gdpr  `Bulk tabell` Variabelliste      
+#>    <chr>   <chr>       <chr>             <chr> <chr>         <chr>              
+#>  1 Ikke t~ 1           API innhold       false true          Emne,Tabell id,Tab~
+#>  2 Ikke t~ 2           API metadata      false true          Tabell id,Tabellna~
+#>  3 Studen~ 60          Studenter fordel~ true  false         Institusjonskode,A~
+#>  4 Studen~ 62          Utvekslingsavtal~ false false         Utvekslingsavtale,~
+#>  5 Studen~ 66          Desentralisering~ true  false         Årstall,Institusjo~
+#>  6 Studen~ 88          Etterutdanning    true  false         Institusjonskode,A~
+#>  7 Studen~ 93          Finansieringskil~ false false         Finansieringskilde~
+#>  8 Studen~ 98          Kandidater med f~ false true          Institusjonskode,Å~
+#>  9 Doktor~ 100         Samarbeid om dok~ false true          Årstall,Institusjo~
+#> 10 Doktor~ 101         Avlagte doktorgr~ false true          Institusjonskode,A~
+#> # ... with 99 more rows
 ```
 
 Get the whole table in R format:
@@ -58,7 +68,7 @@ Get the whole table in R format:
 ``` r
 library(rdbhapi)
 dbh_data(211)
-#> # A tibble: 276 x 15
+#> # A tibble: 282 x 15
 #>    Institusjonskode Institusjonsnavn Adresse Postnummer `Gyldig fra`
 #>    <chr>            <chr>            <chr>   <chr>      <chr>       
 #>  1 0211             Høgskolen i Bodø Høgsko~ 8049       19943       
@@ -71,7 +81,7 @@ dbh_data(211)
 #>  8 0221             Høgskolen i Nor~ Servic~ 7729       19943       
 #>  9 0222             Høgskolen i Sør~ Høgsko~ 7004       19943       
 #> 10 0231             Høgskolen i Ber~ Postbo~ 5020       19943       
-#> # ... with 266 more rows, and 10 more variables: `Gyldig til` <chr>,
+#> # ... with 272 more rows, and 10 more variables: `Gyldig til` <chr>,
 #> #   Telefon <chr>, Telefax <chr>, Institusjonstypekode <chr>, Typenavn <chr>,
 #> #   Kortnavn <chr>, Departementid <int>, Dep_navn <chr>, `Institusjonskode
 #> #   (sammenslått)` <chr>, `Sammenslått navn` <chr>
@@ -85,18 +95,18 @@ Type = "NORSK", "Nivåkode" = "*"),exclude = c("Nivåkode" = "FU"), group_by = "
 #> # A tibble: 5 x 4
 #>   Årstall `Antall totalt` `Antall kvinner` `Antall menn`
 #>     <int>           <int>            <int>         <int>
-#> 1    2019            1547              895           652
-#> 2    2018            2707             1640          1067
-#> 3    2017            2368             1464           904
-#> 4    2016            2206             1352           854
-#> 5    2015            1692             1048           644
+#> 1    2020            1775             1057           718
+#> 2    2019            2902             1716          1186
+#> 3    2018            2707             1640          1067
+#> 4    2017            2368             1464           904
+#> 5    2016            2206             1352           854
 ```
 
 Meta data for data table
 
 ``` r
 dbh_metadata(142)
-#> # A tibble: 21 x 8
+#> # A tibble: 21 x 10
 #>    `Tabell id` Tabellnavn `Variabel navn` Datatype Datalengde Sortering Kodefelt
 #>    <chr>       <chr>      <chr>           <chr>    <chr>      <chr>     <chr>   
 #>  1 142         Utvekslin~ Andel av heltid decimal  3,2        34        <NA>    
@@ -109,5 +119,6 @@ dbh_metadata(142)
 #>  8 142         Utvekslin~ Landkode        char     2          7         J       
 #>  9 142         Utvekslin~ Nivåkode        char     10         33        J       
 #> 10 142         Utvekslin~ NUS-kode        char     10         37        <NA>    
-#> # ... with 11 more rows, and 1 more variable: Kommentar <chr>
+#> # ... with 11 more rows, and 3 more variables: `Group by (forslag)` <chr>,
+#> #   Kommentar <chr>, GDPR <chr>
 ```

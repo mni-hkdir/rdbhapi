@@ -37,8 +37,8 @@ install.packages("rdbhapi")
 And the development version from [GitHub](https://github.com/) with:
 
 ``` r
-# install.packages("devtools")
-devtools::install_github("makinin/rdbhapi")
+# install.packages("remotes")
+remotes::install_github("makinin/rdbhapi")
 
 ```
 Token can be defined by placing login credentials in the environment variables `dbhapi_sso_id` and `dbhapi_sso_secret`
