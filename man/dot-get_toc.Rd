@@ -6,6 +6,9 @@
 \usage{
 .get_toc(table_id = NULL)
 }
+\value{
+a tibble
+}
 \description{
 Get table with content for variables in the DBH-API
 }

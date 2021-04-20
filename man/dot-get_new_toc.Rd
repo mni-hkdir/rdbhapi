@@ -6,6 +6,9 @@
 \usage{
 .get_new_toc()
 }
+\value{
+a tibble
+}
 \description{
 Download table of contents of the DBH API
 }
