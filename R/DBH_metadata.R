@@ -18,7 +18,8 @@ dbh_metadata <- function(table_id = NULL) {
 
 #' Download table with metadata for variables in DBH-API
 #' @keywords internal
-
+#' @return a tibble with metadata information
+#'
 .get_new_metadata <- function() {
   url_meta <- "https://api.nsd.no/dbhapitjener/Tabeller/bulk-csv?rptNr=002"
   res <- httr::GET(url_meta)
@@ -38,6 +39,7 @@ dbh_metadata <- function(table_id = NULL) {
 
 #' Get table with metadata for variables in the DBH API
 #' @keywords internal
+#' @return a tibble
 
 
 .get_metadata <- function(table_id = NULL) {
@@ -58,7 +60,7 @@ dbh_metadata <- function(table_id = NULL) {
 #'
 #' @param table_id A vector of code names for the datasets retrieve information for, or NULL to get the whole table of contents
 #'
-#' @return A tibble
+#' @return a tibble
 
 dbh_toc <- function(table_id = NULL) {
   toc <- .get_new_toc()
@@ -71,6 +73,7 @@ dbh_toc <- function(table_id = NULL) {
 
 #' Download table of contents of the DBH API
 #' @keywords internal
+#' @return a tibble
 
 .get_new_toc <- function() {
   url_meta <- "https://api.nsd.no/dbhapitjener/Tabeller/bulk-csv?rptNr=001"
@@ -90,6 +93,7 @@ dbh_toc <- function(table_id = NULL) {
 
 #' Get table with content for variables in the DBH-API
 #' @keywords internal
+#' @return a tibble
 
 .get_toc <- function(table_id = NULL) {
   t <- Sys.time()
@@ -109,6 +113,7 @@ dbh_toc <- function(table_id = NULL) {
 #' @param table_id A vector of code names for the datasets to get variable information for
 #' @return A list of group by variables
 #' @keywords internal
+#' @return a list with group_by values
 
 
 .default_group_by <- function(table_id){

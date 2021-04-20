@@ -1,9 +1,9 @@
 Package: rdbhapi
-Title: R Interface to 'DBH-API'
+Title: Interface to 'DBH-API' 
 Version: 2.1.0
 Authors@R: person(given = "Marija",family = "Ninic",role = c("cre", "aut"),email = "marija.ninic@nsd.no")
-Description: Downloads 'DBH-API' data into R. 'DBH-API' data is in machine-readable format and provides information about education, finances, research and publications. 
-License: GPL-3
+Description: Downloads 'DBH-API'<https://dbh.nsd.uib.no/tjenester.action> data as dataframes. These data are in machine-readable format and provides information about education, finances, research and publications. 
+License: MIT + file LICENSE
 Encoding: UTF-8
 RoxygenNote: 7.1.0
 Imports: 

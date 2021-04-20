@@ -11,6 +11,8 @@
 }
 \value{
 A list of group by variables
+
+a list with group_by values
 }
 \description{
 Default group_by for a table as suggested by DBH

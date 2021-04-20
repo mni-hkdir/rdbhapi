@@ -10,7 +10,7 @@ dbh_toc(table_id = NULL)
 \item{table_id}{A vector of code names for the datasets retrieve information for, or NULL to get the whole table of contents}
 }
 \value{
-A tibble
+a tibble
 }
 \description{
 Table of contents for DBH-API

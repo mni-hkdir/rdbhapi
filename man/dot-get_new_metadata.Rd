@@ -6,6 +6,9 @@
 \usage{
 .get_new_metadata()
 }
+\value{
+a tibble with metadata information
+}
 \description{
 Download table with metadata for variables in DBH-API
 }

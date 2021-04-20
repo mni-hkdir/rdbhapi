@@ -6,6 +6,9 @@
 \usage{
 .get_metadata(table_id = NULL)
 }
+\value{
+a tibble
+}
 \description{
 Get table with metadata for variables in the DBH API
 }
