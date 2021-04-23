@@ -3,8 +3,6 @@
 
 <!-- badges: start -->
 
-[![Travis build
-status](https://travis-ci.org/makinin/rdbhapi.svg?branch=master)](https://travis-ci.org/makinin/rdbhapi)
 [![AppVeyor build
 status](https://ci.appveyor.com/api/projects/status/github/makinin/rdbhapi?branch=master&svg=true)](https://ci.appveyor.com/project/makinin/rdbhapi)
 [![Codecov test
@@ -69,22 +67,22 @@ Get the whole table in R format:
 library(rdbhapi)
 dbh_data(211)
 #> # A tibble: 282 x 15
-#>    Institusjonskode Institusjonsnavn Adresse Postnummer `Gyldig fra`
-#>    <chr>            <chr>            <chr>   <chr>      <chr>       
-#>  1 0211             Høgskolen i Bodø Høgsko~ 8049       19943       
-#>  2 0212             Høgskolen i Fin~ Follum~ 9509       19943       
-#>  3 0213             Høgskolen i Har~ Høgsko~ 9480       19943       
-#>  4 0214             Høgskolen i Nar~ Postbo~ 8505       19943       
-#>  5 0215             Høgskolen i Nes~ Høgsko~ 8700       19943       
-#>  6 0216             Høgskolen i Tro~ Høgsko~ 9293       19943       
-#>  7 0217             Samisk høgskole  Hánnol~ 9520       19943       
-#>  8 0221             Høgskolen i Nor~ Servic~ 7729       19943       
-#>  9 0222             Høgskolen i Sør~ Høgsko~ 7004       19943       
-#> 10 0231             Høgskolen i Ber~ Postbo~ 5020       19943       
-#> # ... with 272 more rows, and 10 more variables: `Gyldig til` <chr>,
+#>    Institusjonskode Institusjonsnavn      Adresse        Postnummer `Gyldig fra`
+#>    <chr>            <chr>                 <chr>          <chr>      <chr>       
+#>  1 0211             Høgskolen i Bodø      Høgskolen i B~ 8049       19943       
+#>  2 0212             Høgskolen i Finnmark  Follumsvei 31  9509       19943       
+#>  3 0213             Høgskolen i Harstad   Høgskolen i H~ 9480       19943       
+#>  4 0214             Høgskolen i Narvik    Postboks 385   8505       19943       
+#>  5 0215             Høgskolen i Nesna     Høgskolen i N~ 8700       19943       
+#>  6 0216             Høgskolen i Tromsø    Høgskolen i T~ 9293       19943       
+#>  7 0217             Samisk høgskole       Hánnoluohkká ~ 9520       19943       
+#>  8 0221             Høgskolen i Nord-Trø~ Serviceboks 2~ 7729       19943       
+#>  9 0222             Høgskolen i Sør-Trøn~ Høgskolen i S~ 7004       19943       
+#> 10 0231             Høgskolen i Bergen    Postboks 7030  5020       19943       
+#> # ... with 272 more rows, and 10 more variables: Gyldig til <chr>,
 #> #   Telefon <chr>, Telefax <chr>, Institusjonstypekode <chr>, Typenavn <chr>,
-#> #   Kortnavn <chr>, Departementid <int>, Dep_navn <chr>, `Institusjonskode
-#> #   (sammenslått)` <chr>, `Sammenslått navn` <chr>
+#> #   Kortnavn <chr>, Departementid <int>, Dep_navn <chr>,
+#> #   Institusjonskode (sammenslått) <chr>, Sammenslått navn <chr>
 ```
 
 Multiple choice query:
@@ -119,6 +117,6 @@ dbh_metadata(142)
 #>  8 142         Utvekslin~ Landkode        char     2          7         J       
 #>  9 142         Utvekslin~ Nivåkode        char     10         33        J       
 #> 10 142         Utvekslin~ NUS-kode        char     10         37        <NA>    
-#> # ... with 11 more rows, and 3 more variables: `Group by (forslag)` <chr>,
+#> # ... with 11 more rows, and 3 more variables: Group by (forslag) <chr>,
 #> #   Kommentar <chr>, GDPR <chr>
 ```
