@@ -7,7 +7,7 @@
 .get_new_metadata()
 }
 \value{
-a tibble with metadata information
+a tibble
 }
 \description{
 Download table with metadata for variables in DBH-API

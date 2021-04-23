@@ -1,11 +1,9 @@
-api
 AppVeyor
 CMD
 Codecov
 credientials
 dbh
 DBH
-dbhapiklient
 greaterthan
 https
 JSON
@@ -15,3 +13,5 @@ Lifecycle
 nsd
 Renviron
 tibble
+tjenester
+uib

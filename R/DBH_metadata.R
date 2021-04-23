@@ -18,8 +18,8 @@ dbh_metadata <- function(table_id = NULL) {
 
 #' Download table with metadata for variables in DBH-API
 #' @keywords internal
-#' @return a tibble with metadata information
-#'
+#' @return a tibble
+
 .get_new_metadata <- function() {
   url_meta <- "https://api.nsd.no/dbhapitjener/Tabeller/bulk-csv?rptNr=002"
   res <- httr::GET(url_meta)
@@ -113,7 +113,7 @@ dbh_toc <- function(table_id = NULL) {
 #' @param table_id A vector of code names for the datasets to get variable information for
 #' @return A list of group by variables
 #' @keywords internal
-#' @return a list with group_by values
+#' @return a tibble
 
 
 .default_group_by <- function(table_id){

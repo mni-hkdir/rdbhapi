@@ -12,7 +12,7 @@
 \value{
 A list of group by variables
 
-a list with group_by values
+a tibble
 }
 \description{
 Default group_by for a table as suggested by DBH
