@@ -1,8 +1,8 @@
 ---
-title: R Interface to 'DBH-API'
+title: Interface to 'DBH-API'
 output: rmarkdown::html_vignette
 vignette: >
-  %\VignetteIndexEntry{vignettes}
+  %\VignetteIndexEntry{Interface to 'DBH-API'}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
