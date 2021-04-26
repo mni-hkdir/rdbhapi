@@ -2,8 +2,8 @@
 
 #' Create query for DBH-API
 #'
-#' @description Helper function to create queries to be converted to the DBH-API JSON format
-#' for queries.
+#' @description Create queries to be converted to the DBH-API JSON format
+#'
 #'
 #' @param table_id The code name for the dataset
 #' @param filters A named list, where the names are the names of the variables
