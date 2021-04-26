@@ -29,7 +29,6 @@ A list of length containing the DBH-API query that can be converted
   to the proper JSON
 }
 \description{
-Helper function to create queries to be converted to the DBH-API JSON format
-for queries.
+Create queries to be converted to the DBH-API JSON format
 }
 \keyword{internal}
