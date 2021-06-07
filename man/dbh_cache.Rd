@@ -40,11 +40,14 @@ filter.}
 
 \item{cache}{a logical value whether to cache}
 
-\item{update_cache}{a logical value whether to update cache , default is without updating}
+\item{update_cache}{a logical value whether to update cache ,
+default is without updating}
 
-\item{cache_dir}{a path to cache directory. Default value create a cache directory}
+\item{cache_dir}{a path to cache directory.
+Default value create a cache directory}
 
-\item{compress_file}{logical value whether to compress, default is to compress}
+\item{compress_file}{logical value whether
+to compress, default is to compress}
 }
 \value{
 a tibble

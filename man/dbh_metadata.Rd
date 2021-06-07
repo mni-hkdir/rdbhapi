@@ -7,13 +7,15 @@
 dbh_metadata(table_id = NULL)
 }
 \arguments{
-\item{table_id}{A vector of code names for the datasets to get variable information for, or NULL to get info for all variables.}
+\item{table_id}{A vector of code names for the datasets to
+get variable information for, or NULL to get info for all variables.}
 }
 \value{
 A tibble
 }
 \description{
-Gets information on variables included in DBH datasets (type of variable, data type).
+Gets information on variables
+included in DBH datasets (type of variable, data type).
 }
 \examples{
 dbh_metadata(88)

@@ -7,7 +7,8 @@
 .default_group_by(table_id)
 }
 \arguments{
-\item{table_id}{A vector of code names for the datasets to get variable information for}
+\item{table_id}{A vector of code names for the
+datasets to get variable information for}
 }
 \value{
 A list of group by variables

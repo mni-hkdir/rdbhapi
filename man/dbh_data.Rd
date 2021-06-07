@@ -39,6 +39,7 @@ R dataframe
 }
 \description{
 Send request from R to DBH-API and get data from DBH-API into R.
- Data are converted in right format using help function dbh_metadata \code{\link{dbh_metadata}}
+ Data are converted in right format using help
+ function dbh_metadata \code{\link{dbh_metadata}}
  For token users it is possible to get token and use it further
 }
