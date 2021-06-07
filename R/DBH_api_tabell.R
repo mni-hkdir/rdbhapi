@@ -152,11 +152,11 @@ dbh_data <- function(
     toc <- .get_toc(table_id)
     if (isTRUE(toc[["Bulk tabell"]] == "true")) {
       url <-
-      paste0("https://api.nsd.no/dbhapitjener/Tabeller/bulk-csv?rptNr=",
-             table_id)
+      paste0("https://api.nsd.no/dbhapitjener/Tabeller/bulk-csv?rptNr=", table_id)
       temp_file <- tempfile()
       on.exit(unlink(temp_file))
-      utils::download.file(url, quiet = TRUE,
+      utils::download.file(url,
+                           quiet = TRUE,
                     destfile = temp_file,
                   headers = c(Authorization =
                 paste("Bearer", .get_token(), sep = " ")))
