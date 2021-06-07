@@ -52,6 +52,6 @@
                                      sso_secret)
         .env$token_expiration <- t + 3600
       }
-      return(.env$token)}
+      return(.env$token)
+      }
   }
-

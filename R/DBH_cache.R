@@ -7,15 +7,16 @@
 #' @export
 #'
 #'
-dbh_clean_cache <- function(cache_dir = NULL){
-  if (is.null(cache_dir)){
+dbh_clean_cache <- function(cache_dir = NULL) {
+  if (is.null(cache_dir)) {
     cache_dir <- getOption("dbh_cache_dir", file.path(tempdir(), "dbh"))
     if (!file.exists(cache_dir)) {
       message("The cache does not exist")
       return(invisible(TRUE))
     }
   }
-  if (!file.exists(cache_dir)) stop("The cache folder ", cache_dir, " does not exist")
+  if (!file.exists(cache_dir))
+    stop("The cache folder ", cache_dir, " does not exist")
 
   files <- list.files(cache_dir, pattern = "rds", full.names = TRUE)
   if (length(files) == 0) {
@@ -45,9 +46,12 @@ dbh_clean_cache <- function(cache_dir = NULL){
 #' @param variables A list of variables to include in dataset
 #' @param api_version DBH-API version
 #' @param cache a logical value whether to cache
-#' @param update_cache a logical value whether to update cache , default is without updating
-#' @param cache_dir a path to cache directory. Default value create a cache directory
-#' @param compress_file logical value whether to compress, default is to compress
+#' @param update_cache a logical value whether to update cache ,
+#' default is without updating
+#' @param cache_dir a path to cache directory.
+#' Default value create a cache directory
+#' @param compress_file logical value whether
+#' to compress, default is to compress
 #'
 #' @return a tibble
 #' @export
@@ -59,16 +63,16 @@ dbh_cache <- function(table_id,
                       exclude = NULL,
                       variables = NULL,
                       api_version = 1,
-                      cache = TRUE, update_cache = FALSE, cache_dir = NULL,
-                         compress_file = TRUE)
-  {if (cache){
+                     cache = TRUE, update_cache = FALSE, cache_dir = NULL,
+                    compress_file = TRUE) {
+  if (cache) {
 
       # get cache directory
-      if (is.null(cache_dir)){
+      if (is.null(cache_dir)) {
 
         cache_dir <- getOption("dbh_cache_dir", NULL)
 
-        if (is.null(cache_dir)){
+        if (is.null(cache_dir)) {
           cache_dir <- file.path(tempdir(), "dbh")
           if (!file.exists(cache_dir)) dir.create(cache_dir)
         }
@@ -87,7 +91,7 @@ dbh_cache <- function(table_id,
     }
 
     # if cache = FALSE or update or new: dowload else read from cache
-    if (!cache || update_cache || !file.exists(cache_file)){
+    if (!cache || update_cache || !file.exists(cache_file)) {
        y <- dbh_data(table_id,
                       filters = NULL,
                       group_by = NULL,
@@ -106,7 +110,7 @@ dbh_cache <- function(table_id,
     }
 
     # if update or new: save
-    if (cache && (update_cache || !file.exists(cache_file))){
+    if (cache && (update_cache || !file.exists(cache_file))) {
       saveRDS(y, file = cache_file, compress = compress_file)
       message("Table ", table_id, " cached at ", path.expand(cache_file))
     }
@@ -114,4 +118,3 @@ dbh_cache <- function(table_id,
     y
 
 }
-

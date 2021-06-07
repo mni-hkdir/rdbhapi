@@ -35,7 +35,8 @@
 
     if (is.null(filters)) {
       metadata <- .get_metadata(table_id)
-      char_variabel <- metadata[metadata$Datatype %in% "char", ][["Variabel navn"]][1]
+      char_variabel <-
+        metadata[metadata$Datatype %in% "char", ][["Variabel navn"]][1]
       filters <- setNames(list("*"), char_variabel)
     }
 
@@ -53,12 +54,15 @@
                                                      .as_character_utf8)
       } else if (filters[[i]][1] == "between") {
         filter_query[[i]]$selection$filter <- "between"
-        filter_query[[i]]$selection$values <- lapply(filters[[i]][2:3], .as_character_utf8)
+        filter_query[[i]]$selection$values <-
+          lapply(filters[[i]][2:3], .as_character_utf8)
       }
       if (names(filters)[i] %in% names(exclude)) {
-        if (filter_query[[i]]$selection$filter %in% c("all", "top", "lessthan", "greaterthan", "between")) {
-          filter_query[[i]]$selection$exclude <- lapply(exclude[[names(filters)[i]]],
-                                                        .as_character_utf8)
+        if (filter_query[[i]]$selection$filter %in%
+            c("all", "top", "lessthan", "greaterthan", "between")) {
+          filter_query[[i]]$selection$exclude <-
+            lapply(exclude[[names(filters)[i]]],
+                                                 .as_character_utf8)
         } else {
           exclude_warning <- c(exclude_warning, names(filters)[i])
         }
@@ -81,13 +85,16 @@
     }
 
     if (length(exclude_warning) != 0) {
-      warning(paste0("Excluding filters cannot be combined with the item filter.\nThe excluding filter has been disregarded for these variables: ",
+      warning(paste0
+              ("Excluding filters cannot be combined with the
+              item filter.\nThe excluding
+                filter has been disregarded for these variables: ",
                      paste0(exclude_warning, collapse = ", ")),
               call. = FALSE)
     }
 
     return(list(
-      tabell_id = table_id ,
+      tabell_id = table_id,
       variabler = lapply(variables, .as_character_utf8),
       groupBy = lapply(group_by, .as_character_utf8),
       sortBy = lapply(sort_by, .as_character_utf8),
@@ -99,7 +106,8 @@
 #'  Get data from API as R dataframe
 #'
 #' @description Send request from R to DBH-API and get data from DBH-API into R.
-#'  Data are converted in right format using help function dbh_metadata \code{\link{dbh_metadata}}
+#'  Data are converted in right format using help
+#'  function dbh_metadata \code{\link{dbh_metadata}}
 #'  For token users it is possible to get token and use it further
 #'
 #' @param table_id The code name for the dataset
@@ -143,22 +151,26 @@ dbh_data <- function(
                  is.null, logical(1)))) {
     toc <- .get_toc(table_id)
     if (isTRUE(toc[["Bulk tabell"]] == "true")) {
-      url <- paste0("https://api.nsd.no/dbhapitjener/Tabeller/bulk-csv?rptNr=", table_id)
+      url <-
+      paste0("https://api.nsd.no/dbhapitjener/Tabeller/bulk-csv?rptNr=",
+             table_id)
       temp_file <- tempfile()
       on.exit(unlink(temp_file))
       utils::download.file(url, quiet = TRUE,
-                           destfile = temp_file,
-                           headers = c(Authorization =
-                                         paste("Bearer", .get_token(), sep = " ")))
+                    destfile = temp_file,
+                  headers = c(Authorization =
+                paste("Bearer", .get_token(), sep = " ")))
       res <- temp_file
       delim_csv <- ","
     } else {
-      char_variabel <- metadata[metadata$Datatype %in% "char", ][["Variabel navn"]][1]
+      char_variabel <-
+        metadata[metadata$Datatype %in% "char", ][["Variabel navn"]][1]
       filters <- setNames(list("*"), char_variabel)
     }
   }
   if (is.null(res)) {
-    query <- .make_query(table_id, filters, group_by, sort_by, exclude, variables)
+    query <-
+      .make_query(table_id, filters, group_by, sort_by, exclude, variables)
     post_body <-
       rjson::toJSON(c(list(
         api_versjon = api_version,
@@ -168,9 +180,9 @@ dbh_data <- function(
     res <-
       httr::POST(url = "https://api.nsd.no/dbhapitjener/Tabeller/streamCsvData",
                  httr::add_headers(`Content-Type` = "application/json",
-                                   Authorization = paste("Bearer", .get_token(), sep =  " ")),
+                 Authorization = paste("Bearer", .get_token(), sep =  " ")),
                  body = post_body,
-                 encode = 'json')
+                 encode = "json")
     delim_csv <- ";"
     if (httr::http_error(res)) {
       stop(sprintf("DBH-API request failed\n%s\nURL: %s\nQuery: %s",
@@ -193,11 +205,12 @@ dbh_data <- function(
     )
   for (n in names(data)) {
     if (isTRUE(n %in% metadata[metadata[["Datatype"]] %in%
-                               c("int", "bigint", "smallint", "tinyint", "bit"), ][["Variabel navn"]])) {
+              c("int", "bigint", "smallint", "tinyint", "bit"), ]
+              [["Variabel navn"]])) {
       data[[n]] <- as.integer(data[[n]])
     } else {
       if (isTRUE(n %in% metadata[metadata[["Datatype"]] %in%
-                                 c("decimal", "numeric", "float", "real"), ][["Variabel navn"]])) {
+      c("decimal", "numeric", "float", "real"), ][["Variabel navn"]])) {
         data[[n]] <- as.double(data[[n]])
       }
     }

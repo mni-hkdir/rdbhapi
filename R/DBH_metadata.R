@@ -1,8 +1,10 @@
 #' @title Get metadata for DBH datasets
 #'
-#' @description Gets information on variables included in DBH datasets (type of variable, data type).
+#' @description Gets information on variables
+#' included in DBH datasets (type of variable, data type).
 #'
-#' @param table_id A vector of code names for the datasets to get variable information for, or NULL to get info for all variables.
+#' @param table_id A vector of code names for the datasets to
+#' get variable information for, or NULL to get info for all variables.
 #' @return A tibble
 #' @export
 #' @examples
@@ -58,7 +60,8 @@ dbh_metadata <- function(table_id = NULL) {
 
 #' @title Table of contents for DBH-API
 #'
-#' @param table_id A vector of code names for the datasets retrieve information for, or NULL to get the whole table of contents
+#' @param table_id A vector of code names for the datasets retrieve
+#' information for, or NULL to get the whole table of contents
 #'
 #' @return a tibble
 
@@ -110,23 +113,21 @@ dbh_toc <- function(table_id = NULL) {
 
 #' Default group_by for a table as suggested by DBH
 #'
-#' @param table_id A vector of code names for the datasets to get variable information for
+#' @param table_id A vector of code names for the
+#' datasets to get variable information for
 #' @return A list of group by variables
 #' @keywords internal
 #' @return a tibble
 
 
-.default_group_by <- function(table_id){
+.default_group_by <- function(table_id) {
   metadata <- .get_metadata()
   metadata <- metadata[(metadata$`Tabell id` %in% table_id) &
                          (metadata$`Group by (forslag)` %in% "J"), ]
   group_by <- metadata[["Variabel navn"]]
   group_by <- if (length(group_by) == 0) NULL else as.list(group_by)
-  if(length(group_by)!=0){
+  if (length(group_by) != 0) {
     message("Default group by :", as.list(group_by))
     group_by
   }
-
 }
-
-

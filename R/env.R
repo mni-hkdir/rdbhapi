@@ -6,7 +6,8 @@
 .env$token_expiration <- 0
 .env$token <- ""
 
-# Variables for cached metadata for variables and table of contents of the DBH API
+# Variables for cached metadata for variables
+# and table of contents of the DBH API
 .env$metadata_expiration <- 0
 .env$metadata <- NULL
 
