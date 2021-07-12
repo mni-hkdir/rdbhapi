@@ -131,6 +131,8 @@
 #' @importFrom stats setNames
 #' @return R dataframe
 #' @export
+#' @example
+#' dbh_data(142, filters = list("Årstall"=c("top",3)), group_by = "Årstall")
 
 
 
@@ -156,7 +158,7 @@ dbh_data <- function(
       temp_file <- tempfile()
       on.exit(unlink(temp_file))
       utils::download.file(url,
-                           quiet = TRUE,
+
                     destfile = temp_file,
                   headers = c(Authorization =
                 paste("Bearer", .get_token(), sep = " ")))

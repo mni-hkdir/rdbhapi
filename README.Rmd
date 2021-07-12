@@ -27,13 +27,9 @@ R interface for [DBH-API](https://dbh.nsd.uib.no/tjenester.action) open data acc
 
 ## Installation
 
-You can install the released version of rdbhapi from [CRAN](https://CRAN.R-project.org) with:
 
-``` r
-install.packages("rdbhapi")
-```
 
-And the development version from [GitHub](https://github.com/) with:
+You can install development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("remotes")

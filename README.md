@@ -20,14 +20,8 @@ data access.
 
 ## Installation
 
-You can install the released version of rdbhapi from
-[CRAN](https://CRAN.R-project.org) with:
-
-``` r
-install.packages("rdbhapi")
-```
-
-And the development version from [GitHub](https://github.com/) with:
+You can install development version from [GitHub](https://github.com/)
+with:
 
 ``` r
 # install.packages("remotes")
@@ -93,7 +87,7 @@ Type = "NORSK", "Nivåkode" = "*"),exclude = c("Nivåkode" = "FU"), group_by = "
 #> # A tibble: 5 x 4
 #>   Årstall `Antall totalt` `Antall kvinner` `Antall menn`
 #>     <int>           <int>            <int>         <int>
-#> 1    2020            1775             1057           718
+#> 1    2020            1774             1056           718
 #> 2    2019            2902             1716          1186
 #> 3    2018            2707             1640          1067
 #> 4    2017            2368             1464           904
