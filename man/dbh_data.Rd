@@ -43,3 +43,8 @@ Send request from R to DBH-API and get data from DBH-API into R.
  function dbh_metadata \code{\link{dbh_metadata}}
  For token users it is possible to get token and use it further
 }
+\examples{
+filter_example <- dbh_data (142, filters =
+list(Institusjonskode=c("top",3)), group_by = "Institusjonskode")
+bulk_example <- dbh_data(211)
+}

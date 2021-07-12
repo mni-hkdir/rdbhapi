@@ -3,8 +3,6 @@
 
 <!-- badges: start -->
 
-[![AppVeyor build
-status](https://ci.appveyor.com/api/projects/status/github/makinin/rdbhapi?branch=master&svg=true)](https://ci.appveyor.com/project/makinin/rdbhapi)
 [![Codecov test
 coverage](https://codecov.io/gh/makinin/rdbhapi/branch/master/graph/badge.svg)](https://codecov.io/gh/makinin/rdbhapi?branch=master)
 
@@ -13,6 +11,7 @@ coverage](https://codecov.io/gh/makinin/rdbhapi/branch/master/graph/badge.svg)](
 status](https://www.r-pkg.org/badges/version/rdbhapi)](https://CRAN.R-project.org/package=rdbhapi)
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+
 <!-- badges: end -->
 
 R interface for [DBH-API](https://dbh.nsd.uib.no/tjenester.action) open

@@ -131,8 +131,10 @@
 #' @importFrom stats setNames
 #' @return R dataframe
 #' @export
-#' @example
-#' dbh_data(142, filters = list("Årstall"=c("top",3)), group_by = "Årstall")
+#' @examples
+#' filter_example <- dbh_data (142, filters =
+#' list(Institusjonskode=c("top",3)), group_by = "Institusjonskode")
+#' bulk_example <- dbh_data(211)
 
 
 
