@@ -44,7 +44,9 @@ Send request from R to DBH-API and get data from DBH-API into R.
  For token users it is possible to get token and use it further
 }
 \examples{
+# Table with usage of filter and group by variables
 filter_example <- dbh_data (142, filters =
 list(Institusjonskode=c("top",3)), group_by = "Institusjonskode")
+# Table using bulk data
 bulk_example <- dbh_data(211)
 }

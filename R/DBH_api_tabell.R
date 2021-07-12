@@ -132,8 +132,10 @@
 #' @return R dataframe
 #' @export
 #' @examples
+#' # Table with usage of filter and group by variables
 #' filter_example <- dbh_data (142, filters =
 #' list(Institusjonskode=c("top",3)), group_by = "Institusjonskode")
+#' # Table using bulk data
 #' bulk_example <- dbh_data(211)
 
 

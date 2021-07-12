@@ -8,6 +8,7 @@
 #' @return A tibble
 #' @export
 #' @examples
+#' # Show metadata for table 88
 #' meta_table <- dbh_metadata(88)
 
 dbh_metadata <- function(table_id = NULL) {

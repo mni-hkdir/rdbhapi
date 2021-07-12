@@ -18,5 +18,6 @@ Gets information on variables
 included in DBH datasets (type of variable, data type).
 }
 \examples{
+# Show metadata for table 88
 meta_table <- dbh_metadata(88)
 }
