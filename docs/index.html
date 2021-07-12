@@ -6,6 +6,12 @@
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Interface to DBH-API  • rdbhapi</title>
+<!-- favicons --><link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
+<link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
+<link rel="apple-touch-icon" type="image/png" sizes="180x180" href="apple-touch-icon.png">
+<link rel="apple-touch-icon" type="image/png" sizes="120x120" href="apple-touch-icon-120x120.png">
+<link rel="apple-touch-icon" type="image/png" sizes="76x76" href="apple-touch-icon-76x76.png">
+<link rel="apple-touch-icon" type="image/png" sizes="60x60" href="apple-touch-icon-60x60.png">
 <!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js" integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="bootstrap-toc.css">
 <script src="bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
@@ -76,16 +82,14 @@
   <div class="contents col-md-9">
 
 
-<p><a href="https://github.com/makinin/rdbhapi/actions"><img src="https://github.com/makinin/rdbhapi/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a> <a href="https://CRAN.R-project.org/package=rdbhapi"><img src="https://www.r-pkg.org/badges/version/rdbhapi" alt="CRAN status"></a> <a href="https://lifecycle.r-lib.org/articles/stages.html#stable"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a> <!-- badges: end --></p>
+<p><a href="https://github.com/makinin/rdbhapi/actions"><img src="https://github.com/makinin/rdbhapi/workflows/R-CMD-check/badge.svg" alt="R-CMD-check"></a> <a href="https://CRAN.R-project.org/package=rdbhapi"><img src="https://www.r-pkg.org/badges/version/rdbhapi" alt="CRAN status"></a> <a href="https://lifecycle.r-lib.org/articles/stages.html#stable"><img src="https://img.shields.io/badge/lifecycle-stable-brightgreen.svg" alt="Lifecycle: stable"></a></p>
+<!-- badges: end -->
 <p>R interface for <a href="https://dbh.nsd.uib.no/tjenester.action">DBH-API</a> open data access.</p>
 <div id="installation" class="section level2">
 <h2 class="hasAnchor">
 <a href="#installation" class="anchor"></a>Installation</h2>
-<p>You can install the released version of rdbhapi from <a href="https://CRAN.R-project.org">CRAN</a> with:</p>
+<p>You can install development version from <a href="https://github.com/">GitHub</a> with:</p>
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span class="fu"><a href="https://rdrr.io/r/utils/install.packages.html">install.packages</a></span><span class="op">(</span><span class="st">"rdbhapi"</span><span class="op">)</span></code></pre></div>
-<p>And the development version from <a href="https://github.com/">GitHub</a> with:</p>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="co"># install.packages("remotes")</span>
 <span class="fu">remotes</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html">install_github</a></span><span class="op">(</span><span class="st">"makinin/rdbhapi"</span><span class="op">)</span></code></pre></div>
 <p>Token can be defined by placing login credentials in the environment variables <code>dbhapi_sso_id</code> and <code>dbhapi_sso_secret</code> in the <code>.Renviron</code> file before starting R or by using <code>Sys.setenv</code>.</p>
@@ -94,7 +98,7 @@
 <h2 class="hasAnchor">
 <a href="#example" class="anchor"></a>Example</h2>
 <p>DBH-API contents are in table</p>
-<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">rdbhapi</span><span class="op">)</span>
 <span class="fu"><a href="reference/dbh_data.html">dbh_data</a></span><span class="op">(</span><span class="fl">1</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 109 x 6</span>
@@ -112,7 +116,7 @@
 <span class="co">#&gt; 10 Doktor~ 101         Avlagte doktorgr~ false true          Institusjonskode,A~</span>
 <span class="co">#&gt; # ... with 99 more rows</span></code></pre></div>
 <p>Get the whole table in R format:</p>
-<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="kw"><a href="https://rdrr.io/r/base/library.html">library</a></span><span class="op">(</span><span class="va">rdbhapi</span><span class="op">)</span>
 <span class="fu"><a href="reference/dbh_data.html">dbh_data</a></span><span class="op">(</span><span class="fl">211</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 282 x 15</span>
@@ -133,19 +137,19 @@
 <span class="co">#&gt; #   Kortnavn &lt;chr&gt;, Departementid &lt;int&gt;, Dep_navn &lt;chr&gt;,</span>
 <span class="co">#&gt; #   Institusjonskode (sammenslått) &lt;chr&gt;, Sammenslått navn &lt;chr&gt;</span></code></pre></div>
 <p>Multiple choice query:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/dbh_data.html">dbh_data</a></span><span class="op">(</span><span class="fl">142</span>, filters <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/list.html">list</a></span><span class="op">(</span><span class="st">"Årstall"</span> <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"top"</span>,<span class="st">"5"</span><span class="op">)</span>,Utvekslingsavtale <span class="op">=</span> <span class="st">"ERASMUS+"</span>, 
 Type <span class="op">=</span> <span class="st">"NORSK"</span>, <span class="st">"Nivåkode"</span> <span class="op">=</span> <span class="st">"*"</span><span class="op">)</span>,exclude <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html">c</a></span><span class="op">(</span><span class="st">"Nivåkode"</span> <span class="op">=</span> <span class="st">"FU"</span><span class="op">)</span>, group_by <span class="op">=</span> <span class="st">"Årstall"</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 5 x 4</span>
 <span class="co">#&gt;   Årstall `Antall totalt` `Antall kvinner` `Antall menn`</span>
 <span class="co">#&gt;     &lt;int&gt;           &lt;int&gt;            &lt;int&gt;         &lt;int&gt;</span>
-<span class="co">#&gt; 1    2020            1775             1057           718</span>
+<span class="co">#&gt; 1    2020            1774             1056           718</span>
 <span class="co">#&gt; 2    2019            2902             1716          1186</span>
 <span class="co">#&gt; 3    2018            2707             1640          1067</span>
 <span class="co">#&gt; 4    2017            2368             1464           904</span>
 <span class="co">#&gt; 5    2016            2206             1352           854</span></code></pre></div>
 <p>Meta data for data table</p>
-<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
 <code class="sourceCode R"><span class="fu"><a href="reference/dbh_metadata.html">dbh_metadata</a></span><span class="op">(</span><span class="fl">142</span><span class="op">)</span>
 <span class="co">#&gt; # A tibble: 21 x 10</span>
 <span class="co">#&gt;    `Tabell id` Tabellnavn `Variabel navn` Datatype Datalengde Sortering Kodefelt</span>
@@ -191,7 +195,6 @@ Type <span class="op">=</span> <span class="st">"NORSK"</span>, <span class="st"
   <div class="dev-status">
 <h2>Dev status</h2>
 <ul class="list-unstyled">
-<li><a href="https://ci.appveyor.com/project/makinin/rdbhapi"><img src="https://ci.appveyor.com/api/projects/status/github/makinin/rdbhapi?branch=master&amp;svg=true" alt="AppVeyor build status"></a></li>
 <li><a href="https://codecov.io/gh/makinin/rdbhapi?branch=master"><img src="https://codecov.io/gh/makinin/rdbhapi/branch/master/graph/badge.svg" alt="Codecov test coverage"></a></li>
 </ul>
 </div>
