@@ -161,7 +161,7 @@ dbh_data <- function(
     toc <- .get_toc(table_id)
     if (isTRUE(toc[["Bulk tabell"]] == "true")) {
       url <-
-      paste0("https://api.nsd.no/dbhapitjener/Tabeller/bulk-csv?rptNr=", table_id)
+      paste0("https://dbh.hkdir.no/api/Tabeller/bulk-csv?rptNr=", table_id)
       temp_file <- tempfile()
       on.exit(unlink(temp_file))
       utils::download.file(url,
@@ -187,7 +187,7 @@ dbh_data <- function(
         decimal_separator = "."),
         query))
     res <-
-      httr::POST(url = "https://api.nsd.no/dbhapitjener/Tabeller/streamCsvData",
+      httr::POST(url = "https://dbh.hkdir.no/api/Tabeller/streamCsvData",
                  httr::add_headers(`Content-Type` = "application/json",
                  Authorization = paste("Bearer", .get_token(), sep =  " ")),
                  body = post_body,
