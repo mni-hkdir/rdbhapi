@@ -24,7 +24,7 @@ dbh_metadata <- function(table_id = NULL) {
 #' @return a tibble
 
 .get_new_metadata <- function() {
-  url_meta <- "https://api.nsd.no/dbhapitjener/Tabeller/bulk-csv?rptNr=002"
+  url_meta <- "https://dbh.hkdir.no/api/Tabeller/bulk-csv?rptNr=002"
   res <- httr::GET(url_meta)
   res <- httr::content(res, as = "text", encoding = "UTF-8")
   res <-
@@ -80,7 +80,7 @@ dbh_toc <- function(table_id = NULL) {
 #' @return a tibble
 
 .get_new_toc <- function() {
-  url_meta <- "https://api.nsd.no/dbhapitjener/Tabeller/bulk-csv?rptNr=001"
+  url_meta <- "https://dbh.hkdir.no/api/Tabeller/bulk-csv?rptNr=001"
   res <- httr::GET(url_meta)
   res <- httr::content(res, as = "text", encoding = "UTF-8")
   res <-
