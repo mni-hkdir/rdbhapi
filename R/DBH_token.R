@@ -11,7 +11,7 @@
 
 .get_new_token <- function(sso_id, sso_secret) {
   res <-
-    httr::POST(url = "https://sso.nsd.no/oauth/token",
+    httr::POST(url = "https://auth.dataporten.no/oauth/token",
                httr::authenticate(user = sso_id,
                                   password = sso_secret),
                body = list(grant_type = "client_credentials"),
