@@ -187,7 +187,7 @@ dbh_data <- function(
         decimal_separator = "."),
         query))
     res <-
-      httr::POST(url = "https://dbh-data.dataporten-api.no/Tabeller/streamCsvData",
+      httr::POST(url = "https://dbh-data.dataporten-api.no/Tabeller/hentCSVTabellData",
                  httr::add_headers(`Content-Type` = "application/json",
                  Authorization = paste("Bearer", .get_token(), sep =  " ")),
                  body = post_body,
