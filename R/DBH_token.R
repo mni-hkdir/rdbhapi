@@ -46,12 +46,8 @@
     if (identical(sso_id, "") | identical(sso_secret, "")) {
       return("")
     } else {
-      t <- Sys.time()
-      if (t >= .env$token_expiration) {
-        .env$token <- .get_new_token(sso_id,
-                                     sso_secret)
-        .env$token_expiration <- t + 3600
-      }
-      return(.env$token)
+      
+      return(.get_new_token(sso_id, sso_secret))
       }
   }
+
