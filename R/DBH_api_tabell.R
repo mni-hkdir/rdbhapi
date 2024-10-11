@@ -159,7 +159,7 @@ dbh_data <- function(
   if (all(vapply(list(filters, group_by, sort_by, variables, exclude),
                  is.null, logical(1)))) {
     toc <- .get_toc(table_id)
-    if (isTRUE(toc[["Bulk tabell"]] == "true")) {
+    if (isTRUE(toc[["Bulk tabell"]] == 1)) {
       url <-
       paste0("https://dbh-data.dataporten-api.no/Tabeller/bulk-csv?rptNr=", table_id)
       temp_file <- tempfile()
