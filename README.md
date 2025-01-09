@@ -4,9 +4,9 @@
 <!-- badges: start -->
 
 [![Codecov test
-coverage](https://codecov.io/gh/makinin/rdbhapi/branch/master/graph/badge.svg)](https://codecov.io/gh/makinin/rdbhapi?branch=master)
+coverage](https://codecov.io/gh/mni-hkdir/rdbhapi/branch/master/graph/badge.svg)](https://codecov.io/gh/makinin/rdbhapi?branch=master)
 
-[![R-CMD-check](https://github.com/makinin/rdbhapi/workflows/R-CMD-check/badge.svg)](https://github.com/makinin/rdbhapi/actions)
+[![R-CMD-check](https://github.com/mni-hkdir/rdbhapi/workflows/R-CMD-check/badge.svg)](https://github.com/makinin/rdbhapi/actions)
 [![CRAN
 status](https://www.r-pkg.org/badges/version/rdbhapi)](https://CRAN.R-project.org/package=rdbhapi)
 [![Lifecycle:

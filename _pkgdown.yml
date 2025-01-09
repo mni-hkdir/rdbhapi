@@ -1,0 +1,40 @@
+template:
+  params:
+    favicon:
+      path: man/figures/pkgdown/favicon.ico
+
+
+home:
+  description: >
+    The `rdbhapi` package provides a user-friendly R interface to interact with
+    the [DBH-API](https://dbh.hkdir.no/dbhapiklient/) for open data access.
+    This API offers comprehensive data on higher education statistics in Norway,
+    enabling seamless access to datasets related to institutions, programs,
+    students, and more.
+
+    Designed for researchers, analysts, and developers, `rdbhapi` simplifies
+    integration with the Database for Statistics on Higher Education, making it
+    easier to explore, analyze, and visualize education-related data directly
+    within the R ecosystem.
+
+navbar:
+  structure:
+    left:
+      - text: "Home"
+        href: index.html
+      - text: "References"
+        href: reference/index.html
+      - text: "News"
+        href: news/index.html
+
+
+reference:
+  - title: "Main Function"
+    contents:
+      - dbh_data
+
+
+articles:
+  - title: "How to Use the Package"
+    contents:
+      - vignettes/tutorial.Rmd

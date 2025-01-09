@@ -10,21 +10,22 @@
 #' @keywords internal
 
 .get_new_token <- function(sso_id, sso_secret) {
-  res <-
-    httr::POST(url = "https://auth.dataporten.no/oauth/token",
-               httr::authenticate(user = sso_id,
-                                  password = sso_secret),
-               body = list(grant_type = "client_credentials"),
-               encode = "form")
-  res <- httr::content(res, as = "text", encoding = "UTF-8")
-  res <- rjson::fromJSON(res)
-  res <- res$access_token
-  if (is.null(res)) {
-    return("")
+  res <- httr::POST(
+    url = "https://auth.dataporten.no/oauth/token",
+    httr::authenticate(user = sso_id, password = sso_secret),
+    body = list(grant_type = "client_credentials"),
+    encode = "form"
+  )
+  res_content <- httr::content(res, as = "text", encoding = "UTF-8")
+  res_parsed <- rjson::fromJSON(res_content)
+
+  if (!is.null(res_parsed$access_token)) {
+    return(res_parsed$access_token)
   } else {
-    return(res)
+    return("")
   }
 }
+
 
 
 #' Return JWT token for DBH-API
@@ -39,15 +40,15 @@
 #'  fetching the token fails.
 #' @keywords internal
 #'
-.get_token <-
-  function() {
-    sso_id <- Sys.getenv("dbhapi_sso_id")
-    sso_secret <- Sys.getenv("dbhapi_sso_secret")
-    if (identical(sso_id, "") | identical(sso_secret, "")) {
-      return("")
-    } else {
-      
-      return(.get_new_token(sso_id, sso_secret))
-      }
+.get_token <- function() {
+  sso_id <- Sys.getenv("dbhapi_sso_id")
+  sso_secret <- Sys.getenv("dbhapi_sso_secret")
+
+
+  if (identical(sso_id, "") | identical(sso_secret, "")) {
+    return("")
+  } else {
+    return(.get_new_token(sso_id, sso_secret))
   }
+}
 

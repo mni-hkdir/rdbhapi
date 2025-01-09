@@ -18,26 +18,40 @@ dbh_metadata <- function(table_id = NULL) {
   }
   metadata
 }
+#' Generic function to fetch data from DBH API
+#' @keywords internal
+#' @param url URL to fetch the data from
+#' @return A tibble
+.fetch_data <- function(url) {
+  res <- httr::GET(url)
+  res <- httr::content(res, as = "text", encoding = "UTF-8")
+  readr::read_delim(
+    res,
+    delim = ",",
+    col_types = readr::cols(.default = readr::col_character()),
+    na = "",
+    trim_ws = TRUE,
+    progress = FALSE
+  )
+}
 
 #' Download table with metadata for variables in DBH-API
 #' @keywords internal
 #' @return a tibble
-
 .get_new_metadata <- function() {
   url_meta <- "https://dbh.hkdir.no/api/Tabeller/bulk-csv?rptNr=002"
-  res <- httr::GET(url_meta)
-  res <- httr::content(res, as = "text", encoding = "UTF-8")
-  res <-
-    readr::read_delim(
-      res,
-      delim = ",",
-      col_types = readr::cols(.default = readr::col_character()),
-      na = "",
-      trim_ws = TRUE,
-      progress = FALSE
-    )
-  res
+  .fetch_data(url_meta)
 }
+
+#' Download table of contents of the DBH API
+#' @keywords internal
+#' @return a tibble
+
+.get_new_toc <- function() {
+  url_toc <- "https://dbh.hkdir.no/api/Tabeller/bulk-csv?rptNr=001"
+  .fetch_data(url_toc)
+}
+
 
 
 #' Get table with metadata for variables in the DBH API
@@ -46,11 +60,7 @@ dbh_metadata <- function(table_id = NULL) {
 
 
 .get_metadata <- function(table_id = NULL) {
-  t <- Sys.time()
-  if (t >= .env$metadata_expiration) {
-    .env$metadata <- .get_new_metadata()
-    .env$metadata_expiration <- t + 86400
-  }
+  .env$metadata <- .get_new_metadata()
   metadata <- .env$metadata
   if (!is.null(table_id)) {
     metadata <- metadata[metadata[["Tabell id"]] %in% as.character(table_id), ]
@@ -58,6 +68,16 @@ dbh_metadata <- function(table_id = NULL) {
   metadata
 }
 
+#' Get table with content for variables in the DBH-API
+#' @keywords internal
+#' @return a tibble
+.get_toc <- function(table_id = NULL) {
+  toc <- .get_new_toc()
+  if (!is.null(table_id)) {
+    toc <- toc[toc[["Tabell id"]] %in% as.character(table_id), ]
+  }
+  toc
+}
 
 #' @title Table of contents for DBH-API
 #'
@@ -75,42 +95,7 @@ dbh_toc <- function(table_id = NULL) {
 }
 
 
-#' Download table of contents of the DBH API
-#' @keywords internal
-#' @return a tibble
 
-.get_new_toc <- function() {
-  url_meta <- "https://dbh.hkdir.no/api/Tabeller/bulk-csv?rptNr=001"
-  res <- httr::GET(url_meta)
-  res <- httr::content(res, as = "text", encoding = "UTF-8")
-  res <-
-    readr::read_delim(
-      res,
-      delim = ",",
-      col_types = readr::cols(.default = readr::col_character()),
-      na = "",
-      trim_ws = TRUE,
-      progress = FALSE
-    )
-  res
-}
-
-#' Get table with content for variables in the DBH-API
-#' @keywords internal
-#' @return a tibble
-
-.get_toc <- function(table_id = NULL) {
-  t <- Sys.time()
-  if (t >= .env$toc_expiration) {
-    .env$toc <- .get_new_toc()
-    .env$toc_expiration <- t + 86400
-  }
-  toc <- .env$toc
-  if (!is.null(table_id)) {
-    toc <- toc[toc[["Tabell id"]] %in% as.character(table_id), ]
-  }
-  toc
-}
 
 #' Default group_by for a table as suggested by DBH
 #'
@@ -122,13 +107,31 @@ dbh_toc <- function(table_id = NULL) {
 
 
 .default_group_by <- function(table_id) {
-  metadata <- .get_metadata()
-  metadata <- metadata[(metadata$`Tabell id` %in% table_id) &
-                         (metadata$`Group by (forslag)` %in% "J"), ]
-  group_by <- metadata[["Variabel navn"]]
-  group_by <- if (length(group_by) == 0) NULL else as.list(group_by)
-  if (length(group_by) != 0) {
-    message("Default group by :", as.list(group_by))
-    group_by
+
+  excel_path <- system.file("extdata", "DBHAPI_Variabler.xlsx", package = "rdbhapi")
+
+  if (excel_path == "") {
+    stop("Excel file not found in extdata folder.")
   }
+
+  metadata <- readxl::read_excel(excel_path)
+
+  filtered_metadata <- metadata[metadata$`Tabell id` == table_id, ]
+
+  if (nrow(filtered_metadata) == 0) {
+    message("No group_by or variable_liste found for Tabell id: ", table_id)
+    return(NULL)
+  }
+
+  group_by <- filtered_metadata$Group_by
+  variable_liste <- filtered_metadata$Variabelliste
+
+  group_by_list <- if (!is.null(group_by)) unlist(strsplit(group_by, ",")) else NULL
+  variable_list <- if (!is.null(variable_liste)) unlist(strsplit(variable_liste, ",")) else NULL
+
+  list(
+    group_by = group_by_list,
+    variable_liste = variable_list
+  )
 }
+

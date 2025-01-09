@@ -16,15 +16,15 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 
 
-[![Codecov test coverage](https://codecov.io/gh/makinin/rdbhapi/branch/master/graph/badge.svg)](https://codecov.io/gh/makinin/rdbhapi?branch=master)
+[![Codecov test coverage](https://codecov.io/gh/mni-hkdir/rdbhapi/branch/master/graph/badge.svg)](https://codecov.io/gh/makinin/rdbhapi?branch=master)
 
-[![R-CMD-check](https://github.com/makinin/rdbhapi/workflows/R-CMD-check/badge.svg)](https://github.com/makinin/rdbhapi/actions)
+[![R-CMD-check](https://github.com/mni-hkdir/rdbhapi/workflows/R-CMD-check/badge.svg)](https://github.com/makinin/rdbhapi/actions)
 [![CRAN status](https://www.r-pkg.org/badges/version/rdbhapi)](https://CRAN.R-project.org/package=rdbhapi)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 
-<!-- badges: end -->
+![Favicon](man/figures/pkgdown/favicon.ico)
 
-R interface for [DBH-API](https://dbh.nsd.uib.no/tjenester.action) open data access.
+R interface for [DBH-API](https://dbh.hkdir.no/dbhapiklient/) open data access.
 
 ## Installation
 
@@ -34,37 +34,82 @@ You can install development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("makinin/rdbhapi")
+remotes::install_github("mni-hkdir/rdbhapi")
 
 ```
-Token can be defined by placing login credentials in the environment variables `dbhapi_sso_id` and `dbhapi_sso_secret`
-in the `.Renviron` file before starting R or by using `Sys.setenv`.
+To authenticate with the DBH-API, you need to provide a valid token using your SSO ID and SSO Secret. These credentials can be securely defined as environment variables in one of the following ways:
+ Option 1: Using `.Renviron` File
+
+The `.Renviron` file is a hidden file used by R to store environment variables.
+You can create or edit this file in your home directory or in your R project folder.
+Open the `.Renviron` file in a text editor or within R using:
+
+```{r
+file.edit("~/.Renviron")
+```
+Add  `dbhapi_sso_id` = "your_sso_id" and `dbhapi_sso_secret` = "your_sso_secret"
+in `.Renviron` file and save the file. 
+
+After saving, restart your R session to load the updated `.Renviron` file.
+
+Once defined, these variables can be accessed in R using `Sys.setenv`:
+
+```{r
+Sys.getenv("dbhapi_sso_id")
+Sys.getenv("dbhapi_sso_secret")
+```
+ Option 2: Using `Sys.setenv`
+Alternatively, you can define the token dynamically during your R session using the `Sys.setenv` function:
+
+```{r
+Sys.setenv(dbhapi_sso_id = "your_sso_id")
+Sys.setenv(dbhapi_sso_secret = "your_sso_secret")
+
+```
 
 ## Example
 
 DBH-API contents are in table
 
 ```{r content}
-library(rdbhapi)
+library(rdbhapi) 
 dbh_data(1)
 ```
 
 Get the whole table in R format:
 
 ```{r example}
-library(rdbhapi)
-dbh_data(211)
+library(knitr)
+library(rdbhapi, warning=FALSE, message=FALSE, results='asis',echo=TRUE, eval=TRUE)
+institusjoner <- dbh_data(211)
+kable(head(institusjoner))
+```
+
+Download the entire table with ID 142:
+
+```{r rdbhapi, warning=FALSE, message=FALSE, results='asis',echo=TRUE, eval=TRUE}
+library(knitr)
+institusjoner <- dbh_data(142)
+kable(head(utvekslingstudenter))
 ```
 
 
-Multiple choice query:
+Download filtered and grouped data for table with ID 142:
 
-```{r query}
-dbh_data(142, filters = list("Årstall" = c("top","5"),Utvekslingsavtale = "ERASMUS+", 
-Type = "NORSK", "Nivåkode" = "*"),exclude = c("Nivåkode" = "FU"), group_by = "Årstall")
-```
-Meta data for data table  
-```{r metadata}
-dbh_metadata(142)
+```{r erasmus_plus, warning=FALSE, message=FALSE, results='asis', echo=TRUE, eval=TRUE}
+library(knitr)
+erasmus_plus <- dbh_data(
+  142,
+  filters = list(
+    "\u00c5rstall" = c("top", "5"),
+    Utvekslingsavtale = "ERASMUS+",
+    Type = "NORSK",
+    "Niv\u00e5kode" = "*"
+  ),
+  exclude = c("Niv\u00e5kode" = "FU"),
+  group_by = "\u00c5rstall"
+)
+kable(head(erasmus_plus))
+
 ```
 

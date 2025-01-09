@@ -2,16 +2,16 @@ Package: rdbhapi
 Title: Interface to 'DBH-API' 
 Version: 2.1.0
 Authors@R: c(person(given = "Marija",family = "Ninic",role = c("cre", "aut"),email = "marija.ninic@hkdir.no", comment=c(ORCID ="0000-0001-8484-5817")),person(given=c("Sigve", "Hofland"), family="Berge", role = "aut"))
-Description: Downloads 'DBH-API'<https://dbh.nsd.uib.no/tjenester.action> data as dataframes. These data are in machine-readable format and provides information about education, finances, research and publications. 
+Description: Downloads 'DBH-API'<https://dbh.hkdir.no/dbhapiklient/> data as dataframes. These data are in machine-readable format and provides information about education, finances, research and publications. 
 License: MIT + file LICENSE
 Encoding: UTF-8
-RoxygenNote: 7.1.1
+RoxygenNote: 7.3.1
 Imports: 
     httr,
     readr,
     rjson,
-    jsonlite,
     rlang,
+    readxl,
     stats
 Suggests:
     spelling,
@@ -21,3 +21,4 @@ Suggests:
     covr
 VignetteBuilder: knitr
 Language: en-US
+

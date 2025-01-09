@@ -1,37 +1,56 @@
 ---
-title: Interface to 'DBH-API'
-output: rmarkdown::html_vignette
+title: "Interface to 'DBH-API'"
+author: "Marija Ninic"
+output:
+  rmarkdown::html_vignette:
+    includes:
+      in_header: favicon.html
 vignette: >
   %\VignetteIndexEntry{Interface to 'DBH-API'}
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
 
+
+
+[![Codecov test coverage](https://codecov.io/gh/mni-hkdir/rdbhapi/branch/master/graph/badge.svg)](https://codecov.io/gh/mni-hkdir/rdbhapi?branch=master)
+
+[![R-CMD-check](https://github.com/mni-hkdir/rdbhapi/workflows/R-CMD-check/badge.svg)](https://github.com/mni-hkdir/rdbhapi/actions)
+[![CRAN status](https://www.r-pkg.org/badges/version/rdbhapi)](https://CRAN.R-project.org/package=rdbhapi)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
+
+
+
+
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
 ```
 
 
 
-This R package [rdbhapi](https://github.com/makinin/rdbhapi) provides tools to access [DBH-API](https://dbh.nsd.uib.no/tjenester.action).
+
+
+The [rdbhapi] package provides a user-friendly R interface to interact with 
+    the [DBH-API](https://dbh.hkdir.no/dbhapiklient/) for open data access. 
+    This API offers comprehensive data on higher education statistics in Norway, 
+    enabling seamless access to datasets related to institutions, programs, 
+    students, and more. 
 
 
 ## Installation
 
-You can install the released version of rdbhapi from [CRAN](https://CRAN.R-project.org) with:
 
-``` r
-install.packages("rdbhapi")
-```
 
 And the development version from [GitHub](https://github.com/) with:
 
 ``` r
 # install.packages("devtools")
-devtools::install_github("makinin/rdbhapi")
+devtools::install_github("mni-hkdir/rdbhapi")
 ```
 ```{r setup}
 library(rdbhapi)
@@ -51,46 +70,92 @@ library(rdbhapi)
 dbh_data(1)
 ```
 
+Retrieve metadata about the DBH-API tables
+
+
+```{r metadata}
+library(rdbhapi)
+dbh_data(2)
+```
 
 ## Downloading data
 
-The package supports two methods for downloading data from DBH-API: 
-downloading of bulk data and sending query to DBH-API.
-Both methods are available in package main function `dbh_tabell()`. 
-If function has only `tabell_id`, than the whole table is 
-downloaded from the bulk download data. If we use `filters`, `group_by`, `sort_by` 
-than query will be sent in JSON format to DBH-API.
+The rdbhapi package provides two efficient methods for downloading data from the DBH-API:
 
-Get the whole table in R format:
+1. Bulk Data Download: Retrieve an entire table directly.
+2. Custom Queries: Send a JSON query to the DBH-API with filters, grouping, or sorting options.
+Both methods are implemented in the package's main function, dbh_data(). The method used depends on the arguments passed to the function:
+
+* Bulk Download: If only the tabell_id argument is provided, the entire table is downloaded.
+* Querying: If arguments like filters, group_by, or sort_by are included, the function sends a custom JSON query to the DBH-API.  The query is defined by the following arguments in the dbh_data() function:
+
+* filters: A named list where names correspond to variable names in the DBH-API, and values are vectors      specifying filter types and values.Filter types are: item, all, between, lessthan, greaterthan. 
+*group_by: Variables to group by (required for aggregate datasets).
+*sort_by: Variables to sort the results by.
+*exclude: Variables to exclude from the result.
+
+Download the entire table with ID 142:
 
 ```{r rdbhapi, warning=FALSE, message=FALSE, results='asis'}
-institusjoner <- dbh_data(211)
+institusjoner <- dbh_data(142)
 ```
 
 
-#### Example for multiple choice query 
+Download filtered and grouped data for table with ID 142:
 
-Or you can get dataset using query by defining `filters`, `group_by`, `sort_by`, `exclude`  argument. Filter
-should be named list, where names corresponds to variable names in DBH-API and
-values are vectors corresponding to filter type and filter values. Filter type are the same as in DBH-API: item, all, between, lessthan, greaterthan. For aggregate datasets we need to define `group_by` variables. 
-
-
-```{r erasmus_plus, warning=FALSE, message=FALSE, results='asis',echo=TRUE, eval=TRUE}
+```{r erasmus_plus, warning=FALSE, message=FALSE, results='asis', echo=TRUE, eval=TRUE}
 library(knitr)
-erasmus_plus <- dbh_data(142, filters = list("Årstall" = c("top","5"),Utvekslingsavtale = "ERASMUS+", 
-Type = "NORSK", "Nivåkode" = "*"),exclude = c("Nivåkode" = "FU"), group_by = "Årstall")
+erasmus_plus <- dbh_data(
+  142,
+  filters = list(
+    "\u00c5rstall" = c("top", "5"),
+    Utvekslingsavtale = "ERASMUS+",
+    Type = "NORSK",
+    "Niv\u00e5kode" = "*"
+  ),
+  exclude = c("Niv\u00e5kode" = "FU"),
+  group_by = "\u00c5rstall"
+)
 kable(head(erasmus_plus))
+
 ```
 
 
 
 ## Token facility 
-Token can be defined by placing login credentials in the environment variables `dbhapi_sso_id` and `dbhapi_sso_secret`
-in the `.Renviron` file before starting R or by using `Sys.setenv`.
+To authenticate with the DBH-API, you need to provide a valid token using your` SSO ID` and `SSO Secret`. These credentials can be securely defined as environment variables in one of the following ways:
+Option 1: Using `.Renviron` File
+* Locate/Create the `.Renviron` File:
+The `.Renviron` file is a hidden file used by R to store environment variables.
+You can create or edit this file in your home directory or in your R project folder.
+Open the `.Renviron` file in a text editor or within R using:
 
+file.edit("~/.Renviron")
+
+Add  `dbhapi_sso_id` = "your_sso_id" and `dbhapi_sso_secret` = "your_sso_secret"
+
+ in `.Renviron` file and save the file. 
+
+After saving, restart your R session to load the updated `.Renviron` file.
+
+Once defined, these variables can be accessed in R using `Sys.setenv`:
+
+```{r Renvirion access}
+Sys.getenv("dbhapi_sso_id")
+Sys.getenv("dbhapi_sso_secret")
+```
+Option 2: Using `Sys.setenv`
+Alternatively, you can define the token dynamically during your R session using the `Sys.setenv` function:
+
+```{r Sys.setenv }
+Sys.setenv(dbhapi_sso_id = "your_sso_id")
+Sys.setenv(dbhapi_sso_secret = "your_sso_secret")
+
+```
 ## Session info
 This vignette was created with
 
 ```{r sessioninfo, message=FALSE, warning=FALSE}
 sessionInfo()
 ```
+ 
