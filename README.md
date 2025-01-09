@@ -24,7 +24,7 @@ with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("makinin/rdbhapi")
+remotes::install_github("mni-hkdir/rdbhapi")
 ```
 
 Token can be defined by placing login credentials in the environment
