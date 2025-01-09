@@ -3,10 +3,9 @@
 .REnviron
 .RData
 .Ruserdata
-inst/doc
-doc
+
 Meta
 README.html
-/doc/
+
 /Meta/
 

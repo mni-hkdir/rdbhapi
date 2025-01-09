@@ -2,12 +2,9 @@
 ^\.Rproj\.user$
 ^README\.Rmd$
 ^Meta$
-^\.travis\.yml$
-^appveyor\.yml$
 ^codecov\.yml$
 ^rdbhapi\.Rproj$
 ^_pkgdown\.yml$
-^docs$
 ^pkgdown$
 ^cran-comments\.md$
 ^README.\.html$
@@ -17,4 +14,3 @@
 ^CODE_OF_CONDUCT\.md$
 ^inst/extdata/~\$.*\.xlsx$
 
-^doc$
