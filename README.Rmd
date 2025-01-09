@@ -22,8 +22,6 @@ knitr::opts_chunk$set(
 [![CRAN status](https://www.r-pkg.org/badges/version/rdbhapi)](https://CRAN.R-project.org/package=rdbhapi)
 [![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 
-![Favicon](man/figures/pkgdown/favicon.ico)
-
 R interface for [DBH-API](https://dbh.hkdir.no/dbhapiklient/) open data access.
 
 ## Installation

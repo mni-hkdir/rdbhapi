@@ -11,8 +11,6 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
-
-
 [![Codecov test coverage](https://codecov.io/gh/mni-hkdir/rdbhapi/branch/master/graph/badge.svg)](https://codecov.io/gh/mni-hkdir/rdbhapi?branch=master)
 
 [![R-CMD-check](https://github.com/mni-hkdir/rdbhapi/workflows/R-CMD-check/badge.svg)](https://github.com/mni-hkdir/rdbhapi/actions)
@@ -30,9 +28,6 @@ knitr::opts_chunk$set(
 )
 
 ```
-
-
-
 
 
 The [rdbhapi] package provides a user-friendly R interface to interact with 
@@ -66,16 +61,18 @@ cat(paste0(library(help = "rdbhapi")$info[[2]], collapse = "\n"))
 DBH-API contents are in table 
 
 ```{r content}
-library(rdbhapi)
-dbh_data(1)
+library(rdbhapi, warning=FALSE, message=FALSE, results='asis')
+data_content <- dbh_data(1)
+kable(head(data_content))
 ```
 
 Retrieve metadata about the DBH-API tables
 
 
 ```{r metadata}
-library(rdbhapi)
-dbh_data(2)
+library(rdbhapi, warning=FALSE, message=FALSE, results='asis')
+metadata <- dbh_data(2)
+kable(head(metadata))
 ```
 
 ## Downloading data
