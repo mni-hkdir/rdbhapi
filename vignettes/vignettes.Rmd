@@ -3,9 +3,7 @@ title: "Interface to 'DBH-API'"
 author: "Marija Ninic"
 output:
   rmarkdown::html_vignette:
-    self_contained: false
-    includes:
-      in_header: favicon.html
+  
 vignette: >
   %\VignetteIndexEntry{Interface to 'DBH-API'}
   %\VignetteEngine{knitr::rmarkdown}
