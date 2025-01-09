@@ -1,7 +1,6 @@
 ^.*\.Rproj$
 ^\.Rproj\.user$
 ^README\.Rmd$
-^doc$
 ^Meta$
 ^\.travis\.yml$
 ^appveyor\.yml$
@@ -17,3 +16,5 @@
 ^\.github$
 ^CODE_OF_CONDUCT\.md$
 ^inst/extdata/~\$.*\.xlsx$
+
+^doc$

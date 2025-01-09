@@ -3,6 +3,7 @@ title: "Interface to 'DBH-API'"
 author: "Marija Ninic"
 output:
   rmarkdown::html_vignette:
+    self_contained: false
     includes:
       in_header: favicon.html
 vignette: >
@@ -10,6 +11,7 @@ vignette: >
   %\VignetteEngine{knitr::rmarkdown}
   %\VignetteEncoding{UTF-8}
 ---
+
 
 [![Codecov test coverage](https://codecov.io/gh/mni-hkdir/rdbhapi/branch/master/graph/badge.svg)](https://codecov.io/gh/mni-hkdir/rdbhapi?branch=master)
 
@@ -60,8 +62,8 @@ cat(paste0(library(help = "rdbhapi")$info[[2]], collapse = "\n"))
 
 DBH-API contents are in table 
 
-```{r content}
-library(rdbhapi, warning=FALSE, message=FALSE, results='asis')
+```{r data_content, warning=FALSE, message=FALSE, results='asis', echo=TRUE, eval=TRUE}
+library(knitr)
 data_content <- dbh_data(1)
 kable(head(data_content))
 ```
@@ -69,8 +71,8 @@ kable(head(data_content))
 Retrieve metadata about the DBH-API tables
 
 
-```{r metadata}
-library(rdbhapi, warning=FALSE, message=FALSE, results='asis')
+```{r metadata, warning=FALSE, message=FALSE, results='asis', echo=TRUE, eval=TRUE}
+library(knitr)
 metadata <- dbh_data(2)
 kable(head(metadata))
 ```
@@ -93,8 +95,10 @@ Both methods are implemented in the package's main function, dbh_data(). The met
 
 Download the entire table with ID 142:
 
-```{r rdbhapi, warning=FALSE, message=FALSE, results='asis'}
-institusjoner <- dbh_data(142)
+```{r erasmus, warning=FALSE, message=FALSE, results='asis', echo=TRUE, eval=TRUE}
+library(knitr)
+erasmus <- dbh_data(142)
+kable(head(erasmus))
 ```
 
 
