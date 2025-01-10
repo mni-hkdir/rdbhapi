@@ -1,6 +1,5 @@
 
 <!-- README.md is generated from README.Rmd. Please edit that file -->
-
 <!-- badges: start -->
 
 [![Codecov test
@@ -12,10 +11,8 @@ status](https://www.r-pkg.org/badges/version/rdbhapi)](https://CRAN.R-project.or
 [![Lifecycle:
 stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 
-<!-- badges: end -->
-
-R interface for [DBH-API](https://dbh.nsd.uib.no/tjenester.action) open
-data access.
+R interface for [DBH-API](https://dbh.hkdir.no/dbhapiklient/) open data
+access.
 
 ## Installation
 
@@ -24,92 +21,114 @@ with:
 
 ``` r
 # install.packages("remotes")
-remotes::install_github("makinin/rdbhapi")
+remotes::install_github("mni-hkdir/rdbhapi")
 ```
 
-Token can be defined by placing login credentials in the environment
-variables `dbhapi_sso_id` and `dbhapi_sso_secret` in the `.Renviron`
-file before starting R or by using `Sys.setenv`.
+To authenticate with the DBH-API, you need to provide a valid token
+using your SSO ID and SSO Secret. These credentials can be securely
+defined as environment variables in one of the following ways: Option 1:
+Using `.Renviron` File
 
-## Example
+The `.Renviron` file is a hidden file used by R to store environment
+variables. You can create or edit this file in your home directory or in
+your R project folder. Open the `.Renviron` file in a text editor or
+within R using:
 
-DBH-API contents are in table
+`{r file.edit("~/.Renviron")` Add `dbhapi_sso_id` = “your_sso_id” and
+`dbhapi_sso_secret` = “your_sso_secret” in `.Renviron` file and save the
+file.
+
+After saving, restart your R session to load the updated `.Renviron`
+file.
+
+Once defined, these variables can be accessed in R using `Sys.setenv`:
+
+`{r Sys.getenv("dbhapi_sso_id") Sys.getenv("dbhapi_sso_secret")` Option
+2: Using `Sys.setenv` Alternatively, you can define the token
+dynamically during your R session using the `Sys.setenv` function:
+
+\`\`\`{r Sys.setenv(dbhapi_sso_id = “your_sso_id”)
+Sys.setenv(dbhapi_sso_secret = “your_sso_secret”)
+
+
+    ## Example
+
+    DBH-API contents are in table
+
+
+    ``` r
+    library(rdbhapi) 
+    dbh_data(1)
+    #> # A tibble: 110 × 6
+    #>    Emne                `Tabell id` Tabellnavn  Gdpr  `Bulk tabell` Variabelliste
+    #>    <chr>               <chr>       <chr>       <chr> <chr>         <chr>        
+    #>  1 Ikke tilordnet emne 1           API innhold 0     1             Emne,Tabell …
+    #>  2 Ikke tilordnet emne 2           API metada… 0     1             Tabell id,Ta…
+    #>  3 Studentdata         60          Studenter … 1     0             Institusjons…
+    #>  4 Studentdata         62          Utveksling… 0     0             Utvekslingsa…
+    #>  5 Studentdata         93          Finansieri… 0     0             Finansiering…
+    #>  6 Studentdata         98          Kandidater… 0     1             Institusjons…
+    #>  7 Doktorgradsdata     100         Samarbeid … 0     1             Årstall,Inst…
+    #>  8 Doktorgradsdata     101         Avlagte do… 0     1             Institusjons…
+    #>  9 Studentdata         104         Ferdige ka… 1     0             Institusjons…
+    #> 10 Studentdata         112         Opptak      1     0             Institusjons…
+    #> # ℹ 100 more rows
+
+\##Get the whole table in R format:
 
 ``` r
+library(knitr)
 library(rdbhapi)
-dbh_data(1)
-#> # A tibble: 109 x 6
-#>    Emne    `Tabell id` Tabellnavn        Gdpr  `Bulk tabell` Variabelliste      
-#>    <chr>   <chr>       <chr>             <chr> <chr>         <chr>              
-#>  1 Ikke t~ 1           API innhold       false true          Emne,Tabell id,Tab~
-#>  2 Ikke t~ 2           API metadata      false true          Tabell id,Tabellna~
-#>  3 Studen~ 60          Studenter fordel~ true  false         Institusjonskode,A~
-#>  4 Studen~ 62          Utvekslingsavtal~ false false         Utvekslingsavtale,~
-#>  5 Studen~ 66          Desentralisering~ true  false         Årstall,Institusjo~
-#>  6 Studen~ 88          Etterutdanning    true  false         Institusjonskode,A~
-#>  7 Studen~ 93          Finansieringskil~ false false         Finansieringskilde~
-#>  8 Studen~ 98          Kandidater med f~ false true          Institusjonskode,Å~
-#>  9 Doktor~ 100         Samarbeid om dok~ false true          Årstall,Institusjo~
-#> 10 Doktor~ 101         Avlagte doktorgr~ false true          Institusjonskode,A~
-#> # ... with 99 more rows
+institusjoner <- dbh_data(211)
+kable(head(institusjoner))
 ```
 
-Get the whole table in R format:
+| Institusjonskode | Institusjonsnavn | Adresse | Postnummer | Gyldig fra | Gyldig til | Telefon | Telefax | Institusjonstypekode | Typenavn | Kortnavn | Departementid | Dep_navn | Institusjonskode (sammenslått) | Sammenslått navn |
+|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|---:|:---|:---|:---|
+| 0211 | Høgskolen i Bodø | Høgskolen i Bodø | 8049 | 19943 | 20103 | 75517200 | 75517457 | 02 | Statlige høyskoler | HiBo | 1 | Kunnskapsdepartementet | 1174 | Nord universitet |
+| 0212 | Høgskolen i Finnmark | Follumsvei 31 | 9509 | 19943 | 20133 | 78450500 | 78434438 | 02 | Statlige høyskoler | HiFm | 1 | Kunnskapsdepartementet | 1130 | Universitetet i Tromsø - Norges arktiske universitet |
+| 0213 | Høgskolen i Harstad | Høgskolen i Harstad | 9480 | 19943 | 20153 | 77058100 | 77058101 | 02 | Statlige høyskoler | HiH | 1 | Kunnskapsdepartementet | 1130 | Universitetet i Tromsø - Norges arktiske universitet |
+| 0214 | Høgskolen i Narvik | Postboks 385 | 8505 | 19943 | 20153 | 76966000 | 76966810 | 02 | Statlige høyskoler | HiN | 1 | Kunnskapsdepartementet | 1130 | Universitetet i Tromsø - Norges arktiske universitet |
+| 0215 | Høgskolen i Nesna | Høgskolen i Nesna | 8700 | 19943 | 20153 | 75052000 | 75057900 | 02 | Statlige høyskoler | HiNe | 1 | Kunnskapsdepartementet | 1174 | Nord universitet |
+| 0216 | Høgskolen i Tromsø | Høgskolen i Tromsø | 9293 | 19943 | 20083 | 77660300 | 77689956 | 02 | Statlige høyskoler | HiTø | 1 | Kunnskapsdepartementet | 1130 | Universitetet i Tromsø - Norges arktiske universitet |
+
+\##Download the entire table with ID 142:
 
 ``` r
+library(knitr)
 library(rdbhapi)
-dbh_data(211)
-#> # A tibble: 282 x 15
-#>    Institusjonskode Institusjonsnavn      Adresse        Postnummer `Gyldig fra`
-#>    <chr>            <chr>                 <chr>          <chr>      <chr>       
-#>  1 0211             Høgskolen i Bodø      Høgskolen i B~ 8049       19943       
-#>  2 0212             Høgskolen i Finnmark  Follumsvei 31  9509       19943       
-#>  3 0213             Høgskolen i Harstad   Høgskolen i H~ 9480       19943       
-#>  4 0214             Høgskolen i Narvik    Postboks 385   8505       19943       
-#>  5 0215             Høgskolen i Nesna     Høgskolen i N~ 8700       19943       
-#>  6 0216             Høgskolen i Tromsø    Høgskolen i T~ 9293       19943       
-#>  7 0217             Samisk høgskole       Hánnoluohkká ~ 9520       19943       
-#>  8 0221             Høgskolen i Nord-Trø~ Serviceboks 2~ 7729       19943       
-#>  9 0222             Høgskolen i Sør-Trøn~ Høgskolen i S~ 7004       19943       
-#> 10 0231             Høgskolen i Bergen    Postboks 7030  5020       19943       
-#> # ... with 272 more rows, and 10 more variables: Gyldig til <chr>,
-#> #   Telefon <chr>, Telefax <chr>, Institusjonstypekode <chr>, Typenavn <chr>,
-#> #   Kortnavn <chr>, Departementid <int>, Dep_navn <chr>,
-#> #   Institusjonskode (sammenslått) <chr>, Sammenslått navn <chr>
+utvekslingstudenter <- dbh_data(142)
+kable(head(utvekslingstudenter))
 ```
 
-Multiple choice query:
+| Institusjonskode | Institusjonsnavn | Avdelingskode | Avdelingsnavn | Årstall | Semester | Semesternavn | Studieprogramkode | Studieprogramnavn | Antall totalt | Antall kvinner | Antall menn |
+|:---|:---|:---|:---|---:|---:|:---|:---|:---|---:|---:|---:|
+| 0236 | Høgskulen i Volda | 000000 | HiVo (uspesifisert underenhet) | 2009 | 1 | Vår | SPLBV | Bachelorgradsstudium i språk og litteratur | 3 | 0 | 0 |
+| 0237 | Høgskolen i Ålesund | 310000 | Institutt for teknologi og nautikkfag | 2011 | 1 | Vår | 004DA | Bachelor i ingeniørfag - Data | 0 | 0 | 0 |
+| 0236 | Høgskulen i Volda | 000000 | HiVo (uspesifisert underenhet) | 2011 | 1 | Vår | NUS | Norsk språk og samfunnskunnskap for utanlandske studentar | 8 | 5 | 3 |
+| 0236 | Høgskulen i Volda | 000000 | HiVo (uspesifisert underenhet) | 2018 | 1 | Vår | OFFBV | Bachelorgradsstudium i planlegging og administrasjon | 3 | 0 | 0 |
+| 0237 | Høgskolen i Ålesund | 340000 | Avdeling for internasjonal business | 2008 | 1 | Vår | 473EK | Bachelor i eksportmarkedsføring | 17 | 8 | 9 |
+| 0237 | Høgskolen i Ålesund | 340000 | Avdeling for internasjonal business | 2011 | 1 | Vår | 473EK | Bachelor i eksportmarkedsføring | 9 | 5 | 4 |
+
+## Download filtered data for table with ID 211:
 
 ``` r
-dbh_data(142, filters = list("Årstall" = c("top","5"),Utvekslingsavtale = "ERASMUS+", 
-Type = "NORSK", "Nivåkode" = "*"),exclude = c("Nivåkode" = "FU"), group_by = "Årstall")
-#> # A tibble: 5 x 4
-#>   Årstall `Antall totalt` `Antall kvinner` `Antall menn`
-#>     <int>           <int>            <int>         <int>
-#> 1    2020            1774             1056           718
-#> 2    2019            2902             1716          1186
-#> 3    2018            2707             1640          1067
-#> 4    2017            2368             1464           904
-#> 5    2016            2206             1352           854
+library(knitr)
+library(rdbhapi)
+institusjoner_filter <- dbh_data(
+  211,
+  filters = list(
+    "Institusjonskode" = c("top", "5")
+  )
+)
+kable(head(institusjoner_filter))
 ```
 
-Meta data for data table
-
-``` r
-dbh_metadata(142)
-#> # A tibble: 21 x 10
-#>    `Tabell id` Tabellnavn `Variabel navn` Datatype Datalengde Sortering Kodefelt
-#>    <chr>       <chr>      <chr>           <chr>    <chr>      <chr>     <chr>   
-#>  1 142         Utvekslin~ Andel av heltid decimal  3,2        34        <NA>    
-#>  2 142         Utvekslin~ Andel praksis   float    <NA>       39        <NA>    
-#>  3 142         Utvekslin~ Antall kvinner  int      <NA>       11        <NA>    
-#>  4 142         Utvekslin~ Antall menn     int      <NA>       11        <NA>    
-#>  5 142         Utvekslin~ Antall totalt   int      <NA>       10        <NA>    
-#>  6 142         Utvekslin~ Avdelingskode   char     6          2         J       
-#>  7 142         Utvekslin~ Institusjonsko~ char     4          1         J       
-#>  8 142         Utvekslin~ Landkode        char     2          7         J       
-#>  9 142         Utvekslin~ Nivåkode        char     10         33        J       
-#> 10 142         Utvekslin~ NUS-kode        char     10         37        <NA>    
-#> # ... with 11 more rows, and 3 more variables: Group by (forslag) <chr>,
-#> #   Kommentar <chr>, GDPR <chr>
-```
+| Institusjonskode | Institusjonsnavn | Adresse | Postnummer | Gyldig fra | Gyldig til | Telefon | Telefax | Institusjonstypekode | Typenavn | Kortnavn | Departementid | Dep_navn | Institusjonskode (sammenslått) | Sammenslått navn |
+|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|:---|---:|:---|:---|:---|
+| 2201 | Møre og Romsdal distriktshøgskole - Molde | Postboks 308 | 6401 | 19691 | 19943 | NA | NA | 22 | Distriktshøgskoler | MRDHM | 1 | Kunnskapsdepartementet | 2201 | Møre og Romsdal distriktshøgskole - Molde |
+| 2202 | Agder distriktshøgskole | Tordenskjoldsgate 65 | 4604 | 19691 | 19943 | NA | NA | 22 | Distriktshøgskoler | ADH | 1 | Kunnskapsdepartementet | 2202 | Agder distriktshøgskole |
+| 2203 | Finnmark distriktshøgskole | Follumsvei | 9510 | 19811 | 19943 | NA | NA | 22 | Distriktshøgskoler | FDH | 1 | Kunnskapsdepartementet | 2203 | Finnmark distriktshøgskole |
+| 2204 | Hedmark distriktshøgskole | Postboks 104 | 2451 | 19771 | 19943 | NA | NA | 22 | Distriktshøgskoler | HDH | 1 | Kunnskapsdepartementet | 2204 | Hedmark distriktshøgskole |
+| 2205 | Møre og Romsdal distriktshøgskule - Volda | Postboks 188 | 6101 | 19701 | 19943 | NA | NA | 22 | Distriktshøgskoler | MRDHV | 1 | Kunnskapsdepartementet | 2205 | Møre og Romsdal distriktshøgskule - Volda |
+| 2206 | Nord-Trøndelag distriktshøgskole | Skolegata 22, Postboks 145 | 7701 | 19801 | 19943 | NA | NA | 22 | Distriktshøgskoler | NTDH | 1 | Kunnskapsdepartementet | 2206 | Nord-Trøndelag distriktshøgskole |

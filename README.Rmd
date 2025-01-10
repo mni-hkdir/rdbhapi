@@ -74,40 +74,37 @@ library(rdbhapi)
 dbh_data(1)
 ```
 
-Get the whole table in R format:
+##Get the whole table in R format:
 
-```{r example}
+```{r example , warning=FALSE, message=FALSE, results='asis',echo=TRUE, eval=TRUE}
 library(knitr)
-library(rdbhapi, warning=FALSE, message=FALSE, results='asis',echo=TRUE, eval=TRUE)
+library(rdbhapi)
 institusjoner <- dbh_data(211)
 kable(head(institusjoner))
 ```
 
-Download the entire table with ID 142:
+##Download the entire table with ID 142:
 
-```{r rdbhapi, warning=FALSE, message=FALSE, results='asis',echo=TRUE, eval=TRUE}
+```{r utvekslingstudenter, warning=FALSE, message=FALSE, results='asis',echo=TRUE, eval=TRUE}
 library(knitr)
-institusjoner <- dbh_data(142)
+library(rdbhapi)
+utvekslingstudenter <- dbh_data(142)
 kable(head(utvekslingstudenter))
 ```
 
 
-Download filtered and grouped data for table with ID 142:
+## Download filtered  data for table with ID 211:
 
-```{r erasmus_plus, warning=FALSE, message=FALSE, results='asis', echo=TRUE, eval=TRUE}
+```{r institusjoner_filter, warning=FALSE, message=FALSE, results='asis', echo=TRUE, eval=TRUE}
 library(knitr)
-erasmus_plus <- dbh_data(
-  142,
+library(rdbhapi)
+institusjoner_filter <- dbh_data(
+  211,
   filters = list(
-    "\u00c5rstall" = c("top", "5"),
-    Utvekslingsavtale = "ERASMUS+",
-    Type = "NORSK",
-    "Niv\u00e5kode" = "*"
-  ),
-  exclude = c("Niv\u00e5kode" = "FU"),
-  group_by = "\u00c5rstall"
+    "Institusjonskode" = c("top", "5")
+  )
 )
-kable(head(erasmus_plus))
+kable(head(institusjoner_filter))
 
 ```
 

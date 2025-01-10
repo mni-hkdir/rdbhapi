@@ -13,5 +13,5 @@
 ^\.github$
 ^CODE_OF_CONDUCT\.md$
 ^inst/extdata/~\$.*\.xlsx$
-
+^docs$
 ^doc$

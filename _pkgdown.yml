@@ -1,8 +1,5 @@
 template:
-  params:
-    favicon:
-      path: man/figures/pkgdown/favicon.ico
-
+  bootstrap: 5
 
 home:
   description: >
@@ -17,24 +14,8 @@ home:
     easier to explore, analyze, and visualize education-related data directly
     within the R ecosystem.
 
-navbar:
-  structure:
-    left:
-      - text: "Home"
-        href: index.html
-      - text: "References"
-        href: reference/index.html
-      - text: "News"
-        href: news/index.html
+url: https://mni-hkdir.github.io/rdbhapi
 
 
-reference:
-  - title: "Main Function"
-    contents:
-      - dbh_data
 
 
-articles:
-  - title: "How to Use the Package"
-    contents:
-      - vignettes/tutorial.Rmd

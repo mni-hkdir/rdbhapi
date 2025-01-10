@@ -3,9 +3,11 @@ Title: Interface to 'DBH-API'
 Version: 2.1.0
 Authors@R: c(person(given = "Marija",family = "Ninic",role = c("cre", "aut"),email = "marija.ninic@hkdir.no", comment=c(ORCID ="0000-0001-8484-5817")),person(given=c("Sigve", "Hofland"), family="Berge", role = "aut"))
 Description: Downloads 'DBH-API'<https://dbh.hkdir.no/dbhapiklient/> data as dataframes. These data are in machine-readable format and provides information about education, finances, research and publications. 
+URL: https://mni-hkdir.github.io/rdbhapi
+BugReports: https://github.com/mni-hkdir/rdbhapi/issues
 License: MIT + file LICENSE
 Encoding: UTF-8
-RoxygenNote: 7.3.1
+RoxygenNote: 7.3.2
 Imports: 
     httr,
     readr,
@@ -21,4 +23,3 @@ Suggests:
     covr
 VignetteBuilder: knitr
 Language: en-US
-
