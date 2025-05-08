@@ -2,7 +2,7 @@
 % Please edit documentation in R/DBH_api_tabell.R
 \name{.make_query}
 \alias{.make_query}
-\title{Create query for DBH-API}
+\title{Create a query object for the DBH-API}
 \usage{
 .make_query(
   table_id,
@@ -14,28 +14,26 @@
 )
 }
 \arguments{
-\item{table_id}{The code name for the dataset}
+\item{table_id}{Numeric. The unique ID of the dataset to query.}
 
-\item{filters}{A named list, where the names are the names of the variables
-in the dataset to be filtered, and the values contain the matching
-conditions.}
+\item{filters}{Optional. A named list where each name corresponds to a variable to filter,
+and each value specifies filter conditions.}
 
-\item{group_by}{A list of variables to include in the aggregation for
-aggregating tables.}
+\item{group_by}{Optional. A character vector specifying variables to group by (used for aggregated tables).}
 
-\item{sort_by}{A list of variables that define the sorting order.}
+\item{sort_by}{Optional. A character vector specifying variables to sort the results by.}
 
-\item{exclude}{A named list, where the names must also occur in
-\code{filters}, and the values specify values to be excluded from the
-filter.}
+\item{exclude}{Optional. A named list where each name corresponds to a variable,
+and each value lists values to exclude from that variable's filter.}
 
-\item{variables}{A list of variables, do not combine with group_by}
+\item{variables}{Optional. A character vector specifying variables to retrieve (used for non-aggregated tables).
+Cannot be used together with \code{group_by}.}
 }
 \value{
-A list of length containing the DBH-API query that can be converted
-  to the proper JSON
+A list representing the query structure ready to be converted to JSON format for the DBH-API.
 }
 \description{
-Create queries to be converted to the DBH-API JSON format
+Constructs a query list in the format required by the DBH-API,
+which can then be serialized to JSON.
 }
 \keyword{internal}

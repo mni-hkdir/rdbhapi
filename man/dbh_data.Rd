@@ -2,7 +2,7 @@
 % Please edit documentation in R/DBH_api_tabell.R
 \name{dbh_data}
 \alias{dbh_data}
-\title{Get data from API as R dataframe}
+\title{Retrieve data from DBH-API as an R data frame}
 \usage{
 dbh_data(
   table_id,
@@ -15,41 +15,50 @@ dbh_data(
 )
 }
 \arguments{
-\item{table_id}{The code name for the dataset}
+\item{table_id}{Numeric. Required. The unique ID of the dataset to query.}
 
-\item{filters}{A named list, where the names are the names of the variables
-in the dataset to be filtered, and the values contain the matching
-conditions.}
+\item{filters}{Optional. A named list where names correspond to dataset variables, and values specify filter criteria.}
 
-\item{group_by}{A list of variables to include in the aggregation for
-aggregating tables.}
+\item{group_by}{Optional. A character vector of variables to use for aggregating tables.}
 
-\item{sort_by}{A list of variables that define the sorting order.}
+\item{sort_by}{Optional. A character vector of variables to define sorting order.}
 
-\item{exclude}{A named list, where the names must also occur in
-\code{filters}, and the values specify values to be excluded from the
-filter.}
+\item{exclude}{Optional. A named list specifying values to exclude from the filters.}
 
-\item{variables}{A list of variables to include in dataset}
+\item{variables}{Optional. A character vector of variables to include when retrieving non-aggregated data.}
 
-\item{api_version}{DBH-API version}
+\item{api_version}{Integer. Version of the DBH-API to use (default is 1).}
 }
 \value{
-R dataframe
+A `data.frame` containing the requested dataset, with variables properly typed.
 }
 \description{
-Send request from R to DBH-API and get data from DBH-API into R.
- Data are converted in right format using help
- function dbh_metadata \code{\link{dbh_metadata}}
- For token users it is possible to get token and use it further
+Sends a request to the DBH-API and returns the result as an R `data.frame`.
+Data types are automatically converted based on the table metadata,
+using the helper function \code{\link{dbh_metadata}}.
+
+Authentication with the DBH-API is optional:
+- If no token is provided, the API still returns data, but numeric values will be rounded (typically to the nearest 3).
+- If a valid token is provided, full and precise data values are returned.
+
+To authenticate, users must set their SSO ID and SSO Secret as environment variables
+(\code{dbhapi_sso_id} and \code{dbhapi_sso_secret}) manually or in an `.Renviron` file.
+If these environment variables are set, the package will automatically retrieve and use a token when sending requests.
 }
 \examples{
+\dontrun{
+# Example 1: Query with filters and group_by
+filter_example <- dbh_data(
+  table_id = 142,
+  filters = list(Institusjonskode = c("top", 3)),
+  group_by = "Institusjonskode"
+)
 
-# Table with usage of filter and group by variables
+# Example 2: Download bulk table
+bulk_example <- dbh_data(table_id = 211)
+}
 
-filter_example <- dbh_data (142, filters =
-list(Institusjonskode=c("top",3)), group_by = "Institusjonskode")
-# Table using bulk data
-
-bulk_example <- dbh_data(211)
+}
+\seealso{
+\code{\link{dbh_metadata}}
 }

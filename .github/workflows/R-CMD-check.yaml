@@ -54,3 +54,17 @@ jobs:
         with:
           upload-snapshots: true
           build_args: 'c("--no-manual")'
+                - uses: r-lib/actions/check-r-package@v2
+        with:
+          upload-snapshots: true
+          build_args: 'c("--no-manual")'
+
+      - name: Test coverage
+        if: runner.os == 'ubuntu-latest' && matrix.config.r == 'release'
+        run: |
+          Rscript -e 'install.packages("covr")'
+          Rscript -e 'covr::codecov()'
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+

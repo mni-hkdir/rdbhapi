@@ -2,7 +2,11 @@
 output: github_document
 ---
 
-<!-- README.md is generated from README.Rmd. Please edit that file -->
+
+[![R-CMD-check](https://github.com/mni-hkdir/rdbhapi/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/mni-hkdir/rdbhapi/actions)
+[![Codecov test coverage](https://codecov.io/gh/mni-hkdir/rdbhapi/branch/main/graph/badge.svg)](https://codecov.io/gh/mni-hkdir/rdbhapi)
+[![CRAN status](https://www.r-pkg.org/badges/version/rdbhapi)](https://CRAN.R-project.org/package=rdbhapi)
+[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
 
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
@@ -11,100 +15,100 @@ knitr::opts_chunk$set(
   fig.path = "man/figures/README-",
   out.width = "100%"
 )
+
 ```
 
-<!-- badges: start -->
+## Overview
 
+**rdbhapi** provides an R interface for accessing the open data available through [DBH-API](https://dbh.hkdir.no/dbhapiklient/).
+It allows users to query, filter, and retrieve data directly into R for further analysis.
 
-[![Codecov test coverage](https://codecov.io/gh/mni-hkdir/rdbhapi/branch/master/graph/badge.svg)](https://codecov.io/gh/makinin/rdbhapi?branch=master)
-
-[![R-CMD-check](https://github.com/mni-hkdir/rdbhapi/workflows/R-CMD-check/badge.svg)](https://github.com/makinin/rdbhapi/actions)
-[![CRAN status](https://www.r-pkg.org/badges/version/rdbhapi)](https://CRAN.R-project.org/package=rdbhapi)
-[![Lifecycle: stable](https://img.shields.io/badge/lifecycle-stable-brightgreen.svg)](https://lifecycle.r-lib.org/articles/stages.html#stable)
-
-R interface for [DBH-API](https://dbh.hkdir.no/dbhapiklient/) open data access.
+---
 
 ## Installation
 
+### Install remotes if you don't have it
+install.packages("remotes")
 
-
-You can install development version from [GitHub](https://github.com/) with:
-
-``` r
-# install.packages("remotes")
+### Install rdbhapi from GitHub
 remotes::install_github("mni-hkdir/rdbhapi")
 
+## Authentication
+
+To retrieve full (non-rounded) data from the DBH-API, you need to authenticate using your SSO ID and SSO Secret credentials.
+
+There are two options:
+
+1. **Using `.Renviron` file**
+
+   The `.Renviron` file is a hidden file used by R to store environment variables.  
+   You can create or edit this file in your home directory or in your R project folder.
+
+   Open the `.Renviron` file in a text editor:
+
+   ```r
+   file.edit("~/.Renviron")
+   ```
+
+   Add the following lines to `.Renviron`:
+
+   ```
+   dbhapi_sso_id = "your_sso_id"
+   dbhapi_sso_secret = "your_sso_secret"
+   ```
+
+   After saving, **restart your R session** to load the updated `.Renviron` file.
+
+   You can verify the environment variables are loaded using:
+
+   ```r
+   Sys.getenv("dbhapi_sso_id")
+   Sys.getenv("dbhapi_sso_secret")
+   ```
+
+2. **Setting credentials dynamically**
+
+   Alternatively, you can set the token during your R session using:
+
+   ```r
+   Sys.setenv(dbhapi_sso_id = "your_sso_id")
+   Sys.setenv(dbhapi_sso_secret = "your_sso_secret")
+   ```
+## Examples
+
+```r
+# Load the package
+library(rdbhapi)
 ```
-To authenticate with the DBH-API, you need to provide a valid token using your SSO ID and SSO Secret. These credentials can be securely defined as environment variables in one of the following ways:
- Option 1: Using `.Renviron` File
 
-The `.Renviron` file is a hidden file used by R to store environment variables.
-You can create or edit this file in your home directory or in your R project folder.
-Open the `.Renviron` file in a text editor or within R using:
+### Get contents of a table
 
-```{r
-file.edit("~/.Renviron")
-```
-Add  `dbhapi_sso_id` = "your_sso_id" and `dbhapi_sso_secret` = "your_sso_secret"
-in `.Renviron` file and save the file. 
-
-After saving, restart your R session to load the updated `.Renviron` file.
-
-Once defined, these variables can be accessed in R using `Sys.setenv`:
-
-```{r
-Sys.getenv("dbhapi_sso_id")
-Sys.getenv("dbhapi_sso_secret")
-```
- Option 2: Using `Sys.setenv`
-Alternatively, you can define the token dynamically during your R session using the `Sys.setenv` function:
-
-```{r
-Sys.setenv(dbhapi_sso_id = "your_sso_id")
-Sys.setenv(dbhapi_sso_secret = "your_sso_secret")
-
-```
-
-## Example
-
-DBH-API contents are in table
-
-```{r content}
-library(rdbhapi) 
+```r
 dbh_data(1)
 ```
 
-##Get the whole table in R format:
+### Get the whole table (ID 211)
 
-```{r example , warning=FALSE, message=FALSE, results='asis',echo=TRUE, eval=TRUE}
-library(knitr)
-library(rdbhapi)
-institusjoner <- dbh_data(211)
-kable(head(institusjoner))
+```r
+institutions <- dbh_data(211)
+head(institutions)
 ```
 
-##Download the entire table with ID 142:
+### Download the entire table with ID 142
 
-```{r utvekslingstudenter, warning=FALSE, message=FALSE, results='asis',echo=TRUE, eval=TRUE}
-library(knitr)
-library(rdbhapi)
-utvekslingstudenter <- dbh_data(142)
-kable(head(utvekslingstudenter))
+```r
+students_abroad <- dbh_data(142)
+head(students_abroad)
 ```
 
+### Download filtered data for table ID 211
 
-## Download filtered  data for table with ID 211:
-
-```{r institusjoner_filter, warning=FALSE, message=FALSE, results='asis', echo=TRUE, eval=TRUE}
-library(knitr)
-library(rdbhapi)
-institusjoner_filter <- dbh_data(
+```r
+top5_institutions <- dbh_data(
   211,
   filters = list(
     "Institusjonskode" = c("top", "5")
   )
 )
-kable(head(institusjoner_filter))
-
+head(top5_institutions)
 ```
-
