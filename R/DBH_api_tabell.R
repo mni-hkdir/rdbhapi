@@ -230,7 +230,7 @@ dbh_data <- function(table_id,
 
     # Ensure that all group_by variables have filter and exclude definitions
     filters <- filters %||% list()
-    exclude <- .ensure_group_by_exclude(group_by, exclude)
+    exclude <- .ensure_group_by_exclude(group_by, exclude, filters)
 
     for (var in group_by) {
       if (!(var %in% names(filters))) {
@@ -294,14 +294,19 @@ dbh_data <- function(table_id,
   .read_dbh_file(content, ";", metadata)
 }
 
-.ensure_group_by_exclude <- function(group_by, exclude) {
+.ensure_group_by_exclude <- function(group_by, exclude, filters = list()) {
   exclude <- exclude %||% list()
-  for (var in group_by) {
+  filters <- filters %||% list()
+
+  variables_without_filter <- setdiff(group_by, names(filters))
+
+  for (var in variables_without_filter) {
     if (!(var %in% names(exclude))) {
-      exclude[[var]] <- c("")
+      exclude[[var]] <- ""
     }
   }
-  return(exclude)
+
+  exclude
 }
 
 .read_dbh_file <- function(file_or_text, delim, metadata) {
